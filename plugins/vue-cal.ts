@@ -1,7 +1,6 @@
-import { defineNuxtPlugin } from "#app";
 import VueCal from "vue-cal";
 import "vue-cal/dist/vuecal.css";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.component("VueCal", VueCal);
+  nuxtApp.vueApp.component("vue-cal", VueCal);
 });

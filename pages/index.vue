@@ -144,13 +144,59 @@
             <p class="text-xs opacity-80">Viale Roma, 365, 54100, Massa (MS)</p>
           </div>
         </div>
+        <div class="flex flex-col justify-center items-center gap-2">
+          <div
+            class="flex justify-center items-center h-60 w-60 bg-gray rounded-xl transition-all duration-200 outline-none outline-0 outline-offset-0 hover:outline hover:outline-4 hover:outline-yellow hover:outline-offset-4 cursor-pointer"
+          >
+            <img
+              src="../static/panificio_drago.png"
+              alt=""
+              class="bg-center bg-contain bg-no-repeat h-52 w-52"
+            />
+          </div>
+          <div class="flex flex-col justify-center items-center">
+            <div class="flex items-center justify-center gap-1">
+              <p class="font-bold">Panificio Drago</p>
+              <img
+                src="../assets/icons/review.svg"
+                alt="star"
+                class="h-6 w-6"
+              />
+            </div>
+            <p class="text-xs opacity-80">Viale Roma, 365, 54100, Massa (MS)</p>
+          </div>
+        </div>
+        <div class="flex flex-col justify-center items-center gap-2">
+          <div
+            class="flex justify-center items-center h-60 w-60 bg-gray rounded-xl transition-all duration-200 outline-none outline-0 outline-offset-0 hover:outline hover:outline-4 hover:outline-yellow hover:outline-offset-4 cursor-pointer"
+          >
+            <img
+              src="../static/panificio_drago.png"
+              alt=""
+              class="bg-center bg-contain bg-no-repeat h-52 w-52"
+            />
+          </div>
+          <div class="flex flex-col justify-center items-center">
+            <div class="flex items-center justify-center gap-1">
+              <p class="font-bold">Panificio Drago</p>
+              <img
+                src="../assets/icons/review.svg"
+                alt="star"
+                class="h-6 w-6"
+              />
+            </div>
+            <p class="text-xs opacity-80">Viale Roma, 365, 54100, Massa (MS)</p>
+          </div>
+        </div>
       </div>
     </div>
     <div
       class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 gap-12"
     >
       <h2 class="text-4xl font-bold">IL TUO CALENDARIO DELLE MERENDE</h2>
+      <Calendar />
     </div>
+    <Footer />
   </div>
 </template>
 
