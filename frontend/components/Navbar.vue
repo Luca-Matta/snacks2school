@@ -19,22 +19,38 @@
         </a>
       </div>
       <nav class="flex items-center gap-4">
-        <a href="" class="text-yellow hover:text-purple">Store</a>
-        <a href="" class="text-yellow hover:text-purple">Merende</a>
-        <a href="" class="text-yellow hover:text-purple">Contatti</a>
+        <a href="">Store</a>
+        <a href="">Merende</a>
+        <a href="">Contatti</a>
       </nav>
-      <div class="flex items-center gap-3">
+      <div v-if="isAuthenticated">Hey {{ currentUser?.username }}</div>
+      <div v-else class="flex items-center gap-3">
         <nuxt-link to="/login">
-          <button class="bg-yellow text-black px-4 py-2 rounded-md">
+          <button class="btn bg-yellow text-white px-4 py-2 rounded-md">
             Accedi
           </button>
         </nuxt-link>
-        <button class="border border-black text-black px-4 py-2 rounded-md">
-          Registrati
-        </button>
+        <nuxt-link to="/signup">
+          <button class="btn bg-black text-white px-4 py-2 rounded-md">
+            Registrati
+          </button>
+        </nuxt-link>
       </div>
     </div>
   </header>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
+
+const isAuthenticated = ref<boolean>(false);
+const currentUser = ref<any>(null);
+
+onMounted(async () => {
+  isAuthenticated.value = await checkAuthStatus();
+  if (isAuthenticated.value) {
+    currentUser.value = await getCurrentUserData();
+  }
+});
+</script>

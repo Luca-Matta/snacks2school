@@ -48,8 +48,7 @@ input:valid {
   box-shadow: 0 0 0 1px #ffa500;
 }
 
-.btn-yellow {
-  background-color: #ffa500;
+.btn {
   transition: all 0.5s ease;
   position: relative;
   overflow: hidden;
@@ -57,7 +56,7 @@ input:valid {
   z-index: 1;
 }
 
-.btn-yellow::before {
+.btn::before {
   content: "";
   position: absolute;
   top: 0;
@@ -69,6 +68,6 @@ input:valid {
   z-index: -1;
 }
 
-.btn-yellow:hover::before {
+.btn:hover::before {
   left: 100%;
 }

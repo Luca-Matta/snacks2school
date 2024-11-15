@@ -206,6 +206,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { checkAuthStatus } from "../utils/auth";
 
 interface User {
   id: number;
@@ -215,9 +216,14 @@ interface User {
   location: string;
 }
 
+const isAuthenticated = ref<boolean>(false);
+const currentUserData = ref<User | null>(null);
+
 const users = ref<User[]>([]);
 
 onMounted(async () => {
+  isAuthenticated.value = await checkAuthStatus();
+
   try {
     const response = await axios.get("http://localhost:8000/api/users/");
     users.value = response.data;

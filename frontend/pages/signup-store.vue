@@ -8,12 +8,14 @@
         bisogni dei genitori
       </p>
       <div class="bg-white rounded-3xl shadow-card min-w-96 p-6 mt-12">
-        <div class="text-2xl font-semibold">Accedi</div>
-        <p class="text-sm opacity-80 mt-2">Compra la tua merenda</p>
+        <div class="text-2xl font-semibold">Registrata il tuo store</div>
+        <p class="text-sm opacity-80 mt-2">
+          Unisciti ai 1 membri di Snacks2School
+        </p>
         <hr class="mt-6 mb-4" />
-        <form class="mb-3" @submit.prevent="handleLogin">
+        <form class="mb-3" @submit.prevent="handleSignup">
           <div class="mb-3">
-            <label class="block text-xs mb-1">Nome utente</label>
+            <label class="block text-xs mb-1">Nome del negozio</label>
             <input
               v-model="username"
               id="username"
@@ -43,20 +45,50 @@
               @click="togglePasswordVisibility"
             ></i>
           </div>
+          <div class="mb-3 relative">
+            <label class="block text-xs mb-1"> Conferma password </label>
+            <input
+              v-model="password"
+              id="password"
+              name="password"
+              :type="passwordFieldType"
+              class="w-full bg-gray-200 border border-gray-300"
+              style="border-radius: 5px; padding: 7px"
+            />
+            <i
+              :class="
+                passwordFieldType === 'password'
+                  ? 'fas fa-eye'
+                  : 'fas fa-eye-slash'
+              "
+              class="absolute right-3 top-10 transform -translate-y-1/2 cursor-pointer"
+              @click="togglePasswordVisibility"
+            ></i>
+          </div>
+          <div class="text-left">
+            <label class="text-gray-400 text-xs" for="flexCheckDefault">
+              Facendo click su "Registrati" accetti i nostri
+              <a
+                href=""
+                class="iubenda-nostyle iubenda-noiframe iubenda-embed iubenda-noiframe underline text-gray-400"
+                title="Termini e Condizioni"
+              >
+                Termini e condizioni
+              </a>
+            </label>
+          </div>
           <div class="text-center">
             <button
               type="submit"
               class="btn bg-yellow w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
             >
-              Accedi
+              Registrati
             </button>
           </div>
 
           <p class="text-sm mt-3 mb-0 text-lead">
-            Non hai un account?
-            <nuxt-link to="/group-choice" class="font-bold"
-              >Registrati</nuxt-link
-            >
+            Hai già un account?
+            <nuxt-link to="/login" class="font-bold">Accedi</nuxt-link>
           </p>
         </form>
       </div>
@@ -84,11 +116,11 @@ const getCsrfToken = async () => {
   return response.data.csrfToken;
 };
 
-const handleLogin = async () => {
+const handleSignup = async () => {
   try {
     const csrfToken = await getCsrfToken();
     const response = await axios.post(
-      "http://localhost:8000/api/login/",
+      "http://localhost:8000/api/signup/",
       {
         username: username.value,
         password: password.value,
@@ -100,14 +132,14 @@ const handleLogin = async () => {
         withCredentials: true,
       }
     );
-    console.log("Login successful:", response.data);
+    console.log("Signup successful:", response.data);
 
     if (response.data.token) {
       document.cookie = `token=${response.data.token}`;
       window.location.href = "/";
     }
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error("Signup failed:", error);
   }
 };
 </script>

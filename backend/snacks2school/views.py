@@ -6,9 +6,9 @@ from django.contrib.auth import authenticate, get_user_model
 from rest_framework import status
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import *
+from rest_framework.permissions import IsAuthenticated
 
-# Get the custom user model
 User = get_user_model()
 
 class UserList(generics.ListAPIView):
@@ -21,7 +21,6 @@ def get_csrf_token(request):
 
 class Login(APIView):
     def post(self, request):
-        print("Request data:", request.data)
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
@@ -37,3 +36,11 @@ class Login(APIView):
         else:
             print("Invalid data:", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class CurrentUserData(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = CurrentUserDataSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
