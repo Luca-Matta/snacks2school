@@ -18,7 +18,7 @@
           />
         </a>
       </div>
-      <nav class="flex items-center gap-4">
+      <nav class="hidden md:flex items-center gap-4">
         <a href="">Store</a>
         <a href="">Merende</a>
         <a href="">Contatti</a>

@@ -1,8 +1,9 @@
+from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.models import Group
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate, get_user_model
 from rest_framework import status
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -11,9 +12,12 @@ from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
+class StoreList(generics.ListAPIView):
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        store_group = Group.objects.get(name='Store')
+        return User.objects.filter(groups=store_group)
 
 @ensure_csrf_cookie
 def get_csrf_token(request):

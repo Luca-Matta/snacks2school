@@ -15,7 +15,7 @@
         <hr class="mt-6 mb-4" />
         <form class="mb-3" @submit.prevent="handleSignup">
           <div class="mb-3">
-            <label class="block text-xs mb-1">Nome del negozio</label>
+            <label class="block text-xs mb-1">Nome del negozio *</label>
             <input
               v-model="username"
               id="username"
@@ -26,7 +26,7 @@
             />
           </div>
           <div class="mb-3 relative">
-            <label class="block text-xs mb-1"> Password </label>
+            <label class="block text-xs mb-1"> Password *</label>
             <input
               v-model="password"
               id="password"
@@ -46,7 +46,7 @@
             ></i>
           </div>
           <div class="mb-3 relative">
-            <label class="block text-xs mb-1"> Conferma password </label>
+            <label class="block text-xs mb-1"> Conferma password *</label>
             <input
               v-model="password"
               id="password"

@@ -4,7 +4,7 @@ from .models import User
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('location',)}),
+        (None, {'fields': ('location', 'profile_picture')}),
     )
 
 admin.site.register(User, CustomUserAdmin)
