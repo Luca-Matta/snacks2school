@@ -13,4 +13,4 @@ class LoginSerializer(serializers.Serializer):
 class CurrentUserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'location', 'profile_picture']
+        fields = '__all__'

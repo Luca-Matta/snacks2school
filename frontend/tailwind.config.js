@@ -21,6 +21,7 @@ module.exports = {
         pink: "#bf09bd",
         purple: "#a688f9",
         yellow: "#ffa500",
+        brown: "#af4135",
       },
       boxShadow: {
         card: "0 20px 27px 0 rgba(0, 0, 0, 0.05)",

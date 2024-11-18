@@ -6,8 +6,8 @@
       class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex items-center justify-between gap-3 h-16"
     >
       <div class="flex items-center gap-1.5">
-        <a
-          href=""
+        <nuxt-link
+          to="/"
           class="flex-shrink-0 font-bold text-xl text-gray-900 dark:text-white flex items-end gap-1.5"
           aria-label="Home"
         >
@@ -16,14 +16,25 @@
             alt="star"
             class="h-60 w-60"
           />
-        </a>
+        </nuxt-link>
       </div>
       <nav class="hidden md:flex items-center gap-4">
-        <a href="">Store</a>
-        <a href="">Merende</a>
-        <a href="">Contatti</a>
+        <nuxt-link to="/stores" class="text-pink font-bold">Store</nuxt-link>
+        <nuxt-link to="/stores" class="text-purple font-bold">Store</nuxt-link>
+        <nuxt-link to="/stores" class="text-yellow font-bold"
+          >Contatti</nuxt-link
+        >
       </nav>
-      <div v-if="isAuthenticated">Hey {{ currentUser?.username }}</div>
+      <div v-if="isAuthenticated">
+        <!-- <img
+          :src="`${currentUser?.profile_picture}`"
+          alt="Profile Picture"
+          class="bg-center bg-contain bg-no-repeat h-52 w-52"
+        /> -->
+        <div>
+          Ciao <span>{{ currentUser?.first_name }}</span>
+        </div>
+      </div>
       <div v-else class="flex items-center gap-3">
         <nuxt-link to="/login">
           <button class="btn bg-yellow text-white px-4 py-2 rounded-md">
@@ -51,6 +62,7 @@ onMounted(async () => {
   isAuthenticated.value = await checkAuthStatus();
   if (isAuthenticated.value) {
     currentUser.value = await getCurrentUserData();
+    console.log("currentUser:", currentUser.value); // Debugging log
   }
 });
 </script>

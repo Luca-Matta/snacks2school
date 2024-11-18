@@ -1,5 +1,8 @@
 <template>
-  <div class="flex justify-center gap-4 max-w-screen-xl mx-auto py-6 text-gray">
+  <div
+    class="flex flex-wrap justify-center gap-8 max-w-screen-xl mx-auto py-6 text-gray"
+  >
+    <div>© 2024 Snacks2School</div>
     <div>Servizio clienti</div>
     <div>Privacy policy</div>
     <div>Termini e condizioni</div>
