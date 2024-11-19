@@ -24,7 +24,8 @@ module.exports = {
         brown: "#af4135",
       },
       boxShadow: {
-        card: "0 20px 27px 0 rgba(0, 0, 0, 0.05)",
+        lightCard: "0 20px 27px 0 rgba(0, 0, 0, 0.15)",
+        card: "0 20px 27px 10px rgba(0, 0, 0, 0.25)",
       },
     },
   },
