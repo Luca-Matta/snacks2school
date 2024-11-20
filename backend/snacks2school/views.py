@@ -23,26 +23,58 @@ class StoreList(generics.ListAPIView):
 def get_csrf_token(request):
     return JsonResponse({'csrfToken': request.META.get('CSRF_COOKIE')})
 
-        
-class Signup(APIView):
+class CustomerSignupView(APIView):
     def post(self, request):
-        serializer = SignupSerializer(data=request.data)
+        serializer = CustomerSignupSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             email = serializer.validated_data.get('email', '')
             password = serializer.validated_data['password']
-            
+            first_name = serializer.validated_data.get('first_name', '')
+            last_name = serializer.validated_data.get('last_name', '')
+            location = serializer.validated_data['location']
+
             if User.objects.filter(username=username).exists():
                 return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
             if email and User.objects.filter(email=email).exists():
                 return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+            user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name, location=location)
             
-            user = User.objects.create_user(username=username, email=email, password=password)
+            customer_group, created = Group.objects.get_or_create(name='Customer')
+            user.groups.add(customer_group)
+            
             token, created = Token.objects.get_or_create(user=user)
+            
             return Response({'token': token.key, 'message': 'Signup successful'}, status=status.HTTP_201_CREATED)
         else:
-            print("Invalid data:", serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StoreSignupView(APIView):
+    def post(self, request):
+        serializer = StoreSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            email = serializer.validated_data.get('email', '')
+            password = serializer.validated_data['password']
+            store_name = serializer.validated_data['store_name']
+            location = serializer.validated_data['location']
+
+            if User.objects.filter(username=username).exists():
+                return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            if email and User.objects.filter(email=email).exists():
+                return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+            user = User.objects.create_user(username=username, email=email, password=password, store_name=store_name, location=location)
+            
+            store_group, created = Group.objects.get_or_create(name='Store')
+            user.groups.add(store_group)
+            
+            token, created = Token.objects.get_or_create(user=user)
+            
+            return Response({'token': token.key, 'message': 'Signup successful'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Login(APIView):
     def post(self, request):

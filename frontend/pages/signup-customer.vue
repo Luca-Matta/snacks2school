@@ -25,6 +25,39 @@
               style="border-radius: 5px; padding: 7px"
             />
           </div>
+          <div class="mb-3">
+            <label class="block text-xs mb-1">Nome *</label>
+            <input
+              v-model="firstName"
+              id="firstName"
+              name="firstName"
+              type="text"
+              class="w-full bg-gray-200 border border-gray-300"
+              style="border-radius: 5px; padding: 7px"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block text-xs mb-1">Cognome *</label>
+            <input
+              v-model="lastName"
+              id="lastName"
+              name="lastName"
+              type="text"
+              class="w-full bg-gray-200 border border-gray-300"
+              style="border-radius: 5px; padding: 7px"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block text-xs mb-1">Provincia *</label>
+            <input
+              v-model="location"
+              id="location"
+              name="location"
+              type="text"
+              class="w-full bg-gray-200 border border-gray-300"
+              style="border-radius: 5px; padding: 7px"
+            />
+          </div>
           <div class="mb-3 relative">
             <label class="block text-xs mb-1">Password *</label>
             <input
@@ -102,6 +135,9 @@ import axios from "axios";
 
 const passwordFieldType = ref<string>("password");
 const username = ref<string>("");
+const firstName = ref<string>("");
+const lastName = ref<string>("");
+const location = ref<string>("");
 const password = ref<string>("");
 const confirmPassword = ref<string>("");
 
@@ -127,6 +163,9 @@ const handleSignup = async () => {
     const csrfToken = await getCsrfToken();
     const payload = {
       username: username.value,
+      first_name: firstName.value,
+      last_name: lastName.value,
+      location: location.value,
       password: password.value,
       confirm_password: confirmPassword.value,
     };
@@ -134,7 +173,7 @@ const handleSignup = async () => {
     console.log("Signup payload:", payload);
 
     const response = await axios.post(
-      "http://localhost:8000/api/signup/",
+      "http://localhost:8000/api/signup/customer/",
       payload,
       {
         headers: {
@@ -148,6 +187,8 @@ const handleSignup = async () => {
     if (response.data.token) {
       document.cookie = `token=${response.data.token}`;
       window.location.href = "/";
+    } else {
+      console.error("No token received");
     }
   } catch (error) {
     console.error("Signup failed:", error);

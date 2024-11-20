@@ -15,7 +15,7 @@
         <hr class="mt-6 mb-4" />
         <form class="mb-3" @submit.prevent="handleSignup">
           <div class="mb-3">
-            <label class="block text-xs mb-1">Nome del negozio *</label>
+            <label class="block text-xs mb-1">Nome utente *</label>
             <input
               v-model="username"
               id="username"
@@ -25,8 +25,30 @@
               style="border-radius: 5px; padding: 7px"
             />
           </div>
+          <div class="mb-3">
+            <label class="block text-xs mb-1">Nome del negozio *</label>
+            <input
+              v-model="store_name"
+              id="store_name"
+              name="store_name"
+              type="text"
+              class="w-full bg-gray-200 border border-gray-300"
+              style="border-radius: 5px; padding: 7px"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block text-xs mb-1">Provincia *</label>
+            <input
+              v-model="location"
+              id="location"
+              name="location"
+              type="text"
+              class="w-full bg-gray-200 border border-gray-300"
+              style="border-radius: 5px; padding: 7px"
+            />
+          </div>
           <div class="mb-3 relative">
-            <label class="block text-xs mb-1"> Password *</label>
+            <label class="block text-xs mb-1">Password *</label>
             <input
               v-model="password"
               id="password"
@@ -46,11 +68,11 @@
             ></i>
           </div>
           <div class="mb-3 relative">
-            <label class="block text-xs mb-1"> Conferma password *</label>
+            <label class="block text-xs mb-1">Conferma password *</label>
             <input
-              v-model="password"
-              id="password"
-              name="password"
+              v-model="confirmPassword"
+              id="confirmPassword"
+              name="confirmPassword"
               :type="passwordFieldType"
               class="w-full bg-gray-200 border border-gray-300"
               style="border-radius: 5px; padding: 7px"
@@ -102,7 +124,10 @@ import axios from "axios";
 
 const passwordFieldType = ref<string>("password");
 const username = ref<string>("");
+const store_name = ref<string>("");
+const location = ref<string>("");
 const password = ref<string>("");
+const confirmPassword = ref<string>("");
 
 const togglePasswordVisibility = () => {
   passwordFieldType.value =
@@ -120,10 +145,13 @@ const handleSignup = async () => {
   try {
     const csrfToken = await getCsrfToken();
     const response = await axios.post(
-      "http://localhost:8000/api/signup/",
+      "http://localhost:8000/api/signup/store/",
       {
         username: username.value,
+        store_name: store_name.value,
+        location: location.value,
         password: password.value,
+        confirm_password: confirmPassword.value,
       },
       {
         headers: {
