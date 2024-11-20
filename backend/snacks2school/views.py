@@ -23,6 +23,27 @@ class StoreList(generics.ListAPIView):
 def get_csrf_token(request):
     return JsonResponse({'csrfToken': request.META.get('CSRF_COOKIE')})
 
+        
+class Signup(APIView):
+    def post(self, request):
+        serializer = SignupSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            email = serializer.validated_data.get('email', '')
+            password = serializer.validated_data['password']
+            
+            if User.objects.filter(username=username).exists():
+                return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            if email and User.objects.filter(email=email).exists():
+                return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user = User.objects.create_user(username=username, email=email, password=password)
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key, 'message': 'Signup successful'}, status=status.HTTP_201_CREATED)
+        else:
+            print("Invalid data:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
 class Login(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -40,7 +61,13 @@ class Login(APIView):
         else:
             print("Invalid data:", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+class Logout(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+
 class CurrentUserData(APIView):
     permission_classes = [IsAuthenticated]
 

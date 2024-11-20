@@ -26,7 +26,7 @@
             />
           </div>
           <div class="mb-3 relative">
-            <label class="block text-xs mb-1"> Password *</label>
+            <label class="block text-xs mb-1">Password *</label>
             <input
               v-model="password"
               id="password"
@@ -46,11 +46,11 @@
             ></i>
           </div>
           <div class="mb-3 relative">
-            <label class="block text-xs mb-1"> Conferma password *</label>
+            <label class="block text-xs mb-1">Conferma password *</label>
             <input
-              v-model="password"
-              id="password"
-              name="password"
+              v-model="confirmPassword"
+              id="confirmPassword"
+              name="confirmPassword"
               :type="passwordFieldType"
               class="w-full bg-gray-200 border border-gray-300"
               style="border-radius: 5px; padding: 7px"
@@ -103,6 +103,7 @@ import axios from "axios";
 const passwordFieldType = ref<string>("password");
 const username = ref<string>("");
 const password = ref<string>("");
+const confirmPassword = ref<string>("");
 
 const togglePasswordVisibility = () => {
   passwordFieldType.value =
@@ -118,13 +119,23 @@ const getCsrfToken = async () => {
 
 const handleSignup = async () => {
   try {
+    if (password.value !== confirmPassword.value) {
+      console.error("Passwords do not match");
+      return;
+    }
+
     const csrfToken = await getCsrfToken();
+    const payload = {
+      username: username.value,
+      password: password.value,
+      confirm_password: confirmPassword.value,
+    };
+
+    console.log("Signup payload:", payload);
+
     const response = await axios.post(
       "http://localhost:8000/api/signup/",
-      {
-        username: username.value,
-        password: password.value,
-      },
+      payload,
       {
         headers: {
           "X-CSRFToken": csrfToken,

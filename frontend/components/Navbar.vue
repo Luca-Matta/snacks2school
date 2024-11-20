@@ -33,6 +33,7 @@
         /> -->
         <div>
           Ciao <span>{{ currentUser?.first_name }}</span>
+          <button @click.prevent="handleLogout">Logout</button>
         </div>
       </div>
       <div v-else class="flex items-center gap-3">
@@ -53,16 +54,53 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
+import {
+  checkAuthStatus,
+  getCurrentUserData,
+  deleteCookie,
+} from "../utils/auth";
+import axios from "axios";
+import { useRouter } from "vue-router";
 
 const isAuthenticated = ref<boolean>(false);
 const currentUser = ref<any>(null);
+const router = useRouter();
+
+const getCsrfToken = async () => {
+  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
+    withCredentials: true,
+  });
+  return response.data.csrfToken;
+};
+
+const handleLogout = async () => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/logout/",
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          "X-CSRFToken": await getCsrfToken(),
+        },
+      }
+    );
+    if (response.status === 200) {
+      deleteCookie("token");
+      isAuthenticated.value = false;
+      currentUser.value = null;
+      router.push("/login");
+    }
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
 
 onMounted(async () => {
   isAuthenticated.value = await checkAuthStatus();
   if (isAuthenticated.value) {
     currentUser.value = await getCurrentUserData();
-    console.log("currentUser:", currentUser.value); // Debugging log
+    console.log("currentUser:", currentUser.value);
   }
 });
 </script>
