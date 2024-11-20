@@ -8,7 +8,7 @@
         bisogni dei genitori
       </p>
       <div class="bg-white rounded-3xl shadow-card min-w-96 p-6 mt-12">
-        <div class="text-2xl font-semibold">Registrata il tuo store</div>
+        <div class="text-2xl font-semibold">Registra il tuo store</div>
         <p class="text-sm opacity-80 mt-2">
           Unisciti ai 1 membri di Snacks2School
         </p>
