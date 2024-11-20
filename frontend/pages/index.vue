@@ -1,16 +1,19 @@
 <template>
   <div>
     <Navbar />
-    <div class="max-w-screen-xl mx-auto pb-8">
+    <div class="max-w-screen-xl mx-auto pb-8 mt-8">
       <video class="w-full h-auto px-4" autoplay muted>
         <source src="../static/home-header.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
-    <div class="flex justify-center items-center py-16 px-4 gap-12 mx-auto">
+    <div
+      class="flex justify-center items-center py-16 px-4 gap-12 mx-auto overflow-hidden"
+    >
       <div
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
+        <img src="../assets/icons/health.svg" alt="Health" class="h-12 w-12" />
         <div class="font-bold text-center">Salute e tutela</div>
         <div class="flex flex-col justify-center items-center">
           <p class="text-sm">Trasparenza sugli ingredienti.</p>
@@ -22,6 +25,11 @@
       <div
         class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
+        <img
+          src="../assets/icons/comfort.svg"
+          alt="Comfort"
+          class="h-14 w-14"
+        />
         <div class="font-bold">Comodità</div>
         <div class="flex flex-col justify-center items-center">
           <p class="text-sm">
@@ -34,6 +42,11 @@
       <div
         class="flex flex-col justify-center items-center bg-pink h-80 w-80 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-pink outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
+        <img
+          src="../assets/icons/calendar.svg"
+          alt="Calendar"
+          class="h-12 w-12"
+        />
         <div class="font-bold">
           Snacks Calendar <br />
           La merenda che cambia, <br />
@@ -50,6 +63,7 @@
       <div
         class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
+        <img src="../assets/icons/cash.svg" alt="Cash" class="h-12 w-12" />
         <div class="font-bold">Risparmia con gusto</div>
         <p class="text-sm">
           Prezzi più bassi rispetto alle merende industriali.
@@ -58,6 +72,7 @@
       <div
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
+        <img src="../assets/icons/safety.svg" alt="Safety" class="h-12 w-12" />
         <div class="font-bold">Zero rischi</div>
         <p class="text-sm">
           Tuo figlio non attraverserà più la strada né gestirà soldi per
@@ -91,7 +106,7 @@
           </video>
         </div>
       </div>
-      <div class="-mt-32">
+      <div class="-mt-12 md:-mt-32">
         <div class="flex flex-wrap justify-center items-center gap-8 lg:p-8">
           <div v-for="store in stores" :key="store.id">
             <div class="flex flex-col justify-center items-center gap-2">
@@ -104,11 +119,12 @@
                     last_name: store.last_name,
                     profile_picture: store.profile_picture,
                     location: store.location,
+                    bio: store.bio,
                   },
                 }"
               >
                 <div
-                  class="flex justify-center items-center h-60 w-60 bg-gray-200 rounded-xl transition-all duration-200 outline outline-4 outline-brown outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
+                  class="flex justify-center items-center h-60 w-60 bg-white rounded-xl transition-all duration-200 outline outline-4 outline-brown outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
                 >
                   <img
                     :src="`${store.profile_picture}`"
@@ -151,6 +167,7 @@ interface User {
   last_name: string;
   location: string;
   profile_picture: string;
+  bio: string;
 }
 
 const isAuthenticated = ref<boolean>(false);
