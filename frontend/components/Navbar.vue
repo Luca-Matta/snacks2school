@@ -31,9 +31,41 @@
           alt="Profile Picture"
           class="bg-center bg-contain bg-no-repeat h-52 w-52"
         /> -->
-        <div>
-          Ciao <span>{{ currentUser?.first_name }}</span>
-          <button @click.prevent="handleLogout">Logout</button>
+        <div class="flex items-center space-x-2">
+          <span>Ciao {{ currentUser?.first_name }}</span>
+          <div class="relative">
+            <button @click="toggleDropdown" class="flex items-center space-x-1">
+              <svg
+                :class="{
+                  'rotate-180': dropdownOpen,
+                  'transition-transform': true,
+                }"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5 text-gray-700"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div
+              v-if="dropdownOpen"
+              class="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg"
+            >
+              <button
+                @click.prevent="handleLogout"
+                class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Esci
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div v-else class="flex items-center gap-3">
@@ -65,6 +97,12 @@ import { useRouter } from "vue-router";
 const isAuthenticated = ref<boolean>(false);
 const currentUser = ref<any>(null);
 const router = useRouter();
+
+const dropdownOpen = ref(false);
+
+const toggleDropdown = () => {
+  dropdownOpen.value = !dropdownOpen.value;
+};
 
 const getCsrfToken = async () => {
   const response = await axios.get("http://localhost:8000/api/csrf-token/", {
