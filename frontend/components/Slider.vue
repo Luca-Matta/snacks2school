@@ -4,7 +4,7 @@
       <img src="../assets/icons/left-arrow.svg" alt="" class="h-6 w-6" />
     </button> -->
     <swiper
-      :slides-per-view="1.35"
+      :slides-per-view="1.5"
       :space-between="0"
       :centered-slides="true"
       pagination
@@ -38,15 +38,16 @@ const props = defineProps({
   },
 });
 
-const swiperSlider = ref();
-const prevSlide = () => {
-  swiperSlider.value.slidePrev();
-};
-const nextSlide = () => {
-  swiperSlider.value.slideNext();
-};
-const onSliderInit = (e) => {
-  swiperSlider.value = e;
+// const swiperSlider = ref();
+// const prevSlide = () => {
+//   swiperSlider.value.slidePrev();
+// };
+// const nextSlide = () => {
+//   swiperSlider.value.slideNext();
+// };
+const onSliderInit = (swiper) => {
+  const centeredSlideIndex = Math.floor(props.slides.length / 2);
+  swiper.slideTo(centeredSlideIndex, 0);
 };
 </script>
 

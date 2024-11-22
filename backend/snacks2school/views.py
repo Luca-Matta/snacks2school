@@ -9,15 +9,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
+from datetime import datetime, timedelta
 
 User = get_user_model()
-
-class StoreList(generics.ListAPIView):
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        store_group = Group.objects.get(name='Store')
-        return User.objects.filter(groups=store_group)
 
 @ensure_csrf_cookie
 def get_csrf_token(request):
@@ -46,6 +40,9 @@ class CustomerSignupView(APIView):
             
             token, created = Token.objects.get_or_create(user=user)
             
+            start_of_week = get_start_of_week()
+            Calendar.objects.create(user=user, week_start_date=start_of_week)
+            
             return Response({'token': token.key, 'message': 'Signup successful'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -71,6 +68,9 @@ class StoreSignupView(APIView):
             user.groups.add(store_group)
             
             token, created = Token.objects.get_or_create(user=user)
+            
+            start_of_week = get_start_of_week()
+            Calendar.objects.create(user=user, week_start_date=start_of_week)
             
             return Response({'token': token.key, 'message': 'Signup successful'}, status=status.HTTP_201_CREATED)
         else:
@@ -107,3 +107,60 @@ class CurrentUserData(APIView):
         user = request.user
         serializer = CurrentUserDataSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserCalendarView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        today = datetime.today().date()
+        start_of_week = today - timedelta(days=today.weekday())
+        calendar = Calendar.objects.filter(user=user, week_start_date=start_of_week).first()
+        
+        if calendar:
+            serializer = CalendarSerializer(calendar)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Calendar not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class StoreList(generics.ListAPIView):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        store_group = Group.objects.get(name='Store')
+        return User.objects.filter(groups=store_group)
+        
+class SnackListView(generics.ListAPIView):
+    serializer_class = SnackSerializer
+
+    def get_queryset(self):
+        store_id = self.request.query_params.get('store_id')
+        if store_id:
+            return Snack.objects.filter(seller_id=store_id)
+        return Snack.objects.none()
+    
+class CreateOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        customer = request.user
+        seller_id = request.data.get('seller_id')
+        snack_id = request.data.get('snack_id')
+        order_date = datetime.now().date()
+
+        if not seller_id or not snack_id:
+            return Response({'error': 'Seller and Snack are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            seller = User.objects.get(id=seller_id)
+            snack = Snack.objects.get(id=snack_id)
+        except User.DoesNotExist:
+            return Response({'error': 'Seller not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Snack.DoesNotExist:
+            return Response({'error': 'Snack not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        order = Order(customer=customer, seller=seller, snack=snack, order_date=order_date)
+        order.save()
+
+        serializer = OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Snack, Calendar, Order
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,4 +32,27 @@ class LoginSerializer(serializers.Serializer):
 class CurrentUserDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = '__all__'
+
+class SnackSerializer(serializers.ModelSerializer):
+    seller = UserSerializer()
+
+    class Meta:
+        model = Snack
+        fields = '__all__'
+
+class CalendarSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Calendar
+        fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    customer = UserSerializer()
+    seller = UserSerializer()
+    snack = SnackSerializer()
+
+    class Meta:
+        model = Order
         fields = '__all__'
