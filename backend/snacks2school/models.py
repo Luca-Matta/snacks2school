@@ -44,6 +44,7 @@ class Snack(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='snacks', null=True, blank=True)
+    price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -52,6 +53,7 @@ class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders_as_customer', null=True, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders_as_seller', null=True, blank=True)
     snack = models.ForeignKey(Snack, on_delete=models.CASCADE, null=True, blank=True)
+    snack_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     order_date = models.DateField(null=True, blank=True)
 
     def __str__(self):

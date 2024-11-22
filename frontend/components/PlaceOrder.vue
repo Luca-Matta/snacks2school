@@ -92,7 +92,7 @@
               @click="selectSnack(snack)"
               class="cursor-pointer px-4 py-2 hover:bg-gray-200"
             >
-              {{ snack.name }}
+              {{ snack.name }} <span class="text-sm">€{{ snack.price }}</span>
             </li>
           </ul>
         </div>
