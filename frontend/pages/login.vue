@@ -86,18 +86,20 @@ const getCsrfToken = async () => {
   return response.data.csrfToken;
 };
 
+import axiosInstance from "../utils/axiosInstance";
+
 const handleLogin = async () => {
   try {
-    const csrfToken = await getCsrfToken();
-    const response = await axios.post(
-      "http://localhost:8000/api/login/",
+    const csrfToken = await axiosInstance.get("csrf-token/");
+    const response = await axiosInstance.post(
+      "login/",
       {
         username: username.value,
         password: password.value,
       },
       {
         headers: {
-          "X-CSRFToken": csrfToken,
+          "X-CSRFToken": csrfToken.data.csrfToken,
         },
         withCredentials: true,
       }
@@ -105,7 +107,7 @@ const handleLogin = async () => {
     console.log("Login successful:", response.data);
 
     if (response.data.token) {
-      document.cookie = `token=${response.data.token}`;
+      localStorage.setItem("token", response.data.token);
       window.location.href = "/";
     }
   } catch (error) {

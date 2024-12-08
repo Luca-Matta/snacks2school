@@ -11,6 +11,8 @@ class User(AbstractUser):
     groups = models.ManyToManyField(Group, related_name='snacks2school_user_set', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='snacks2school_user_set', blank=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    credit_wallet_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.username

@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,12 +59,12 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:3001",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
+    'http://localhost:3001',
 ]
 
 CSRF_COOKIE_HTTPONLY = False
@@ -84,13 +88,17 @@ TEMPLATES = [
     },
 ]
 
-import os
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "default-secret-key")
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "default-public-key")
+STRIPE_PRICE_ID_WALLET_CHARGE = os.getenv("STRIE_PRICE_ID_WALLET_CHARGE", "default-price-id")
+STRIPE_WEBHOOK_KEY = os.getenv("STRIPE_WEBHOOK_KEY", "default-webhook-key")
+FRONTEND_WEBSITE_SUCCESS_URL = "http://localhost:3001/payment/success"
+FRONTEND_WEBSITE_CANCEL_URL = "http://localhost:3001/"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

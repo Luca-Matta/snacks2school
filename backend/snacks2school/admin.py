@@ -4,7 +4,7 @@ from .models import User, Snack, Calendar, Order
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('location', 'profile_picture', 'bio', 'store_name')}),
+        (None, {'fields': ('location', 'profile_picture', 'bio', 'store_name', 'credit_wallet_amount', 'stripe_customer_id')}),
     )
 
 class SnackAdmin(admin.ModelAdmin):

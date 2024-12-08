@@ -105,6 +105,10 @@
       </div>
     </div>
 
+    <div>
+      <button @click="chargeCreditWallet">Carica il tuo wallet</button>
+    </div>
+
     <div
       class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
     >
@@ -247,18 +251,6 @@ const currentUserData = ref<User | null>(null);
 
 const stores = ref<User[]>([]);
 
-onMounted(async () => {
-  isAuthenticated.value = await checkAuthStatus();
-
-  try {
-    const response = await axios.get("http://localhost:8000/api/stores/");
-    stores.value = response.data;
-    console.log("Users fetched:", stores.value);
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-});
-
 import healthIcon from "@/assets/icons/health.svg";
 import comfortIcon from "@/assets/icons/comfort.svg";
 import calendarIcon from "@/assets/icons/calendar.svg";
@@ -324,4 +316,63 @@ const sellingPoints = [
     ],
   },
 ];
+
+const getCsrfToken = async () => {
+  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
+    withCredentials: true,
+  });
+  return response.data.csrfToken;
+};
+
+const stripe = ref(null);
+
+const getStripePubKey = async () => {
+  const response = await axios.get(
+    "http://localhost:8000/api/v1/stripe/stripe-pub-key/"
+  );
+  console.log("Public key fetched:", response.data);
+
+  const stripePubKey = response.data.publicKey;
+  console.log(stripePubKey);
+  return stripePubKey;
+};
+
+import axiosInstance from "../utils/axiosInstance";
+
+const chargeCreditWallet = async () => {
+  try {
+    const csrfToken = await axiosInstance.get("csrf-token/");
+    const response = await axiosInstance.post(
+      "v1/stripe/create-checkout-session/",
+      {},
+      {
+        headers: {
+          "X-CSRFToken": csrfToken.data.csrfToken,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log("Checkout session created:", response);
+    return stripe.value.redirectToCheckout({
+      sessionId: response.data.sessionId,
+    });
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+  }
+};
+
+onMounted(async () => {
+  isAuthenticated.value = await checkAuthStatus();
+
+  const stripePubKey = await getStripePubKey();
+  stripe.value = Stripe(stripePubKey);
+
+  try {
+    const response = await axios.get("http://localhost:8000/api/stores/");
+    stores.value = response.data;
+    console.log("Users fetched:", stores.value);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+});
 </script>

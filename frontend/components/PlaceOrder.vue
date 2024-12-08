@@ -140,6 +140,7 @@ interface Snack {
   id: number;
   name: string;
   date: string;
+  price: number;
   seller: User;
 }
 
@@ -204,6 +205,7 @@ const placeOrder = async () => {
     return;
   }
   const csrfToken = await getCsrfToken();
+
   try {
     const response = await axios.post(
       "http://localhost:8000/api/create-order/",
