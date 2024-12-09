@@ -23,6 +23,7 @@ class User(AbstractUser):
         
         calendar, created = Calendar.objects.get_or_create(user=self, week_start_date=start_of_week)
         return calendar
+    
 
 class Calendar(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendars', null=True, blank=True)
@@ -41,15 +42,27 @@ class Calendar(models.Model):
         week_days = self.get_week_days()
         snacks_by_day = {day: Snack.objects.filter(date=day, seller=self.user) for day in week_days}
         return snacks_by_day
+    
+
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='ingredient_images/', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Snack(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='snacks', null=True, blank=True)
     price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    image = models.ImageField(upload_to='snack_images/', null=True, blank=True)
+    ingredients = models.ManyToManyField(Ingredient, related_name='snacks', null=True, blank=True)
 
     def __str__(self):
         return self.name
+
 
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders_as_customer', null=True, blank=True)

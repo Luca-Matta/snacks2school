@@ -150,7 +150,7 @@ class SnackList(generics.ListAPIView):
     def get_queryset(self):
         store_id = self.request.query_params.get('store_id')
         if store_id:
-            return Snack.objects.filter(seller_id=store_id)
+            return Snack.objects.filter(seller_id=store_id).prefetch_related('ingredients')
         return Snack.objects.none()
     
 

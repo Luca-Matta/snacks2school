@@ -1,15 +1,22 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Snack, Calendar, Order
+from .models import *
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         (None, {'fields': ('location', 'profile_picture', 'bio', 'store_name', 'credit_wallet_amount', 'stripe_customer_id')}),
     )
 
+
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ('name', 'image')
+    search_fields = ('name',)
+
+
 class SnackAdmin(admin.ModelAdmin):
     list_display = ('name', 'date', 'seller')
     search_fields = ('name', 'seller__username')
+
 
 class CalendarAdmin(admin.ModelAdmin):
     list_display = ('user', 'week_start_date')
@@ -27,6 +34,7 @@ class CalendarAdmin(admin.ModelAdmin):
 
     display_snacks_for_week.short_description = 'Snacks for the Week'
 
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('customer', 'seller', 'snack', 'order_date', 'get_store_name')
     search_fields = ('customer__username', 'seller__username', 'snack__name', 'seller__store_name')
@@ -36,6 +44,7 @@ class OrderAdmin(admin.ModelAdmin):
     get_store_name.short_description = 'Store Name'
 
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Snack, SnackAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Order, OrderAdmin)

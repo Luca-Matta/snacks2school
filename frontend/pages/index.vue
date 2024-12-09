@@ -64,7 +64,7 @@
       </div>
 
       <div
-        class="flex flex-col justify-center items-center bg-pink h-80 w-80 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-pink outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
+        class="flex flex-col justify-center items-center bg-yellow h-80 w-80 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
         <img
           src="../assets/icons/calendar.svg"
@@ -280,7 +280,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-pink h-56 w-56 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-pink outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
+      "flex flex-col justify-center items-center bg-yellow h-56 w-56 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
     imgSrc: calendarIcon,
     imgAlt: "Calendar",
     imgClass: "h-12 w-12",

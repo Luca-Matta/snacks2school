@@ -70,7 +70,6 @@ const days = ref({
   GIOVEDÌ: null,
   VENERDÌ: null,
   SABATO: null,
-  DOMENICA: null,
 });
 
 const calendarSlides = ref([]);

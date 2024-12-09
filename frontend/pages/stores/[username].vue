@@ -64,23 +64,35 @@
             />
           </div>
         </div>
-        <div class="flex flex-wrap justify-center items-center gap-8 py-6">
+        <div class="flex flex-wrap justify-center items-center gap-12 py-6">
           <div v-for="snack in singleStoreSnacks" :key="snack">
-            <div class="flex flex-col justify-center items-center gap-2">
-              <div
-                class="flex justify-center items-center h-60 w-60 bg-white rounded-xl transition-all duration-200 outline outline-4 outline-brown outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
-              >
+            <div
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-64 w-60 p-6 cursor-pointer outline outline-2 outline-yellow outline-offset-4"
+            >
+              <div class="flex justify-center items-center">
                 <img
-                  :src="``"
-                  alt="Profile Picture"
-                  class="bg-center bg-contain bg-no-repeat h-52 w-52"
+                  :src="snack.image"
+                  alt="snack"
+                  class="bg-center bg-contain bg-no-repeat h-20 w-20"
                 />
               </div>
               <div class="flex flex-col justify-center items-center">
                 <div class="flex flex-col items-center justify-center">
-                  <p class="font-bold max-w-60 text-center text-sm mt-2">
+                  <p class="font-bold text-center text-sm mt-2">
                     {{ snack.name }}
                   </p>
+                  <div
+                    v-for="(ingredient, index) in snack.ingredients"
+                    :key="index"
+                    class="py-2"
+                  >
+                    <img
+                      :src="ingredient.image"
+                      :alt="ingredient.name"
+                      :title="ingredient.name"
+                      class="bg-center bg-contain bg-no-repeat h-6 w-6"
+                    />
+                  </div>
                   <p>Allergeni</p>
                   <p class="text-sm">{{ snack.price }}€</p>
                 </div>
@@ -115,11 +127,18 @@ interface Store {
   bio: string;
 }
 
+interface Ingredient {
+  name: string;
+  image: string;
+}
+
 interface Snack {
   id: number;
   name: string;
   date: string;
   price: number;
+  image: string;
+  ingredients: Ingredient[];
   seller: Store;
 }
 
