@@ -88,7 +88,7 @@
         class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
         <img src="../assets/icons/cash.svg" alt="Cash" class="h-12 w-12" />
-        <div class="font-bold">Risparmia con gusto</div>
+        <div class="font-bold">Risparmio con gusto</div>
         <p class="text-sm">
           Prezzi più bassi rispetto alle merende industriali.
         </p>
@@ -97,16 +97,12 @@
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
         <img src="../assets/icons/safety.svg" alt="Safety" class="h-12 w-12" />
-        <div class="font-bold">Zero rischi</div>
+        <div class="font-bold">Zero rischi / Al sicuro</div>
         <p class="text-sm">
           Tuo figlio non attraverserà più la strada né gestirà soldi per
           comprare la merenda.<br />Più sicurezza per lui, più serenità per te.
         </p>
       </div>
-    </div>
-
-    <div>
-      <button @click="chargeCreditWallet">Carica il tuo wallet</button>
     </div>
 
     <div
@@ -123,7 +119,7 @@
         <Calendar />
       </div>
     </div>
-    <div>
+    <div class="py-12 mb-4">
       <div
         class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
       >
@@ -225,9 +221,9 @@
             </template>
           </Slider>
         </div>
-        <Footer />
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 

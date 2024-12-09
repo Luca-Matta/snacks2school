@@ -6,10 +6,28 @@
     <div
       class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-96"
     >
-      <h2 class="text-xl text-center font-bold mb-4">
+      <h2 class="text-xl text-center font-bold">
         Ordina lo snack del <span class="lowercase">{{ selectedDay }}</span>
       </h2>
-      <div class="mb-1 relative">
+      <div v-if="userHasCredit" class="flex justify-center py-4 text-sm">
+        Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
+        credito
+      </div>
+      <div
+        v-if="!userHasCredit"
+        class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
+      >
+        <div>Il tuo portafoglio di credito è vuoto</div>
+        <div>
+          <button
+            @click="chargeCreditWallet"
+            class="flex justify-center mx-auto btn bg-yellow uppercase text-black text-xs shadow-button py-3 px-6 rounded-lg"
+          >
+            Ricaricalo e ordina la tua merenda!
+          </button>
+        </div>
+      </div>
+      <div v-if="userHasCredit" class="mb-1 relative">
         <div
           @click="toggleStoresDropdown"
           class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
@@ -54,7 +72,7 @@
           </ul>
         </div>
       </div>
-      <div v-if="snacks.length" class="mb-1 mt-4 relative">
+      <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
         <div
           @click="toggleSnacksDropdown"
           class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
@@ -83,7 +101,7 @@
         </div>
         <div
           v-if="snacksDropdownOpen"
-          class="absolute mt-1 w-full rounded-md bg-white shadow-card z-10"
+          class="absolute mt-1 w-full rounded-md bg-white shadow-card z-20"
         >
           <ul class="max-h-60 overflow-auto">
             <li
@@ -97,7 +115,7 @@
           </ul>
         </div>
       </div>
-      <div class="flex justify-center gap-2">
+      <div v-if="userHasCredit" class="flex justify-center gap-2">
         <button
           @click="$emit('close')"
           class="btn bg-black w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
@@ -116,7 +134,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, onMounted, ref, watch } from "vue";
+import { defineProps, defineEmits, onMounted, ref, computed, watch } from "vue";
+import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import axios from "axios";
 
 defineProps({
@@ -126,7 +145,7 @@ defineProps({
 
 const emit = defineEmits(["close", "placeOrder"]);
 
-interface User {
+interface Store {
   id: number;
   username: string;
   first_name: string;
@@ -141,12 +160,12 @@ interface Snack {
   name: string;
   date: string;
   price: number;
-  seller: User;
+  seller: Store;
 }
 
-const stores = ref<User[]>([]);
+const stores = ref<Store[]>([]);
 const snacks = ref<Snack[]>([]);
-const selectedStore = ref<User | null>(null);
+const selectedStore = ref<Store | null>(null);
 const storesDropdownOpen = ref(false);
 const snacksDropdownOpen = ref(false);
 
@@ -176,7 +195,7 @@ const toggleStoresDropdown = () => {
   storesDropdownOpen.value = !storesDropdownOpen.value;
 };
 
-const selectStore = (store: User) => {
+const selectStore = (store: Store) => {
   selectedStore.value = store;
   storesDropdownOpen.value = false;
   fetchSnacks(store.id);
@@ -227,7 +246,54 @@ const placeOrder = async () => {
   }
 };
 
-onMounted(() => {
+const currentUser = ref<any>(null);
+
+const userHasCredit = computed(() => {
+  return currentUser.value && currentUser.value.credit_wallet_amount > 0;
+});
+
+import axiosInstance from "../utils/axiosInstance";
+
+const stripe = ref(null);
+
+const getStripePubKey = async () => {
+  const response = await axios.get(
+    "http://localhost:8000/api/v1/stripe/stripe-pub-key/"
+  );
+  console.log("Public key fetched:", response.data);
+
+  const stripePubKey = response.data.publicKey;
+  console.log(stripePubKey);
+  return stripePubKey;
+};
+
+const chargeCreditWallet = async () => {
+  try {
+    const csrfToken = await axiosInstance.get("csrf-token/");
+    const response = await axiosInstance.post(
+      "v1/stripe/create-checkout-session/",
+      {},
+      {
+        headers: {
+          "X-CSRFToken": csrfToken.data.csrfToken,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log("Checkout session created:", response);
+    return stripe.value.redirectToCheckout({
+      sessionId: response.data.sessionId,
+    });
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+  }
+};
+
+onMounted(async () => {
   fetchStores();
+  currentUser.value = await getCurrentUserData();
+  console.log("currentUser:", currentUser.value);
+  const stripePubKey = await getStripePubKey();
+  stripe.value = Stripe(stripePubKey);
 });
 </script>
