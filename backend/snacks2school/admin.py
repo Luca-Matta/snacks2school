@@ -19,6 +19,12 @@ class SnackAdmin(admin.ModelAdmin):
     readonly_fields = ('gross_price',)
 
 
+class DrinkAdmin(admin.ModelAdmin):
+    list_display = ('name', 'date', 'seller', 'net_price', 'gross_price')
+    search_fields = ('name', 'seller__username')
+    readonly_fields = ('gross_price',)
+
+
 class CalendarAdmin(admin.ModelAdmin):
     list_display = ('user', 'week_start_date')
     search_fields = ('user__username',)
@@ -47,5 +53,6 @@ class OrderAdmin(admin.ModelAdmin):
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Snack, SnackAdmin)
+admin.site.register(Drink, DrinkAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Order, OrderAdmin)

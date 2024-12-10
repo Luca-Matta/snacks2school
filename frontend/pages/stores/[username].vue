@@ -66,7 +66,7 @@
             />
           </div> -->
           <h1 class="font-bold text-5xl mb-2">
-            Catalogo / <span class="text-brown">Sfoglia i prodotti</span>
+            Catalogo / <span class="text-brown">Merende</span>
           </h1>
         </div>
         <div class="flex flex-wrap justify-center items-center gap-12 py-6">
@@ -102,6 +102,48 @@
                   </div>
                   <p>Allergeni</p>
                   <p class="text-sm">{{ snack.gross_price }}€</p>
+                </div>
+                <p class="text-xs opacity-80"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="font-bold text-5xl mt-12 mb-2">
+          Catalogo / <span class="text-brown">Bevande</span>
+        </h1>
+        <div class="flex flex-wrap justify-center items-center gap-12 py-6">
+          <div v-for="drink in singleStoreDrinks" :key="drink">
+            <div
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-64 w-60 p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
+            >
+              <div class="flex justify-center items-center">
+                <img
+                  :src="drink.image"
+                  alt="snack"
+                  class="bg-center bg-contain bg-no-repeat h-20 w-20"
+                />
+              </div>
+              <div class="flex flex-col justify-center items-center">
+                <div class="flex flex-col items-center justify-center">
+                  <p class="font-bold text-center text-sm mt-2">
+                    {{ drink.name }}
+                  </p>
+                  <!-- <div class="flex gap-1">
+                    <div
+                      v-for="(ingredient, index) in snack.ingredients"
+                      :key="index"
+                      class="py-2"
+                    >
+                      <img
+                        :src="ingredient.image"
+                        :alt="ingredient.name"
+                        :title="ingredient.name"
+                        class="bg-center bg-contain bg-no-repeat h-6 w-6"
+                      />
+                    </div>
+                  </div> -->
+                  <p class="text-sm">{{ drink.gross_price }}€</p>
                 </div>
                 <p class="text-xs opacity-80"></p>
               </div>
@@ -151,7 +193,18 @@ interface Snack {
   seller: Store;
 }
 
+interface Drink {
+  id: number;
+  name: string;
+  date: string;
+  price: number;
+  image: string;
+  ingredients: Ingredient[];
+  seller: Store;
+}
+
 const singleStoreSnacks = ref<Snack[]>([]);
+const singleStoreDrinks = ref<Drink[]>([]);
 
 const fetchSingleStoreSnacks = async (username: string) => {
   try {
@@ -165,9 +218,22 @@ const fetchSingleStoreSnacks = async (username: string) => {
   }
 };
 
+const fetchSingleStoreDrinks = async (username: string) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/drinks/?username=${username}`
+    );
+    singleStoreDrinks.value = response.data;
+    console.log("Snacks fetched:", singleStoreDrinks.value);
+  } catch (error) {
+    console.error("Error fetching snack data:", error);
+  }
+};
+
 onMounted(async () => {
   if (username) {
     fetchSingleStoreSnacks(username);
+    fetchSingleStoreDrinks(username);
   } else {
     console.error("Username is not available");
   }

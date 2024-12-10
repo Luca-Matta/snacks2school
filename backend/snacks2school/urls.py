@@ -11,6 +11,7 @@ urlpatterns = [
     path('current-user-data/', CurrentUserData.as_view(), name='current-user-data'),
     path('user/calendar/', UserCalendar.as_view(), name='user-calendar'),
     path('snacks/', SnackList.as_view(), name='snack-list'),
+    path('drinks/', DrinkList.as_view(), name='drink-list'),
     path('v1/stripe/stripe-pub-key/', StripeAPIKey.as_view(), name='stripe-key'),
     path('v1/stripe/create-checkout-session/', CreateCheckoutSession.as_view(), name='create-checkout-session'),
     path('stripe/webhook/', StripeWebhook.as_view(), name='stripe-webhook'),

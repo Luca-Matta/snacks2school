@@ -155,6 +155,16 @@ class SnackList(generics.ListAPIView):
         if username:
             return Snack.objects.filter(seller__username=username).prefetch_related('ingredients')
         return Snack.objects.none()
+
+
+class DrinkList(generics.ListAPIView):
+    serializer_class = SnackSerializer
+
+    def get_queryset(self):
+        username = self.request.query_params.get('username')
+        if username:
+            return Drink.objects.filter(seller__username=username).prefetch_related('ingredients')
+        return Drink.objects.none()
     
 
 class StripeAPIKey(APIView):

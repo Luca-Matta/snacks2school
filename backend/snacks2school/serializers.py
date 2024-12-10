@@ -55,6 +55,15 @@ class SnackSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DrinkSerializer(serializers.ModelSerializer):
+    seller = UserSerializer()
+    ingredients = IngredientSerializer(many=True)
+
+    class Meta:
+        model = Snack
+        fields = '__all__'
+
+
 class CalendarSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 

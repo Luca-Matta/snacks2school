@@ -56,11 +56,29 @@ class Ingredient(models.Model):
 class Snack(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='snacks', null=True, blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='snack_seller', null=True, blank=True)
     net_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     gross_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     image = models.ImageField(upload_to='snack_images/', null=True, blank=True)
-    ingredients = models.ManyToManyField(Ingredient, related_name='snacks', null=True, blank=True)
+    ingredients = models.ManyToManyField(Ingredient, related_name='snack_ingredients', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.net_price is not None:
+            self.gross_price = self.net_price * Decimal('1.15')
+        super().save(*args, **kwargs)
+
+
+class Drink(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='drink_seller', null=True, blank=True)
+    net_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    gross_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    image = models.ImageField(upload_to='snack_images/', null=True, blank=True)
+    ingredients = models.ManyToManyField(Ingredient, related_name='drink_ingredients', null=True, blank=True)
 
     def __str__(self):
         return self.name
