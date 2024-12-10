@@ -70,9 +70,7 @@
       </div>
       <div v-else class="flex items-center gap-3">
         <nuxt-link to="/login">
-          <button class="btn bg-yellow text-white px-4 py-2 rounded-md">
-            Accedi
-          </button>
+          <button class="btn bg-yellow px-4 py-2 rounded-md">Accedi</button>
         </nuxt-link>
         <nuxt-link to="/signup">
           <button class="btn bg-black text-white px-4 py-2 rounded-md">

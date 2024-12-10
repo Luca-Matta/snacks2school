@@ -9,7 +9,7 @@
       </h1>
       <nuxt-link
         to="/"
-        class="btn bg-yellow font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
+        class="btn bg-yellow font-bold uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
         >Ordina una merenda</nuxt-link
       >
     </div>

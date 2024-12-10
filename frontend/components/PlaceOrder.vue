@@ -149,7 +149,7 @@
         </button>
         <button
           @click="placeOrder"
-          class="btn bg-yellow w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
+          class="btn bg-yellow w-full font-bold uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
         >
           Ordina
         </button>

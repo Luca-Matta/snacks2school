@@ -102,7 +102,7 @@
           <div class="text-center">
             <button
               type="submit"
-              class="btn bg-yellow w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
+              class="btn bg-yellow w-full font-bold uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
             >
               Registrati
             </button>
