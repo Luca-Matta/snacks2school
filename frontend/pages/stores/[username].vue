@@ -55,19 +55,24 @@
       class="flex flex-col justify-center items-center max-w-screen-xl mx-auto py-12"
     >
       <div class="flex flex-col justify-center items-center py-8 gap-4">
-        <div class="max-w-screen-xl mx-auto">
-          <div class="w-full h-auto px-4" autoplay muted>
+        <div
+          class="flex flex-col justify-center items-center max-w-screen-xl mx-auto"
+        >
+          <!-- <div class="w-full h-auto px-4" autoplay muted>
             <img
               src="../../static/store-menu.png"
               alt="Menu"
               class="bg-center bg-contain bg-no-repeat"
             />
-          </div>
+          </div> -->
+          <h1 class="font-bold text-5xl mb-2">
+            Catalogo / <span class="text-brown">Sfoglia i prodotti</span>
+          </h1>
         </div>
         <div class="flex flex-wrap justify-center items-center gap-12 py-6">
           <div v-for="snack in singleStoreSnacks" :key="snack">
             <div
-              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-64 w-60 p-6 cursor-pointer outline outline-2 outline-yellow outline-offset-4"
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-64 w-60 p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
             >
               <div class="flex justify-center items-center">
                 <img
@@ -81,20 +86,22 @@
                   <p class="font-bold text-center text-sm mt-2">
                     {{ snack.name }}
                   </p>
-                  <div
-                    v-for="(ingredient, index) in snack.ingredients"
-                    :key="index"
-                    class="py-2"
-                  >
-                    <img
-                      :src="ingredient.image"
-                      :alt="ingredient.name"
-                      :title="ingredient.name"
-                      class="bg-center bg-contain bg-no-repeat h-6 w-6"
-                    />
+                  <div class="flex gap-1">
+                    <div
+                      v-for="(ingredient, index) in snack.ingredients"
+                      :key="index"
+                      class="py-2"
+                    >
+                      <img
+                        :src="ingredient.image"
+                        :alt="ingredient.name"
+                        :title="ingredient.name"
+                        class="bg-center bg-contain bg-no-repeat h-6 w-6"
+                      />
+                    </div>
                   </div>
                   <p>Allergeni</p>
-                  <p class="text-sm">{{ snack.price }}€</p>
+                  <p class="text-sm">{{ snack.gross_price }}€</p>
                 </div>
                 <p class="text-xs opacity-80"></p>
               </div>
@@ -107,11 +114,13 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const route = useRoute();
+const router = useRouter();
+const state = router.options.history.state;
 const { first_name, last_name, profile_picture, location, bio } = route.query;
 const username = route.params.username;
 
@@ -123,7 +132,7 @@ interface Store {
   first_name: string;
   last_name: string;
   location: string;
-  profile_picture: string;
+  // profile_picture: string;
   bio: string;
 }
 
@@ -144,27 +153,10 @@ interface Snack {
 
 const singleStoreSnacks = ref<Snack[]>([]);
 
-const fetchStoreId = async (username: string) => {
+const fetchSingleStoreSnacks = async (username: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/stores/?username=${username}`
-    );
-    if (response.data.length > 0) {
-      return response.data[0].id;
-    } else {
-      console.error("Store not found for username:", username);
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching store ID:", error);
-    return null;
-  }
-};
-
-const fetchSingleStoreSnacks = async (storeId: number) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:8000/api/snacks/?store_id=${storeId}`
+      `http://localhost:8000/api/snacks/?username=${username}`
     );
     singleStoreSnacks.value = response.data;
     console.log("Snacks fetched:", singleStoreSnacks.value);
@@ -175,10 +167,7 @@ const fetchSingleStoreSnacks = async (storeId: number) => {
 
 onMounted(async () => {
   if (username) {
-    const storeId = await fetchStoreId(username);
-    if (storeId) {
-      fetchSingleStoreSnacks(storeId);
-    }
+    fetchSingleStoreSnacks(username);
   } else {
     console.error("Username is not available");
   }

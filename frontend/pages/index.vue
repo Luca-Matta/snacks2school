@@ -229,10 +229,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import { checkAuthStatus } from "../utils/auth";
 
-interface User {
+interface Store {
   id: number;
   username: string;
   first_name: string;
@@ -243,9 +244,9 @@ interface User {
 }
 
 const isAuthenticated = ref<boolean>(false);
-const currentUserData = ref<User | null>(null);
+const currentUserData = ref<Store | null>(null);
 
-const stores = ref<User[]>([]);
+const stores = ref<Store[]>([]);
 
 import healthIcon from "@/assets/icons/health.svg";
 import comfortIcon from "@/assets/icons/comfort.svg";
@@ -355,6 +356,23 @@ const chargeCreditWallet = async () => {
   } catch (error) {
     console.error("Error creating checkout session:", error);
   }
+};
+
+const router = useRouter();
+
+const navigateToStore = (store: Store) => {
+  router.push({
+    name: "stores-username",
+    params: { username: store.username },
+    state: {
+      id: store.id,
+      first_name: store.first_name,
+      last_name: store.last_name,
+      profile_picture: store.profile_picture,
+      location: store.location,
+      bio: store.bio,
+    },
+  });
 };
 
 onMounted(async () => {

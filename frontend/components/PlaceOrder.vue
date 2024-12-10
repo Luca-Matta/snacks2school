@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isVisible"
-    class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center"
+    class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-30"
   >
     <div
       class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-96"
@@ -32,7 +32,7 @@
           @click="toggleStoresDropdown"
           class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
         >
-          <span class="text-sm opacity-80">{{
+          <span class="text-xs font-bold opacity-80">{{
             selectedStore
               ? selectedStore.first_name + " " + selectedStore.last_name
               : "Scegli lo store..."
@@ -65,7 +65,7 @@
               v-for="(store, index) in stores"
               :key="index"
               @click="selectStore(store)"
-              class="cursor-pointer px-4 py-2 hover:bg-gray-200"
+              class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
             >
               {{ store.first_name }} {{ store.last_name }}
             </li>
@@ -75,29 +75,42 @@
       <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
         <div
           @click="toggleSnacksDropdown"
-          class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
+          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
         >
-          <span class="text-sm opacity-80">{{
-            selectedSnack ? selectedSnack.name : "Snacks disponibili..."
-          }}</span>
-          <svg
-            :class="{
-              'rotate-180': snacksDropdownOpen,
-              'transition-transform': true,
-            }"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            class="w-5 h-5 text-gray-700"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7"
+          <div class="flex items-center gap-2">
+            <img
+              v-if="selectedSnack"
+              :src="selectedSnack.image"
+              alt="snack"
+              class="bg-center bg-contain bg-no-repeat h-7 w-7"
             />
-          </svg>
+            <span class="text-xs font-bold opacity-80">{{
+              selectedSnack ? selectedSnack.name : "Snacks disponibili..."
+            }}</span>
+            <span v-if="selectedSnack" class="text-xs opacity-80 mr-2"
+              >€{{ selectedSnack.gross_price }}</span
+            >
+          </div>
+          <div>
+            <svg
+              :class="{
+                'rotate-180': snacksDropdownOpen,
+                'transition-transform': true,
+              }"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              class="w-5 h-5 text-gray-700"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
         </div>
         <div
           v-if="snacksDropdownOpen"
@@ -108,9 +121,21 @@
               v-for="(snack, index) in snacks"
               :key="index"
               @click="selectSnack(snack)"
-              class="cursor-pointer px-4 py-2 hover:bg-gray-200"
+              class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
             >
-              {{ snack.name }} <span class="text-sm">€{{ snack.price }}</span>
+              <div class="flex gap-2 mr-4">
+                <div class="flex justify-center items-center">
+                  <img
+                    :src="snack.image"
+                    alt="snack"
+                    class="bg-center bg-contain bg-no-repeat h-7 w-7"
+                  />
+                </div>
+                <div class="text-xs font-bold">
+                  {{ snack.name }}
+                </div>
+              </div>
+              <div class="text-xs">€{{ snack.gross_price }}</div>
             </li>
           </ul>
         </div>
@@ -159,7 +184,7 @@ interface Snack {
   id: number;
   name: string;
   date: string;
-  price: number;
+  gross_price: number;
   seller: Store;
 }
 
@@ -179,10 +204,10 @@ const fetchStores = async () => {
   }
 };
 
-const fetchSnacks = async (storeId: number) => {
+const fetchSnacks = async (username: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/snacks/?store_id=${storeId}`
+      `http://localhost:8000/api/snacks/?username=${username}`
     );
     snacks.value = response.data;
     console.log("Snacks fetched:", snacks.value);
@@ -198,7 +223,7 @@ const toggleStoresDropdown = () => {
 const selectStore = (store: Store) => {
   selectedStore.value = store;
   storesDropdownOpen.value = false;
-  fetchSnacks(store.id);
+  fetchSnacks(store.username);
 };
 
 const toggleSnacksDropdown = () => {

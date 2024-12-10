@@ -14,8 +14,9 @@ class IngredientAdmin(admin.ModelAdmin):
 
 
 class SnackAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date', 'seller')
+    list_display = ('name', 'date', 'seller', 'net_price', 'gross_price')
     search_fields = ('name', 'seller__username')
+    readonly_fields = ('gross_price',)
 
 
 class CalendarAdmin(admin.ModelAdmin):

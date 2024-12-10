@@ -14,8 +14,9 @@ from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime, timedelta
 from django.conf import settings
+import logging
 
-
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
@@ -121,10 +122,12 @@ class CurrentUserData(APIView):
 
 
 class UserCalendar(APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
+        if user.is_anonymous:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+
         today = datetime.today().date()
         start_of_week = today - timedelta(days=today.weekday())
         calendar = Calendar.objects.filter(user=user, week_start_date=start_of_week).first()
@@ -148,9 +151,9 @@ class SnackList(generics.ListAPIView):
     serializer_class = SnackSerializer
 
     def get_queryset(self):
-        store_id = self.request.query_params.get('store_id')
-        if store_id:
-            return Snack.objects.filter(seller_id=store_id).prefetch_related('ingredients')
+        username = self.request.query_params.get('username')
+        if username:
+            return Snack.objects.filter(seller__username=username).prefetch_related('ingredients')
         return Snack.objects.none()
     
 
@@ -221,11 +224,6 @@ class CreateCheckoutSession(APIView):
             print('Error creating checkout session:', str(e))
             return JsonResponse({'error': str(e)}, status=500)
 
-        
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class StripeWebhook(APIView):

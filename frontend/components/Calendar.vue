@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Desktop View -->
     <div class="hidden md:flex flex-wrap justify-center items-center gap-8">
       <div
         v-for="(content, day) in days"
@@ -22,7 +21,6 @@
       </div>
     </div>
 
-    <!-- Mobile View -->
     <div class="md:hidden -mt-8">
       <Slider :slides="calendarSlides">
         <template #default="{ slide }">
@@ -58,10 +56,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import axios from "axios";
 import Slider from "@/components/Slider.vue";
 import PlaceOrder from "@/components/PlaceOrder.vue";
-import hamburgerIcon from "../assets/icons/hamburger.svg";
+import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
+import axios from "axios";
 
 const days = ref({
   LUNEDÌ: null,
@@ -72,20 +70,32 @@ const days = ref({
   SABATO: null,
 });
 
+const currentUser = ref<any>(null);
 const calendarSlides = ref([]);
 const isVisible = ref(false);
 const selectedDay = ref("");
 
+const getCsrfToken = async () => {
+  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
+    withCredentials: true,
+  });
+  return response.data.csrfToken;
+};
+
 const fetchUserCalendar = async () => {
   try {
-    const response = await axios.get("/user/calendar/");
+    const response = await axios.get(
+      "http://localhost:8000/api/user/calendar/"
+    );
     const calendarData = response.data.snacks_for_week;
+    console.log("Fetched calendar data:", calendarData);
     for (const [date, snacks] of Object.entries(calendarData)) {
       const dayName = new Date(date)
         .toLocaleDateString("it-IT", { weekday: "long" })
         .toUpperCase();
       days.value[dayName] = snacks.length > 0 ? "hamburger" : null;
     }
+    console.log("Processed days object:", days.value);
     updateCalendarSlides();
   } catch (error) {
     console.error("Error fetching user calendar:", error);
@@ -120,7 +130,8 @@ const handleOrder = (day: string) => {
   close();
 };
 
-onMounted(() => {
+onMounted(async () => {
+  currentUser.value = await getCurrentUserData();
   fetchUserCalendar();
 });
 </script>
