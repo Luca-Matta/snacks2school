@@ -364,8 +364,8 @@ const getCsrfToken = async () => {
 };
 
 const placeOrder = async () => {
-  if (!selectedStore.value || !selectedSnack.value) {
-    console.error("Store and Snack must be selected");
+  if (!selectedStore.value || (!selectedSnack.value && !selectedDrink.value)) {
+    console.error("Store, Snack, and Drink must be selected");
     return;
   }
   const csrfToken = await getCsrfToken();
@@ -376,6 +376,7 @@ const placeOrder = async () => {
       {
         seller_id: selectedStore.value.id,
         snack_id: selectedSnack.value.id,
+        drink_id: selectedDrink.value.id,
       },
       {
         headers: {

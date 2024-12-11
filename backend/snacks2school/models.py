@@ -93,13 +93,20 @@ class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders_as_customer', null=True, blank=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders_as_seller', null=True, blank=True)
     snack = models.ForeignKey(Snack, on_delete=models.CASCADE, null=True, blank=True)
+    drink = models.ForeignKey(Drink, on_delete=models.CASCADE, null=True, blank=True)
     snack_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    drink_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    total_price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     order_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f"Order by {self.customer.username} from {self.seller.username} for {self.snack.name}"
+        return f"Order by {self.customer.username} from {self.seller.username} for {self.snack.name} and {self.drink.name}"
     
     def save(self, *args, **kwargs):
+        if self.snack and self.drink:
+            self.snack_price = self.snack.gross_price
+            self.drink_price = self.drink.gross_price
+            self.total_price = self.snack_price + self.drink_price
         super().save(*args, **kwargs)
         if self.customer and self.order_date:
             start_of_week = self.order_date - timedelta(days=self.order_date.weekday())

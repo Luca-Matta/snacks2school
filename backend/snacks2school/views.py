@@ -181,21 +181,31 @@ class CreateOrder(APIView):
         customer = request.user
         seller_id = request.data.get('seller_id')
         snack_id = request.data.get('snack_id')
+        drink_id = request.data.get('drink_id')
         order_date = datetime.now().date()
 
-        if not seller_id or not snack_id:
-            return Response({'error': 'Seller and Snack are required'}, status=status.HTTP_400_BAD_REQUEST)
+        if not seller_id or (not snack_id and not drink_id):
+            return Response({'error': 'Seller and at least one of Snack or Drink are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             seller = User.objects.get(id=seller_id)
-            snack = Snack.objects.get(id=snack_id)
+            snack = Snack.objects.get(id=snack_id) if snack_id else None
+            drink = Drink.objects.get(id=drink_id) if drink_id else None
         except User.DoesNotExist:
             return Response({'error': 'Seller not found'}, status=status.HTTP_404_NOT_FOUND)
         except Snack.DoesNotExist:
             return Response({'error': 'Snack not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Drink.DoesNotExist:
+            return Response({'error': 'Drink not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        order = Order(customer=customer, seller=seller, snack=snack, order_date=order_date)
+        order = Order(customer=customer, seller=seller, snack=snack, drink=drink, order_date=order_date)
         order.save()
+
+        if order.total_price and customer.credit_wallet_amount >= order.total_price:
+            customer.credit_wallet_amount -= order.total_price
+            customer.save()
+        else:
+            return Response({'error': 'Insufficient funds in credit wallet'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
