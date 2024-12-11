@@ -75,7 +75,7 @@
       <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
         <div
           @click="toggleSnacksDropdown"
-          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
+          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white gap-2"
         >
           <div class="flex items-center gap-2">
             <img
@@ -87,11 +87,11 @@
             <span class="text-xs font-bold opacity-80">{{
               selectedSnack ? selectedSnack.name : "Snacks disponibili..."
             }}</span>
+          </div>
+          <div class="flex items-center gap-2">
             <span v-if="selectedSnack" class="text-xs opacity-80 mr-2"
               >€{{ selectedSnack.gross_price }}</span
             >
-          </div>
-          <div>
             <svg
               :class="{
                 'rotate-180': snacksDropdownOpen,
@@ -123,7 +123,7 @@
               @click="selectSnack(snack)"
               class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
             >
-              <div class="flex gap-2 mr-4">
+              <div class="flex items-center gap-2 mr-4">
                 <div class="flex justify-center items-center">
                   <img
                     :src="snack.image"
@@ -140,29 +140,32 @@
           </ul>
         </div>
       </div>
-      <h6 class="text-sm text-center font-bold mt-3">
+      <h6
+        v-if="userHasCredit && drinks.length"
+        class="text-sm text-center font-bold mt-3"
+      >
         Vuoi ordinare una bevanda?
       </h6>
-      <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
+      <div v-if="userHasCredit && drinks.length" class="mb-1 mt-4 relative">
         <div
           @click="toggleDrinksDropdown"
-          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
+          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white gap-2"
         >
           <div class="flex items-center gap-2">
             <img
               v-if="selectedDrink"
               :src="selectedDrink.image"
-              alt="snack"
+              alt="drink"
               class="bg-center bg-contain bg-no-repeat h-7 w-7"
             />
             <span class="text-xs font-bold opacity-80">{{
               selectedDrink ? selectedDrink.name : "Bevande disponibili..."
             }}</span>
+          </div>
+          <div class="flex items-center gap-2">
             <span v-if="selectedDrink" class="text-xs opacity-80 mr-2"
               >€{{ selectedDrink.gross_price }}</span
             >
-          </div>
-          <div>
             <svg
               :class="{
                 'rotate-180': drinksDropdownOpen,
@@ -194,7 +197,7 @@
               @click="selectDrink(drink)"
               class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
             >
-              <div class="flex gap-2 mr-4">
+              <div class="flex items-center gap-2 mr-4">
                 <div class="flex justify-center items-center">
                   <img
                     :src="drink.image"
@@ -211,7 +214,10 @@
           </ul>
         </div>
       </div>
-      <h6 class="text-xs text-center mt-3">
+      <h6
+        v-if="selectedSnack || selectedDrink"
+        class="text-xs text-center mt-3"
+      >
         <span class="text-sm font-bold">Totale:</span> €{{
           (
             (selectedSnack ? parseFloat(selectedSnack.gross_price) : 0) +
