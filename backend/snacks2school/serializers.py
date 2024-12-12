@@ -60,22 +60,32 @@ class DrinkSerializer(serializers.ModelSerializer):
     ingredients = IngredientSerializer(many=True)
 
     class Meta:
-        model = Snack
+        model = Drink
         fields = '__all__'
+
+
+class CalendarDaySerializer(serializers.ModelSerializer):
+    snacks = SnackSerializer(many=True)
+    drinks = DrinkSerializer(many=True)
+
+    class Meta:
+        model = CalendarDay
+        fields = ['date', 'snacks', 'drinks']
 
 
 class CalendarSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    days = CalendarDaySerializer(many=True, source='days.all')
 
     class Meta:
         model = Calendar
-        fields = '__all__'
+        fields = ['week_start_date', 'days']
 
 
 class OrderSerializer(serializers.ModelSerializer):
     customer = UserSerializer()
     seller = UserSerializer()
     snack = SnackSerializer()
+    drink = DrinkSerializer()
 
     class Meta:
         model = Order

@@ -13,8 +13,10 @@ from django.utils.decorators import method_decorator
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime, timedelta
+from django.utils import timezone
 from django.conf import settings
 import logging
+from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -113,28 +115,40 @@ class Logout(APIView):
 
 
 class CurrentUserData(APIView):
-    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user = request.user
-        serializer = CurrentUserDataSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if not request.user.is_authenticated:
+            return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = CurrentUserDataSerializer(request.user)
+        return Response(serializer.data)
 
 
 class UserCalendar(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
-        if user.is_anonymous:
-            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
 
         today = datetime.today().date()
         start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        
         calendar = Calendar.objects.filter(user=user, week_start_date=start_of_week).first()
         
         if calendar:
-            serializer = CalendarSerializer(calendar)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            week_days = CalendarDay.objects.filter(calendar=calendar, date__range=[start_of_week, end_of_week]).order_by('date')
+            data = {
+                'week_days': [
+                    {
+                        'date': day.date,
+                        'snacks': [{'name': snack.name} for snack in day.snacks.all()],
+                        'drinks': [{'name': drink.name} for drink in day.drinks.all()]
+                    }
+                    for day in week_days
+                ]
+            }
+            return Response(data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Calendar not found'}, status=status.HTTP_404_NOT_FOUND)
         
@@ -182,6 +196,7 @@ class CreateOrder(APIView):
         seller_id = request.data.get('seller_id')
         snack_id = request.data.get('snack_id')
         drink_id = request.data.get('drink_id')
+        delivery_date = request.data.get('selected_date')
         order_date = datetime.now().date()
 
         if not seller_id or (not snack_id and not drink_id):
@@ -198,7 +213,27 @@ class CreateOrder(APIView):
         except Drink.DoesNotExist:
             return Response({'error': 'Drink not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        order = Order(customer=customer, seller=seller, snack=snack, drink=drink, order_date=order_date)
+        today = date.today()
+        start_of_week = today - timedelta(days=today.weekday())
+        calendar, created = Calendar.objects.get_or_create(user=customer, week_start_date=start_of_week)
+
+        calendar_day, created = CalendarDay.objects.get_or_create(calendar=calendar, date=delivery_date)
+
+        if snack:
+            calendar_day.snacks.add(snack)
+        if drink:
+            calendar_day.drinks.add(drink)
+        calendar_day.save()
+
+        order = Order(
+            customer=customer,
+            seller=seller,
+            snack=snack,
+            drink=drink,
+            order_date=order_date,
+            delivery_date=delivery_date,
+            calendar=calendar
+        )
         order.save()
 
         if order.total_price and customer.credit_wallet_amount >= order.total_price:
@@ -208,7 +243,52 @@ class CreateOrder(APIView):
             return Response({'error': 'Insufficient funds in credit wallet'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = OrderSerializer(order)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)   
+
+
+def get_current_week():
+    today = datetime.today().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=5)
+    return start_of_week, end_of_week
+
+
+class WeeklyCalendar(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        start_of_week, end_of_week = get_current_week()
+
+        calendar, created = Calendar.objects.get_or_create(
+            user=user, week_start_date=start_of_week
+        )
+
+        for i in range(6):
+            day_date = start_of_week + timedelta(days=i)
+            CalendarDay.objects.get_or_create(calendar=calendar, date=day_date)
+
+        delivery_date = request.query_params.get('delivery_date')
+
+        if delivery_date:
+            delivery_date = datetime.strptime(delivery_date, '%Y-%m-%d').date()
+
+            CalendarDay.objects.get_or_create(calendar=calendar, date=delivery_date)
+
+        serializer = CalendarSerializer(calendar)
+        return Response(serializer.data)
+
+
+class OrderList(generics.ListAPIView):
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        today = timezone.now().date()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=5)
+
+        return Order.objects.filter(customer=user, order_date__range=[start_of_week, end_of_week])
     
 
 class CreateCheckoutSession(APIView):
@@ -216,13 +296,11 @@ class CreateCheckoutSession(APIView):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         price_id = settings.STRIPE_PRICE_ID_WALLET_CHARGE
 
-        # Debugging: Print user ID
         print('Creating checkout session for user:', request.user.id)
 
         try:
             checkout_session = stripe.checkout.Session.create(
                 client_reference_id=str(request.user.id),
-                # success_url=settings.FRONTEND_WEBSITE_SUCCESS_URL,
                 success_url='%s?session_id={CHECKOUT_SESSION_ID}' % settings.FRONTEND_WEBSITE_SUCCESS_URL,
                 cancel_url='%s' % settings.FRONTEND_WEBSITE_CANCEL_URL,
                 payment_method_types=['card'],
@@ -234,13 +312,11 @@ class CreateCheckoutSession(APIView):
                     }
                 ]
             )
-            # Debugging: Print session ID and client reference ID
             print('Checkout session created with session ID:', checkout_session['id'])
             print('Client reference ID:', checkout_session['client_reference_id'])
 
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
-            # Debugging: Print error
             print('Error creating checkout session:', str(e))
             return JsonResponse({'error': str(e)}, status=500)
 

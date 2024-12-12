@@ -27,22 +27,33 @@ class User(AbstractUser):
     
 
 class Calendar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendars', null=True, blank=True)
     week_start_date = models.DateField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"Calendar for {self.user.username} starting {self.week_start_date}"
+        return f"Calendar for week starting {self.week_start_date}"
 
-    def get_week_days(self):
-        if self.week_start_date is None:
-            return []
-        start_of_week = self.week_start_date - timedelta(days=self.week_start_date.weekday())
-        return [start_of_week + timedelta(days=i) for i in range(7)]
 
-    def get_snacks_for_week(self):
-        week_days = self.get_week_days()
-        snacks_by_day = {day: Snack.objects.filter(date=day, seller=self.user) for day in week_days}
-        return snacks_by_day
+class CalendarDay(models.Model):
+    calendar = models.ForeignKey(Calendar, related_name='days', on_delete=models.CASCADE)
+    date = models.DateField()
+    snacks = models.ManyToManyField('Snack', blank=True)
+    drinks = models.ManyToManyField('Drink', blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['date']),
+            models.Index(fields=['calendar', 'date']),
+        ]
+
+    def __str__(self):
+        return f"{self.date} - {self.calendar.user.username}"
+
+    def get_snacks(self):
+        return self.snacks.all()
+
+    def get_drinks(self):
+        return self.drinks.all()
     
 
 class Ingredient(models.Model):
@@ -98,6 +109,8 @@ class Order(models.Model):
     drink_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     order_date = models.DateField(null=True, blank=True)
+    delivery_date = models.DateField(null=True, blank=True)
+    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
 
     def __str__(self):
         return f"Order by {self.customer.username} from {self.seller.username} for {self.snack.name} and {self.drink.name}"
@@ -108,16 +121,3 @@ class Order(models.Model):
             self.drink_price = self.drink.gross_price
             self.total_price = self.snack_price + self.drink_price
         super().save(*args, **kwargs)
-        if self.customer and self.order_date:
-            start_of_week = self.order_date - timedelta(days=self.order_date.weekday())
-            calendar = Calendar.objects.filter(user=self.customer, week_start_date=start_of_week).first()
-            if calendar:
-                self.snack.date = self.order_date
-                self.snack.seller = self.seller
-                self.snack.save()
-                calendar_snacks = calendar.get_snacks_for_week()
-                if self.order_date in calendar_snacks:
-                    calendar_snacks[self.order_date].append(self.snack)
-                else:
-                    calendar_snacks[self.order_date] = [self.snack]
-                calendar.save()

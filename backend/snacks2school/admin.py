@@ -25,10 +25,15 @@ class DrinkAdmin(admin.ModelAdmin):
     readonly_fields = ('gross_price',)
 
 
+class CalendarDayAdmin(admin.ModelAdmin):
+    list_display = ('calendar', 'date')
+    search_fields = ('calendar__user__username', 'date')
+
+
 class CalendarAdmin(admin.ModelAdmin):
     list_display = ('user', 'week_start_date')
     search_fields = ('user__username',)
-    readonly_fields = ('display_snacks_for_week',)
+    readonly_fields = ('display_snacks_for_week', 'display_drinks_for_week')
 
     def display_snacks_for_week(self, obj):
         snacks_by_day = obj.get_snacks_for_week()
@@ -39,12 +44,22 @@ class CalendarAdmin(admin.ModelAdmin):
                 result += f"  - {snack.name} (Seller: {snack.seller.username})\n"
         return result
 
+    def display_drinks_for_week(self, obj):
+        drinks_by_day = obj.get_drinks_for_week()
+        result = ""
+        for day, drinks in drinks_by_day.items():
+            result += f"{day}:\n"
+            for drink in drinks:
+                result += f"  - {drink.name} (Seller: {drink.seller.username})\n"
+        return result
+
     display_snacks_for_week.short_description = 'Snacks for the Week'
+    display_drinks_for_week.short_description = 'Drinks for the Week'
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'seller', 'snack', 'order_date', 'get_store_name')
-    search_fields = ('customer__username', 'seller__username', 'snack__name', 'seller__store_name')
+    list_display = ('customer', 'seller', 'snack', 'drink', 'order_date', 'get_store_name')
+    search_fields = ('customer__username', 'seller__username', 'snack__name', 'drink__name', 'seller__store_name')
 
     def get_store_name(self, obj):
         return obj.seller.store_name
@@ -54,5 +69,6 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Snack, SnackAdmin)
 admin.site.register(Drink, DrinkAdmin)
+admin.site.register(CalendarDay, CalendarDayAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Order, OrderAdmin)

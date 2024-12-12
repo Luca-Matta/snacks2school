@@ -9,9 +9,12 @@
       <h2 class="text-xl text-center font-bold">
         Ordina lo snack del <span class="lowercase">{{ selectedDay }}</span>
       </h2>
-      <div v-if="userHasCredit" class="flex justify-center py-4 text-xs">
+      <div
+        v-if="userHasCredit"
+        class="flex justify-center text-center py-4 text-xs"
+      >
         Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
-        credito
+        credito <br />// Condition: if not enough money => charge (not order)
       </div>
       <div
         v-if="!userHasCredit"
@@ -248,10 +251,18 @@ import { defineProps, defineEmits, onMounted, ref, computed, watch } from "vue";
 import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import axios from "axios";
 
-defineProps({
+const props = defineProps({
   isVisible: Boolean,
   selectedDay: String,
+  selectedDate: String,
 });
+
+watch(
+  () => props.selectedDate,
+  (newDate) => {
+    console.log("Selected date:", newDate);
+  }
+);
 
 const emit = defineEmits(["close", "placeOrder"]);
 
@@ -377,6 +388,7 @@ const placeOrder = async () => {
         seller_id: selectedStore.value.id,
         snack_id: selectedSnack.value.id,
         drink_id: selectedDrink.value.id,
+        selected_date: props.selectedDate,
       },
       {
         headers: {

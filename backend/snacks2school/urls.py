@@ -9,11 +9,12 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
     path('current-user-data/', CurrentUserData.as_view(), name='current-user-data'),
-    path('user/calendar/', UserCalendar.as_view(), name='user-calendar'),
+    path('calendar/week/', WeeklyCalendar.as_view(), name='user_calendar'),
     path('snacks/', SnackList.as_view(), name='snack-list'),
     path('drinks/', DrinkList.as_view(), name='drink-list'),
     path('v1/stripe/stripe-pub-key/', StripeAPIKey.as_view(), name='stripe-key'),
     path('v1/stripe/create-checkout-session/', CreateCheckoutSession.as_view(), name='create-checkout-session'),
     path('stripe/webhook/', StripeWebhook.as_view(), name='stripe-webhook'),
     path('create-order/', CreateOrder.as_view(), name='create-order'),
+    path('orders/', OrderList.as_view(), name='order-list'),
 ]

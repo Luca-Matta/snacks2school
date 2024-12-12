@@ -1,53 +1,53 @@
 <template>
   <div>
     <div class="hidden md:flex flex-wrap justify-center items-center gap-8">
-      <div
-        v-for="(content, day) in days"
-        :key="day"
-        class="flex flex-col justify-center items-center gap-3"
-      >
-        <div class="text-xl font-bold">{{ day }}</div>
+      <div v-for="(dayData, dayName) in days" :key="dayName">
+        <h3 class="text-xl font-bold mb-3 text-center">{{ dayName }}</h3>
         <div
           class="flex flex-col justify-center items-center text-center h-40 w-40 rounded-xl outline outline-4 outline-brown outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
-          :class="content ? 'bg-brown' : 'bg-gray-100'"
-          @click="open(day)"
+          @click="open(dayName, dayData.date)"
         >
-          <div v-if="content" class="svg-icon">
-            <img :src="hamburgerIcon" alt="Hamburger Icon" class="h-16 w-16" />
+          <div
+            v-if="dayData.snacks.length === 0 && dayData.drinks.length === 0"
+          >
+            <p class="font-bold">Nessuna merenda</p>
+            <p class="text-brown font-bold">Ordina ora</p>
           </div>
-          <div v-else class="font-bold">Nessuna merenda</div>
-          <div v-if="!content" class="text-brown font-bold">Ordina ora</div>
+          <div v-else class="flex flex-col justify-center items-center gap-2">
+            <div
+              v-if="dayData.snacks.length > 0"
+              class="flex justify-center items-center"
+            >
+              <div v-for="snack in dayData.snacks" :key="snack.id">
+                <img
+                  :src="getImageUrl(snack.image)"
+                  :alt="snack.name"
+                  class="h-7 w-7"
+                />
+              </div>
+            </div>
+            <div
+              v-if="dayData.drinks.length > 0"
+              class="flex justify-center items-center"
+            >
+              <div v-for="drink in dayData.drinks" :key="drink.id">
+                <img
+                  :src="getImageUrl(drink.image)"
+                  :alt="drink.name"
+                  class="h-7 w-7"
+                />
+              </div>
+            </div>
+            <div class="text-xs mt-1">Vuoi cambiare qualcosa?</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="md:hidden -mt-8">
-      <Slider :slides="calendarSlides">
-        <template #default="{ slide }">
-          <div class="flex flex-col justify-center items-center gap-3">
-            <div class="text-xl font-bold">{{ slide.title }}</div>
-            <div :class="slide.class" @click="open(slide.title)">
-              <div v-if="slide.imgSrc" class="svg-icon">
-                <img
-                  :src="slide.imgSrc"
-                  :alt="slide.imgAlt"
-                  :class="slide.imgClass"
-                />
-              </div>
-              <div v-else class="font-bold">{{ slide.texts[0] }}</div>
-              <div v-if="!slide.imgSrc" class="text-brown font-bold">
-                {{ slide.texts[1] }}
-              </div>
-            </div>
-          </div>
-        </template>
-      </Slider>
-    </div>
-
-    <!-- PlaceOrder Modal -->
     <PlaceOrder
       :isVisible="isVisible"
       :selectedDay="selectedDay"
+      :selectedDate="selectedDate"
       @close="close"
       @placeOrder="handleOrder"
     />
@@ -56,73 +56,90 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import Slider from "@/components/Slider.vue";
-import PlaceOrder from "@/components/PlaceOrder.vue";
-import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import axios from "axios";
 
 const days = ref({
-  LUNEDÌ: null,
-  MARTEDÌ: null,
-  MERCOLEDÌ: null,
-  GIOVEDÌ: null,
-  VENERDÌ: null,
-  SABATO: null,
+  LUNEDÌ: { date: "", snacks: [], drinks: [] },
+  MARTEDÌ: { date: "", snacks: [], drinks: [] },
+  MERCOLEDÌ: { date: "", snacks: [], drinks: [] },
+  GIOVEDÌ: { date: "", snacks: [], drinks: [] },
+  VENERDÌ: { date: "", snacks: [], drinks: [] },
+  SABATO: { date: "", snacks: [], drinks: [] },
 });
 
 const currentUser = ref<any>(null);
-const calendarSlides = ref([]);
-const isVisible = ref(false);
-const selectedDay = ref("");
+const calendarData = ref<any>(null);
+const selectedDay = ref<string>("");
+const selectedDate = ref<string>("");
+const isVisible = ref<boolean>(false);
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
-  return response.data.csrfToken;
+  try {
+    const response = await axios.get("http://localhost:8000/api/csrf-token/", {
+      withCredentials: true,
+    });
+    return response.data.csrfToken;
+  } catch (error) {
+    console.error("Error fetching CSRF token:", error);
+    throw error;
+  }
 };
 
 const fetchUserCalendar = async () => {
   try {
+    const csrfToken = await getCsrfToken();
     const response = await axios.get(
-      "http://localhost:8000/api/user/calendar/"
+      "http://localhost:8000/api/calendar/week/",
+      {
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+        withCredentials: true,
+      }
     );
-    const calendarData = response.data.snacks_for_week;
-    console.log("Fetched calendar data:", calendarData);
-    for (const [date, snacks] of Object.entries(calendarData)) {
-      const dayName = new Date(date)
-        .toLocaleDateString("it-IT", { weekday: "long" })
-        .toUpperCase();
-      days.value[dayName] = snacks.length > 0 ? "hamburger" : null;
+
+    console.log("API response:", response);
+    console.log("API response data:", response.data);
+
+    if (response.data && response.data.days) {
+      calendarData.value = response.data.days;
+      console.log("Fetched calendar data:", calendarData.value);
+
+      for (const day of calendarData.value) {
+        const date = new Date(day.date);
+        const dayName = date
+          .toLocaleDateString("it-IT", { weekday: "long" })
+          .toUpperCase();
+
+        days.value[dayName] = {
+          date: day.date,
+          snacks: day.snacks,
+          drinks: day.drinks,
+        };
+      }
+    } else {
+      console.error("No calendar data found in the response.");
     }
-    console.log("Processed days object:", days.value);
-    updateCalendarSlides();
   } catch (error) {
     console.error("Error fetching user calendar:", error);
   }
 };
 
-const updateCalendarSlides = () => {
-  calendarSlides.value = Object.entries(days.value).map(([day, content]) => ({
-    class:
-      "flex flex-col justify-center items-center text-center h-56 w-56 rounded-xl outline outline-4 outline-brown outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer " +
-      (content ? "bg-brown" : "bg-gray-100"),
-    imgSrc: content ? hamburgerIcon : "",
-    imgAlt: content ? "Hamburger Icon" : "",
-    imgClass: "h-16 w-16",
-    title: day,
-    texts: content ? [] : ["Nessuna merenda", "Ordina ora"],
-  }));
+const getImageUrl = (path) => {
+  const baseUrl = "http://localhost:8000";
+  return `${baseUrl}${path}`;
 };
 
-const open = (day: string) => {
+const open = (day: string, date: string) => {
   selectedDay.value = day;
+  selectedDate.value = date;
   isVisible.value = true;
 };
 
 const close = () => {
   isVisible.value = false;
   selectedDay.value = "";
+  selectedDate.value = "";
 };
 
 const handleOrder = (day: string) => {
