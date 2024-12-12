@@ -382,14 +382,22 @@ const placeOrder = async () => {
   const csrfToken = await getCsrfToken();
 
   try {
+    const payload = {
+      seller_id: selectedStore.value.id,
+      selected_date: props.selectedDate,
+    };
+
+    if (selectedSnack.value) {
+      payload.snack_id = selectedSnack.value.id;
+    }
+
+    if (selectedDrink.value) {
+      payload.drink_id = selectedDrink.value.id;
+    }
+
     const response = await axios.post(
       "http://localhost:8000/api/create-order/",
-      {
-        seller_id: selectedStore.value.id,
-        snack_id: selectedSnack.value.id,
-        drink_id: selectedDrink.value.id,
-        selected_date: props.selectedDate,
-      },
+      payload,
       {
         headers: {
           "X-CSRFToken": csrfToken,
@@ -398,9 +406,11 @@ const placeOrder = async () => {
       }
     );
     console.log("Order placed:", response.data);
-    emit("close");
   } catch (error) {
     console.error("Error placing order:", error);
+  } finally {
+    emit("close");
+    window.location.reload();
   }
 };
 
