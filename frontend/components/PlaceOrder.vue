@@ -14,7 +14,7 @@
         class="flex justify-center text-center py-4 text-xs"
       >
         Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
-        credito <br />// Condition: if not enough money => charge (not order)
+        credito
       </div>
       <div
         v-if="!userHasCredit"
@@ -228,7 +228,10 @@
           ).toFixed(2)
         }}
       </h6>
-      <div v-if="userHasCredit" class="flex justify-center gap-2">
+      <div
+        v-if="userHasCredit && userHasEnoughCredit"
+        class="flex justify-center gap-2"
+      >
         <button
           @click="$emit('close')"
           class="btn bg-black w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
@@ -241,6 +244,23 @@
         >
           Ordina
         </button>
+      </div>
+      <div
+        v-if="!userHasEnoughCredit && userHasCredit"
+        class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
+      >
+        <div class="font-bold underline">
+          Non hai abbastanza denaro sul portafoglio di credito per effettuare
+          l'acquisto
+        </div>
+        <div>
+          <button
+            @click="chargeCreditWallet"
+            class="flex justify-center mx-auto btn bg-yellow uppercase text-black text-xs shadow-button py-3 px-6 rounded-lg"
+          >
+            Ricaricalo e ordina la tua merenda!
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -418,6 +438,14 @@ const currentUser = ref<any>(null);
 
 const userHasCredit = computed(() => {
   return currentUser.value && currentUser.value.credit_wallet_amount > 0;
+});
+
+const userHasEnoughCredit = computed(() => {
+  return (
+    (selectedSnack.value ? parseFloat(selectedSnack.value.gross_price) : 0) +
+      (selectedDrink.value ? parseFloat(selectedDrink.value.gross_price) : 0) <=
+    currentUser.value.credit_wallet_amount
+  );
 });
 
 import axiosInstance from "../utils/axiosInstance";

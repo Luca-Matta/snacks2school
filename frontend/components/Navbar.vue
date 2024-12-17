@@ -25,7 +25,7 @@
           >Contatti</nuxt-link
         >
       </nav>
-      <div v-if="isAuthenticated">
+      <div v-if="currentUser">
         <!-- <img
           :src="`${currentUser?.profile_picture}`"
           alt="Profile Picture"
@@ -134,9 +134,7 @@ const handleLogout = async () => {
 
 onMounted(async () => {
   isAuthenticated.value = await checkAuthStatus();
-  if (isAuthenticated.value) {
-    currentUser.value = await getCurrentUserData();
-    console.log("currentUser:", currentUser.value);
-  }
+  currentUser.value = await getCurrentUserData();
+  console.log("currentUser:", currentUser.value);
 });
 </script>

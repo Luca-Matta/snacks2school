@@ -65,25 +65,29 @@
               class="bg-center bg-contain bg-no-repeat"
             />
           </div> -->
-          <h1 class="font-bold text-5xl mb-2">
+          <h1 class="font-bold text-center text-3xl md:text-5xl mb-2">
             Catalogo / <span class="text-brown">Merende</span>
           </h1>
         </div>
-        <div class="flex flex-wrap justify-center items-center gap-12 py-6">
+        <div
+          class="flex flex-wrap justify-center items-center gap-8 md:gap-12 py-6"
+        >
           <div v-for="snack in singleStoreSnacks" :key="snack">
             <div
-              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-64 w-60 p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-48 md:h-64 w-40 md:w-60 p-2 md:p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
             >
               <div class="flex justify-center items-center">
                 <img
                   :src="snack.image"
                   alt="snack"
-                  class="bg-center bg-contain bg-no-repeat h-20 w-20"
+                  class="bg-center bg-contain bg-no-repeat h-8 md:h-20 w-8 md:w-20"
                 />
               </div>
               <div class="flex flex-col justify-center items-center">
                 <div class="flex flex-col items-center justify-center">
-                  <p class="font-bold text-center text-sm mt-2">
+                  <p
+                    class="font-bold text-center text-xs md:text-sm mt-1 md:mt-2"
+                  >
                     {{ snack.name }}
                   </p>
                   <div class="flex gap-1">
@@ -96,12 +100,14 @@
                         :src="ingredient.image"
                         :alt="ingredient.name"
                         :title="ingredient.name"
-                        class="bg-center bg-contain bg-no-repeat h-6 w-6"
+                        class="bg-center bg-contain bg-no-repeat h-4 md:h-6 w-4 md:w-6"
                       />
                     </div>
                   </div>
                   <p>Allergeni</p>
-                  <p class="text-sm">{{ snack.gross_price }}€</p>
+                  <p class="text-xs md:text-sm mt-1 md:mt-0">
+                    {{ snack.gross_price }}€
+                  </p>
                 </div>
                 <p class="text-xs opacity-80"></p>
               </div>
@@ -109,24 +115,28 @@
           </div>
         </div>
 
-        <h1 class="font-bold text-5xl mt-12 mb-2">
+        <h1 class="font-bold text-center text-3xl md:text-5xl mt-12 mb-2">
           Catalogo / <span class="text-brown">Bevande</span>
         </h1>
-        <div class="flex flex-wrap justify-center items-center gap-12 py-6">
+        <div
+          class="flex flex-wrap justify-center items-center gap-8 md:gap-12 py-6"
+        >
           <div v-for="drink in singleStoreDrinks" :key="drink">
             <div
-              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-64 w-60 p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-48 md:h-64 w-40 md:w-60 p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
             >
               <div class="flex justify-center items-center">
                 <img
                   :src="drink.image"
                   alt="snack"
-                  class="bg-center bg-contain bg-no-repeat h-20 w-20"
+                  class="bg-center bg-contain bg-no-repeat h-8 md:h-20 w-8 md:w-20"
                 />
               </div>
               <div class="flex flex-col justify-center items-center">
                 <div class="flex flex-col items-center justify-center">
-                  <p class="font-bold text-center text-sm mt-2">
+                  <p
+                    class="font-bold text-center text-xs md:text-sm mt-1 md:mt-2"
+                  >
                     {{ drink.name }}
                   </p>
                   <!-- <div class="flex gap-1">
@@ -143,7 +153,9 @@
                       />
                     </div>
                   </div> -->
-                  <p class="text-sm">{{ drink.gross_price }}€</p>
+                  <p class="text-xs md:text-sm mt-1 md:mt-0">
+                    {{ drink.gross_price }}€
+                  </p>
                 </div>
                 <p class="text-xs opacity-80"></p>
               </div>
