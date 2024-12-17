@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hidden md:flex flex-wrap justify-center items-center gap-8">
+    <div class="flex flex-wrap justify-center items-center gap-8 mt-4 md:mt-0">
       <div v-for="(dayData, dayName) in days" :key="dayName">
         <h3 class="text-xl font-bold mb-3 text-center">{{ dayName }}</h3>
         <div
