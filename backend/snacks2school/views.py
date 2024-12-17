@@ -15,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
+from decimal import Decimal
 import logging
 from django.shortcuts import get_object_or_404
 
@@ -197,6 +198,7 @@ class CreateOrder(APIView):
         snack_id = request.data.get('snack_id')
         drink_id = request.data.get('drink_id')
         delivery_date = request.data.get('selected_date')
+        total_price = request.data.get('total_price')
         order_date = datetime.now().date()
 
         if not seller_id or (not snack_id and not drink_id):
@@ -236,14 +238,26 @@ class CreateOrder(APIView):
         )
         order.save()
 
-        if order.total_price and customer.credit_wallet_amount >= order.total_price:
-            customer.credit_wallet_amount -= order.total_price
+        total_price_decimal = Decimal(total_price)
+        print(total_price_decimal)
+        print(customer.credit_wallet_amount)
+
+        if customer.credit_wallet_amount >= total_price_decimal:
+            customer.credit_wallet_amount -= total_price_decimal
             customer.save()
         else:
             return Response({'error': 'Insufficient funds in credit wallet'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = OrderSerializer(order)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)   
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+def get_current_week():
+    today = datetime.today().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=5)
+    return start_of_week, end_of_week  
+
 
 
 def get_current_week():

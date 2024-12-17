@@ -222,10 +222,7 @@
         class="text-xs text-center mt-3"
       >
         <span class="text-sm font-bold">Totale:</span> €{{
-          (
-            (selectedSnack ? parseFloat(selectedSnack.gross_price) : 0) +
-            (selectedDrink ? parseFloat(selectedDrink.gross_price) : 0)
-          ).toFixed(2)
+          total_price.toFixed(2)
         }}
       </h6>
       <div
@@ -387,6 +384,17 @@ const selectDrink = (drink: Drink) => {
   snacksDropdownOpen.value = false;
 };
 
+const total_price = computed(() => {
+  let price = 0;
+  if (selectedSnack.value) {
+    price += parseFloat(selectedSnack.value.gross_price);
+  }
+  if (selectedDrink.value) {
+    price += parseFloat(selectedDrink.value.gross_price);
+  }
+  return price;
+});
+
 const getCsrfToken = async () => {
   const response = await axios.get("http://localhost:8000/api/csrf-token/", {
     withCredentials: true,
@@ -405,6 +413,7 @@ const placeOrder = async () => {
     const payload = {
       seller_id: selectedStore.value.id,
       selected_date: props.selectedDate,
+      total_price: total_price.value.toFixed(2),
     };
 
     if (selectedSnack.value) {
