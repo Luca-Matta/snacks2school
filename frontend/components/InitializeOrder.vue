@@ -414,6 +414,8 @@ const placeOrder = async () => {
       seller_id: selectedStore.value.id,
       selected_date: props.selectedDate,
       total_price: total_price.value.toFixed(2),
+      school: currentUser.value.associated_school,
+      school_class: currentUser.value.school_class,
     };
 
     if (selectedSnack.value) {

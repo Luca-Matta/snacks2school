@@ -140,6 +140,8 @@ class Order(models.Model):
     order_date = models.DateField(null=True, blank=True)
     delivery_date = models.DateField(null=True, blank=True)
     calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
+    school = models.ForeignKey(School, on_delete=models.SET_NULL, null=True, blank=True)
+    school_class = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         customer_name = self.customer.username if self.customer else 'Unknown customer'

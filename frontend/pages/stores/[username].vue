@@ -242,10 +242,40 @@ const fetchSingleStoreDrinks = async (username: string) => {
   }
 };
 
+const groupedOrders = ref([]);
+
+const transformData = (data) => {
+  const result = {};
+  data.forEach((item) => {
+    const schoolName = item.school__name;
+    const className = item.school_class__name;
+    const totalOrders = item.total_orders;
+
+    if (!result[schoolName]) {
+      result[schoolName] = [];
+    }
+    result[schoolName].push({ className, totalOrders });
+  });
+  return result;
+};
+
+const fetchGroupedOrders = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/grouped-orders/"
+    );
+    groupedOrders.value = transformData(response.data);
+    console.log("Grouped Orders fetched:", groupedOrders.value);
+  } catch (error) {
+    console.error("Error fetching grouped orders:", error);
+  }
+};
+
 onMounted(async () => {
   if (username) {
     fetchSingleStoreSnacks(username);
     fetchSingleStoreDrinks(username);
+    fetchGroupedOrders();
   } else {
     console.error("Username is not available");
   }

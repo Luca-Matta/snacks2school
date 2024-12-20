@@ -19,6 +19,7 @@ from django.conf import settings
 from decimal import Decimal
 import logging
 from django.shortcuts import get_object_or_404
+from django.db.models import Count, F
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -33,6 +34,13 @@ def get_start_of_week():
     today = datetime.date.today()
     start_of_week = today - datetime.timedelta(days=today.weekday())
     return start_of_week
+
+
+def get_current_week():
+    today = datetime.today().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=5)
+    return start_of_week, end_of_week
 
 
 class ProvinceList(APIView):
@@ -244,6 +252,8 @@ class CreateOrder(APIView):
         drink_id = request.data.get('drink_id')
         delivery_date = request.data.get('selected_date')
         total_price = request.data.get('total_price')
+        school_id = request.data.get('school')
+        class_id = request.data.get('school_class')
         order_date = datetime.now().date()
 
         if not seller_id or (not snack_id and not drink_id):
@@ -253,12 +263,18 @@ class CreateOrder(APIView):
             seller = User.objects.get(id=seller_id)
             snack = Snack.objects.get(id=snack_id) if snack_id else None
             drink = Drink.objects.get(id=drink_id) if drink_id else None
+            school = School.objects.get(id=school_id)
+            school_class = Class.objects.get(id=class_id)
         except User.DoesNotExist:
             return Response({'error': 'Seller not found'}, status=status.HTTP_404_NOT_FOUND)
         except Snack.DoesNotExist:
             return Response({'error': 'Snack not found'}, status=status.HTTP_404_NOT_FOUND)
         except Drink.DoesNotExist:
             return Response({'error': 'Drink not found'}, status=status.HTTP_404_NOT_FOUND)
+        except School.DoesNotExist:
+            return Response({'error': 'School not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Class.DoesNotExist:
+            return Response({'error': 'Class not found'}, status=status.HTTP_404_NOT_FOUND)
 
         today = date.today()
         start_of_week = today - timedelta(days=today.weekday())
@@ -279,7 +295,9 @@ class CreateOrder(APIView):
             drink=drink,
             order_date=order_date,
             delivery_date=delivery_date,
-            calendar=calendar
+            calendar=calendar,
+            school=school,
+            school_class=school_class
         )
         order.save()
 
@@ -295,21 +313,6 @@ class CreateOrder(APIView):
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-def get_current_week():
-    today = datetime.today().date()
-    start_of_week = today - timedelta(days=today.weekday())
-    end_of_week = start_of_week + timedelta(days=5)
-    return start_of_week, end_of_week  
-
-
-
-def get_current_week():
-    today = datetime.today().date()
-    start_of_week = today - timedelta(days=today.weekday())
-    end_of_week = start_of_week + timedelta(days=5)
-    return start_of_week, end_of_week
 
 
 class WeeklyCalendar(APIView):
@@ -348,6 +351,43 @@ class OrderList(generics.ListAPIView):
         end_of_week = start_of_week + timedelta(days=5)
 
         return Order.objects.filter(customer=user, order_date__range=[start_of_week, end_of_week])
+    
+
+class OrdersBySchoolAndClass(APIView):
+    def get(self, request):
+        orders = Order.objects.values(
+            'school__name', 'school_class__name', 'snack__name', 'drink__name'
+        ).annotate(
+            snack_count=Count('snack'),
+            drink_count=Count('drink')
+        ).order_by('school__name', 'school_class__name')
+
+        response_data = {}
+        for order in orders:
+            school_name = order['school__name']
+            class_name = order['school_class__name']
+            snack_name = order['snack__name']
+            drink_name = order['drink__name']
+            snack_count = order['snack_count']
+            drink_count = order['drink_count']
+
+            if school_name not in response_data:
+                response_data[school_name] = {}
+
+            if class_name not in response_data[school_name]:
+                response_data[school_name][class_name] = {'snacks': {}, 'drinks': {}}
+
+            if snack_name:
+                if snack_name not in response_data[school_name][class_name]['snacks']:
+                    response_data[school_name][class_name]['snacks'][snack_name] = 0
+                response_data[school_name][class_name]['snacks'][snack_name] += snack_count
+
+            if drink_name:
+                if drink_name not in response_data[school_name][class_name]['drinks']:
+                    response_data[school_name][class_name]['drinks'][drink_name] = 0
+                response_data[school_name][class_name]['drinks'][drink_name] += drink_count
+
+        return Response(response_data, status=status.HTTP_200_OK)
     
 
 class CreateCheckoutSession(APIView):

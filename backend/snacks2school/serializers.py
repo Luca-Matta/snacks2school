@@ -111,6 +111,8 @@ class OrderSerializer(serializers.ModelSerializer):
     seller = UserSerializer()
     snack = SnackSerializer()
     drink = DrinkSerializer()
+    school = serializers.PrimaryKeyRelatedField(queryset=School.objects.all(), required=True)
+    school_class = serializers.PrimaryKeyRelatedField(queryset=Class.objects.all(), required=True)
 
     class Meta:
         model = Order
