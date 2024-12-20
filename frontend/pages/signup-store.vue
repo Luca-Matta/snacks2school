@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center bg-gray-200 h-[100vh]">
+  <div class="flex justify-center items-center bg-gray-200 h-full pb-16">
     <div class="flex flex-col justify-center items-center">
       <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
       <div class="text-5xl font-bold">Snacks2School</div>

@@ -5,7 +5,11 @@
         <h3 class="text-xl font-bold mb-3 text-center">{{ dayName }}</h3>
         <div
           class="flex flex-col justify-center items-center text-center h-40 w-40 rounded-xl outline outline-4 outline-brown outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
-          @click="open(dayName, dayData.date)"
+          @click="
+            dayData.snacks.length === 0 && dayData.drinks.length === 0
+              ? initializeOrder(dayName, dayData.date)
+              : editOrder(dayName, dayData.date)
+          "
         >
           <div
             v-if="dayData.snacks.length === 0 && dayData.drinks.length === 0"
@@ -44,12 +48,20 @@
       </div>
     </div>
 
-    <PlaceOrder
-      :isVisible="isVisible"
+    <InitializeOrder
+      :isInitializeOrderVisible="isInitializeOrderVisible"
       :selectedDay="selectedDay"
       :selectedDate="selectedDate"
       @close="close"
-      @placeOrder="handleOrder"
+      @openInitializeOrder="openInitializeOrder"
+    />
+
+    <EditOrder
+      :isEditOrderVisible="isEditOrderVisible"
+      :selectedDay="selectedDay"
+      :selectedDate="selectedDate"
+      @close="close"
+      @openEditOrder="openEditOrder"
     />
   </div>
 </template>
@@ -71,7 +83,8 @@ const currentUser = ref<any>(null);
 const calendarData = ref<any>(null);
 const selectedDay = ref<string>("");
 const selectedDate = ref<string>("");
-const isVisible = ref<boolean>(false);
+const isInitializeOrderVisible = ref<boolean>(false);
+const isEditOrderVisible = ref<boolean>(false);
 
 const getCsrfToken = async () => {
   try {
@@ -130,19 +143,31 @@ const getImageUrl = (path) => {
   return `${baseUrl}${path}`;
 };
 
-const open = (day: string, date: string) => {
+const initializeOrder = (day: string, date: string) => {
   selectedDay.value = day;
   selectedDate.value = date;
-  isVisible.value = true;
+  isInitializeOrderVisible.value = true;
+};
+
+const editOrder = (day: string, date: string) => {
+  selectedDay.value = day;
+  selectedDate.value = date;
+  isEditOrderVisible.value = true;
 };
 
 const close = () => {
-  isVisible.value = false;
+  isInitializeOrderVisible.value = false;
+  isEditOrderVisible.value = false;
   selectedDay.value = "";
   selectedDate.value = "";
 };
 
-const handleOrder = (day: string) => {
+const openInitializeOrder = (day: string) => {
+  console.log(`Placing order for ${day}`);
+  close();
+};
+
+const openEditOrder = (day: string) => {
   console.log(`Placing order for ${day}`);
   close();
 };

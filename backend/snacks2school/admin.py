@@ -4,7 +4,7 @@ from .models import *
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('location', 'profile_picture', 'bio', 'store_name', 'credit_wallet_amount', 'stripe_customer_id')}),
+        (None, {'fields': ('location', 'address', 'profile_picture', 'bio', 'store_name', 'credit_wallet_amount', 'stripe_customer_id', 'associated_school', 'school_class')}),
     )
 
 
@@ -65,6 +65,24 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.seller.store_name
     get_store_name.short_description = 'Store Name'
 
+
+class ProvinceAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+class SchoolAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+class ClassAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+    def get_school_name(self, obj):
+        return obj.school.name or "Unnamed School"
+    get_school_name.short_description = 'School Name'
+
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Snack, SnackAdmin)
@@ -72,3 +90,6 @@ admin.site.register(Drink, DrinkAdmin)
 admin.site.register(CalendarDay, CalendarDayAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Province, ProvinceAdmin)
+admin.site.register(School, SchoolAdmin)
+admin.site.register(Class, ClassAdmin)

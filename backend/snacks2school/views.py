@@ -10,6 +10,7 @@ from rest_framework import status
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.utils.decorators import method_decorator
+from .models import *
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime, timedelta
@@ -28,6 +29,37 @@ def get_csrf_token(request):
     return JsonResponse({'csrfToken': request.META.get('CSRF_COOKIE')})
 
 
+def get_start_of_week():
+    today = datetime.date.today()
+    start_of_week = today - datetime.timedelta(days=today.weekday())
+    return start_of_week
+
+
+class ProvinceList(APIView):
+    def get(self, request):
+        provinces = Province.objects.all()
+        serializer = ProvinceSerializer(provinces, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SchoolListByProvince(APIView):
+    def get(self, request):
+        province_id = request.query_params.get('province')
+        if province_id:
+            schools = School.objects.filter(province_id=province_id)
+        else:
+            schools = School.objects.all()
+        serializer = SchoolSerializer(schools, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class ClassList(APIView):
+    def get(self, request):
+        classes = Class.objects.all()
+        serializer = ClassSerializer(classes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class CustomerSignup(APIView):
     def post(self, request):
         serializer = CustomerSignupSerializer(data=request.data)
@@ -38,14 +70,27 @@ class CustomerSignup(APIView):
             first_name = serializer.validated_data.get('first_name', '')
             last_name = serializer.validated_data.get('last_name', '')
             location = serializer.validated_data['location']
+            associated_school = serializer.validated_data['associated_school']
+            school_class = serializer.validated_data['school_class']
 
             if User.objects.filter(username=username).exists():
                 return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
             if email and User.objects.filter(email=email).exists():
                 return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-            user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name, location=location)
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                location=location,
+                associated_school=associated_school,
+                school_class=school_class
+            )
             
+            user.save()
+
             customer_group, created = Group.objects.get_or_create(name='Customer')
             user.groups.add(customer_group)
             

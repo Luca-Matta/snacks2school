@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center bg-gray-200 h-[100vh]">
+  <div class="flex justify-center items-center bg-gray-200 h-full pb-16">
     <div class="flex flex-col justify-center items-center">
       <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
       <div class="text-5xl font-bold">Snacks2School</div>
@@ -49,14 +49,60 @@
           </div>
           <div class="mb-3">
             <label class="block text-xs mb-1">Provincia *</label>
-            <input
-              v-model="location"
-              id="location"
-              name="location"
-              type="text"
-              class="w-full bg-gray-200 border border-gray-300"
+            <select
+              v-model="selectedProvince"
+              id="selectedProvince"
+              name="selectedProvince"
+              class="w-full bg-gray-200 border border-[1.5px] border-yellow rounded px-2 py-1 cursor-pointer"
               style="border-radius: 5px; padding: 7px"
-            />
+              @change="fetchSchools"
+            >
+              <option value="" disabled></option>
+              <option
+                v-for="province in provinces"
+                :key="province.id"
+                :value="province.id"
+              >
+                {{ province.name }}
+              </option>
+            </select>
+          </div>
+          <div v-if="selectedProvince" class="mb-3">
+            <label class="block text-xs mb-1">Scuola *</label>
+            <select
+              v-model="associatedSchool"
+              id="associatedSchool"
+              name="associatedSchool"
+              class="w-full bg-gray-200 border border-[1.5px] border-yellow rounded px-2 py-1 cursor-pointer"
+            >
+              <option value="" disabled></option>
+              <option
+                v-for="school in schoolsByProvince"
+                :key="school.id"
+                :value="school.id"
+              >
+                {{ school.name }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="block text-xs mb-1">Classe *</label>
+            <select
+              v-model="schoolClass"
+              id="schoolClass"
+              name="schoolClass"
+              class="w-full bg-gray-200 border border-[1.5px] border-yellow rounded px-2 py-1 cursor-pointer"
+              style="border-radius: 5px; padding: 7px"
+            >
+              <option value="" disabled></option>
+              <option
+                v-for="schoolClass in classes"
+                :key="schoolClass.id"
+                :value="schoolClass.id"
+              >
+                {{ schoolClass.name }}
+              </option>
+            </select>
           </div>
           <div class="mb-3 relative">
             <label class="block text-xs mb-1">Password *</label>
@@ -130,7 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 
 const passwordFieldType = ref<string>("password");
@@ -138,8 +184,14 @@ const username = ref<string>("");
 const firstName = ref<string>("");
 const lastName = ref<string>("");
 const location = ref<string>("");
+const associatedSchool = ref<string>("");
+const schoolClass = ref<string>("");
 const password = ref<string>("");
 const confirmPassword = ref<string>("");
+const provinces = ref([]);
+const selectedProvince = ref<string | null>(null);
+const schoolsByProvince = ref([]);
+const classes = ref([]);
 
 const togglePasswordVisibility = () => {
   passwordFieldType.value =
@@ -151,6 +203,34 @@ const getCsrfToken = async () => {
     withCredentials: true,
   });
   return response.data.csrfToken;
+};
+
+const fetchProvinces = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/provinces/");
+    provinces.value = response.data;
+  } catch (error) {
+    console.error("Error fetching provinces:", error);
+  }
+};
+
+const fetchSchools = async () => {
+  if (!selectedProvince.value) return;
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/province/schools/?province=${selectedProvince.value}`
+    );
+    schoolsByProvince.value = response.data;
+    console.log("Schools:", schoolsByProvince.value);
+  } catch (error) {
+    console.error("Error fetching schools:", error);
+  }
+};
+
+const fetchClasses = async () => {
+  const response = await axios.get("http://localhost:8000/api/classes/");
+  classes.value = response.data;
+  console.log("Classes:", classes.value);
 };
 
 const handleSignup = async () => {
@@ -165,7 +245,9 @@ const handleSignup = async () => {
       username: username.value,
       first_name: firstName.value,
       last_name: lastName.value,
-      location: location.value,
+      location: selectedProvince.value,
+      associated_school: associatedSchool.value,
+      school_class: schoolClass.value,
       password: password.value,
       confirm_password: confirmPassword.value,
     };
@@ -194,4 +276,9 @@ const handleSignup = async () => {
     console.error("Signup failed:", error);
   }
 };
+
+onMounted(() => {
+  fetchProvinces();
+  fetchClasses();
+});
 </script>

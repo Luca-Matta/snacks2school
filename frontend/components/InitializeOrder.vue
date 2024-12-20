@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isVisible"
+    v-if="isInitializeOrderVisible"
     class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-30"
   >
     <div
@@ -269,7 +269,7 @@ import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import axios from "axios";
 
 const props = defineProps({
-  isVisible: Boolean,
+  isInitializeOrderVisible: Boolean,
   selectedDay: String,
   selectedDate: String,
 });
@@ -281,7 +281,7 @@ watch(
   }
 );
 
-const emit = defineEmits(["close", "placeOrder"]);
+const emit = defineEmits(["close", "openInitializeOrder"]);
 
 interface Store {
   id: number;

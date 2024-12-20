@@ -97,7 +97,7 @@
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
         <img src="../assets/icons/safety.svg" alt="Safety" class="h-12 w-12" />
-        <div class="font-bold">Zero rischi / Al sicuro</div>
+        <div class="font-bold">Al sicuro</div>
         <p class="text-sm">
           Tuo figlio non attraverserà più la strada né gestirà soldi per
           comprare la merenda.<br />Più sicurezza per lui, più serenità per te.
