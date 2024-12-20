@@ -355,7 +355,10 @@ class OrderList(generics.ListAPIView):
 
 class OrdersBySchoolAndClass(APIView):
     def get(self, request):
-        orders = Order.objects.values(
+        today = timezone.now().date()
+        orders = Order.objects.filter(
+            delivery_date__gte=today
+        ).values(
             'delivery_date', 'school__name', 'school_class__name', 'snack__name', 'drink__name'
         ).annotate(
             snack_count=Count('snack'),
@@ -391,7 +394,7 @@ class OrdersBySchoolAndClass(APIView):
                     response_data[delivery_date][school_name][class_name]['drinks'][drink_name] = 0
                 response_data[delivery_date][school_name][class_name]['drinks'][drink_name] += drink_count
 
-        return Response(response_data, status=status.HTTP_200_OK)    
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 class CreateCheckoutSession(APIView):
