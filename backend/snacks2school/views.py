@@ -356,14 +356,15 @@ class OrderList(generics.ListAPIView):
 class OrdersBySchoolAndClass(APIView):
     def get(self, request):
         orders = Order.objects.values(
-            'school__name', 'school_class__name', 'snack__name', 'drink__name'
+            'delivery_date', 'school__name', 'school_class__name', 'snack__name', 'drink__name'
         ).annotate(
             snack_count=Count('snack'),
             drink_count=Count('drink')
-        ).order_by('school__name', 'school_class__name')
+        ).order_by('delivery_date', 'school__name', 'school_class__name')
 
         response_data = {}
         for order in orders:
+            delivery_date = order['delivery_date'].strftime('%Y-%m-%d')
             school_name = order['school__name']
             class_name = order['school_class__name']
             snack_name = order['snack__name']
@@ -371,24 +372,27 @@ class OrdersBySchoolAndClass(APIView):
             snack_count = order['snack_count']
             drink_count = order['drink_count']
 
-            if school_name not in response_data:
-                response_data[school_name] = {}
+            if delivery_date not in response_data:
+                response_data[delivery_date] = {}
 
-            if class_name not in response_data[school_name]:
-                response_data[school_name][class_name] = {'snacks': {}, 'drinks': {}}
+            if school_name not in response_data[delivery_date]:
+                response_data[delivery_date][school_name] = {}
+
+            if class_name not in response_data[delivery_date][school_name]:
+                response_data[delivery_date][school_name][class_name] = {'snacks': {}, 'drinks': {}}
 
             if snack_name:
-                if snack_name not in response_data[school_name][class_name]['snacks']:
-                    response_data[school_name][class_name]['snacks'][snack_name] = 0
-                response_data[school_name][class_name]['snacks'][snack_name] += snack_count
+                if snack_name not in response_data[delivery_date][school_name][class_name]['snacks']:
+                    response_data[delivery_date][school_name][class_name]['snacks'][snack_name] = 0
+                response_data[delivery_date][school_name][class_name]['snacks'][snack_name] += snack_count
 
             if drink_name:
-                if drink_name not in response_data[school_name][class_name]['drinks']:
-                    response_data[school_name][class_name]['drinks'][drink_name] = 0
-                response_data[school_name][class_name]['drinks'][drink_name] += drink_count
+                if drink_name not in response_data[delivery_date][school_name][class_name]['drinks']:
+                    response_data[delivery_date][school_name][class_name]['drinks'][drink_name] = 0
+                response_data[delivery_date][school_name][class_name]['drinks'][drink_name] += drink_count
 
-        return Response(response_data, status=status.HTTP_200_OK)
-    
+        return Response(response_data, status=status.HTTP_200_OK)    
+
 
 class CreateCheckoutSession(APIView):
     def post(self, request):

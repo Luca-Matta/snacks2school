@@ -224,44 +224,57 @@
       </div>
 
       <div
-        class="flex justify-center flex-wrap max-w-screen-xl mx-auto gap-12 py-16"
+        class="flex flex-col justify-center max-w-screen-xl mx-auto py-16 gap-16"
       >
         <div
-          v-for="(classes, school) in groupedOrders"
-          :key="school"
-          class="bg-white shadow-card rounded-2xl p-8 outline outline-4 outline-yellow outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 max-w-[350px] md:max-w-96"
+          v-for="(schools, deliveryDate) in groupedOrders"
+          :key="deliveryDate"
+          class="flex flex-col justify-center items-center gap-6"
         >
-          <h2 class="font-bold text-center text-xl">{{ school }}</h2>
+          <h2 class="font-bold text-center text-xl">
+            Ordini da consegnare il {{ deliveryDate }}
+          </h2>
           <div
-            v-for="(items, className) in classes"
-            :key="className"
-            class="mt-6"
+            class="flex justify-center flex-wrap max-w-screen-xl mx-auto gap-12"
           >
-            <h3 class="font-bold text-center">{{ className }}</h3>
-            <div class="flex flex-col gap-2">
-              <div>
-                <h4 class="font-bold text-sm">Snacks:</h4>
-                <ul>
-                  <li
-                    v-for="(count, snack) in items.snacks"
-                    :key="snack"
-                    class="text-xs ml-6"
-                  >
-                    {{ count }} {{ snack }}
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-bold text-sm">Bevande:</h4>
-                <ul>
-                  <li
-                    v-for="(count, drink) in items.drinks"
-                    :key="drink"
-                    class="text-xs ml-6"
-                  >
-                    {{ count }} {{ drink }}
-                  </li>
-                </ul>
+            <div
+              v-for="(classes, school) in schools"
+              :key="school"
+              class="bg-white shadow-card rounded-2xl p-8 outline outline-4 outline-yellow outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 max-w-[350px] md:max-w-96"
+            >
+              <h3 class="font-bold text-center">{{ school }}</h3>
+              <div
+                v-for="(items, className) in classes"
+                :key="className"
+                class="mt-6"
+              >
+                <h4 class="font-bold text-center">{{ className }}</h4>
+                <div class="flex flex-col gap-2">
+                  <div>
+                    <h5 class="font-bold text-sm">Snacks:</h5>
+                    <ul>
+                      <li
+                        v-for="(count, snack) in items.snacks"
+                        :key="snack"
+                        class="text-xs ml-6"
+                      >
+                        {{ count }} {{ snack }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-sm">Drinks:</h5>
+                    <ul>
+                      <li
+                        v-for="(count, drink) in items.drinks"
+                        :key="drink"
+                        class="text-xs ml-6"
+                      >
+                        {{ count }} {{ drink }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
