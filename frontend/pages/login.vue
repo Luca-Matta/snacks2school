@@ -90,7 +90,9 @@ import axiosInstance from "../utils/axiosInstance";
 
 const handleLogin = async () => {
   try {
-    const csrfToken = await axiosInstance.get("csrf-token/");
+    const csrfResponse = await axiosInstance.get("csrf-token/");
+    const csrfToken = csrfResponse.data.csrfToken;
+
     const response = await axiosInstance.post(
       "login/",
       {
@@ -99,11 +101,12 @@ const handleLogin = async () => {
       },
       {
         headers: {
-          "X-CSRFToken": csrfToken.data.csrfToken,
+          "X-CSRFToken": csrfToken,
         },
         withCredentials: true,
       }
     );
+
     console.log("Login successful:", response.data);
 
     if (response.data.token) {

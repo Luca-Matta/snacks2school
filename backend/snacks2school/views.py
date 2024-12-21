@@ -1,6 +1,6 @@
 import json
 import stripe
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.models import Group
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -151,20 +151,18 @@ class Login(APIView):
             
             user = authenticate(username=username, password=password)
             if user is not None:
+                login(request, user)
                 token, created = Token.objects.get_or_create(user=user)
                 return Response({'token': token.key, 'message': 'Login successful'}, status=status.HTTP_200_OK)
             else:
-                print("Authentication failed for user:", username)
                 return Response({'error': 'Invalid Credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            print("Invalid data:", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Logout(APIView):
-    # permission_classes = [IsAuthenticated]
-
     def post(self, request):
+        logout(request)
         return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 
