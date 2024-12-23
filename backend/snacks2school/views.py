@@ -1,5 +1,6 @@
 import json
 import stripe
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.models import Group
 from rest_framework import generics
@@ -352,10 +353,19 @@ class OrderList(generics.ListAPIView):
     
 
 class OrdersBySchoolAndClass(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({'detail': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        print(f"Authenticated user: {request.user}")
+
         today = timezone.now().date()
         orders = Order.objects.filter(
-            delivery_date__gte=today
+            delivery_date__gte=today,
+            seller=request.user
         ).values(
             'delivery_date', 'school__name', 'school_class__name', 'snack__name', 'drink__name'
         ).annotate(
