@@ -360,6 +360,9 @@ class OrdersBySchoolAndClass(APIView):
         if not request.user.is_authenticated:
             return Response({'detail': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
+        if not request.user.groups.filter(name='Store').exists():
+            return Response({'detail': 'User does not have permission to view orders'}, status=status.HTTP_403_FORBIDDEN)
+
         print(f"Authenticated user: {request.user}")
 
         today = timezone.now().date()

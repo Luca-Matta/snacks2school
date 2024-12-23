@@ -437,11 +437,9 @@ const groupedOrders = ref([]);
 
 const fetchGroupedOrders = async () => {
   try {
-    // Retrieve the CSRF token
     const csrfResponse = await axiosInstance.get("csrf-token/");
     const csrfToken = csrfResponse.data.csrfToken;
 
-    // Fetch grouped orders with CSRF token and credentials
     const response = await axiosInstance.get(
       "http://localhost:8000/api/grouped-orders/",
       {
