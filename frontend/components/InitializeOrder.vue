@@ -11,16 +11,32 @@
       </h2>
       <div
         v-if="userHasCredit"
-        class="flex justify-center text-center py-4 text-xs"
+        class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
       >
-        Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
-        credito
+        <img
+          src="../assets/icons/credit-card.png"
+          alt="Card"
+          class="h-6 w-6 cursor-pointer"
+        />
+        <div>
+          Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
+          credito
+        </div>
       </div>
       <div
         v-if="!userHasCredit"
         class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
       >
-        <div>Il tuo portafoglio di credito è vuoto</div>
+        <div
+          class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
+        >
+          <img
+            src="../assets/icons/no-money.png"
+            alt="Card"
+            class="h-9 w-9 cursor-pointer"
+          />
+          <div>Il tuo portafoglio di credito è vuoto</div>
+        </div>
         <div>
           <button
             @click="chargeCreditWallet"
@@ -225,6 +241,10 @@
           total_price.toFixed(2)
         }}
       </h6>
+      <div class="text-center text-xs opacity-80 mt-3">
+        L'ordine può essere modificato fino alla mezzanotte del giorno
+        precedente alla data di consegna.
+      </div>
       <div
         v-if="userHasCredit && userHasEnoughCredit"
         class="flex justify-center gap-2"
@@ -244,11 +264,20 @@
       </div>
       <div
         v-if="!userHasEnoughCredit && userHasCredit"
-        class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
+        class="flex flex-col justify-center items-center pb-4 text-sm text-center gap-4"
       >
-        <div class="font-bold underline">
-          Non hai abbastanza denaro sul portafoglio di credito per effettuare
-          l'acquisto
+        <div
+          class="flex flex-col justify-center items-center text-center py-4 text-xs font-bold"
+        >
+          <img
+            src="../assets/icons/no-money.png"
+            alt="Card"
+            class="h-9 w-9 cursor-pointer"
+          />
+          <div class="font-bold underline">
+            Non hai abbastanza denaro sul portafoglio di credito per effettuare
+            l'acquisto
+          </div>
         </div>
         <div>
           <button

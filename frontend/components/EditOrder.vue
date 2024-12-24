@@ -7,9 +7,13 @@
       class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-96"
     >
       <h2 class="text-xl text-center font-bold">
-        Modifica l'ordina del
+        Modifica l'ordine del
         <span class="lowercase">{{ selectedDay }}</span>
       </h2>
+      <div class="text-center text-xs opacity-80 mt-1">
+        Vuoi rimuovere uno snack o un drink dall'ordine? <br />
+        Non siamo avidi, ti ridiamo fino all'ultimo centesimo!
+      </div>
       <div class="flex flex-col justify-center py-4 gap-2">
         <div class="flex flex-col gap-1">
           <div
@@ -27,6 +31,7 @@
               src="../assets/icons/close.png"
               alt="Close"
               class="h-4 w-4 cursor-pointer"
+              @click="deleteOrderItem('snack', snack.id)"
             />
           </div>
         </div>
@@ -46,6 +51,7 @@
               src="../assets/icons/close.png"
               alt="Close"
               class="h-4 w-4 cursor-pointer"
+              @click="deleteOrderItem('drink', drink.id)"
             />
           </div>
         </div>
@@ -53,20 +59,37 @@
       <div
         class="flex justify-center items-center text-center font-bold mt-2 gap-2"
       >
-        <div>Vuoi aggiungere qualcosa?</div>
+        <div>Vuoi ordinare altro?</div>
       </div>
+      <div>////// cambiare: ordine aggiornato non crearne uno nuovo</div>
       <div
         v-if="userHasCredit"
-        class="flex justify-center text-center py-4 text-xs"
+        class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
       >
-        Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
-        credito
+        <img
+          src="../assets/icons/credit-card.png"
+          alt="Card"
+          class="h-6 w-6 cursor-pointer"
+        />
+        <div>
+          Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
+          credito
+        </div>
       </div>
       <div
         v-if="!userHasCredit"
         class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
       >
-        <div>Il tuo portafoglio di credito è vuoto</div>
+        <div
+          class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
+        >
+          <img
+            src="../assets/icons/no-money.png"
+            alt="Card"
+            class="h-9 w-9 cursor-pointer"
+          />
+          <div>Il tuo portafoglio di credito è vuoto</div>
+        </div>
         <div>
           <button
             @click="chargeCreditWallet"
@@ -290,11 +313,20 @@
       </div>
       <div
         v-if="!userHasEnoughCredit && userHasCredit"
-        class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
+        class="flex flex-col justify-center items-center pb-4 text-sm text-center gap-4"
       >
-        <div class="font-bold underline">
-          Non hai abbastanza denaro sul portafoglio di credito per effettuare
-          l'acquisto
+        <div
+          class="flex flex-col justify-center items-center text-center py-4 text-xs font-bold"
+        >
+          <img
+            src="../assets/icons/no-money.png"
+            alt="Card"
+            class="h-9 w-9 cursor-pointer"
+          />
+          <div class="font-bold underline">
+            Non hai abbastanza denaro sul portafoglio di credito per effettuare
+            l'acquisto
+          </div>
         </div>
         <div>
           <button
@@ -385,6 +417,14 @@ const dailyOrderData = ref<DailyOrderData | null>(null);
 const dailyOrderSnacks = ref<string>("");
 const dailyOrderDrinks = ref<string>("");
 
+const normalizeDate = (date: string) => {
+  const parsedDate = new Date(date);
+  const year = parsedDate.getFullYear();
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const fetchDailyOrder = async (date: string) => {
   try {
     const csrfToken = await getCsrfToken();
@@ -407,12 +447,39 @@ const fetchDailyOrder = async (date: string) => {
   }
 };
 
-const normalizeDate = (date: string) => {
-  const parsedDate = new Date(date);
-  const year = parsedDate.getFullYear();
-  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
-  const day = String(parsedDate.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+const deleteOrderItem = async (itemType: string, itemId: number) => {
+  try {
+    const selectedDate = props.selectedDate;
+    console.log("Selected date before normalization:", selectedDate);
+    const normalizedDate = normalizeDate(selectedDate);
+    console.log("Normalized date:", normalizedDate);
+    if (!normalizedDate) {
+      throw new Error("Invalid date format");
+    }
+    const csrfToken = await getCsrfToken();
+    const response = await axios.delete(
+      `http://localhost:8000/api/delete-order-item/${itemType}/${itemId}/?selected_date=${normalizedDate}`,
+      {
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log(response.data);
+    if (itemType === "drink") {
+      dailyOrderDrinks.value = dailyOrderDrinks.value.filter(
+        (drink) => drink.id !== itemId
+      );
+    } else if (itemType === "snack") {
+      dailyOrderSnacks.value = dailyOrderSnacks.value.filter(
+        (snack) => snack.id !== itemId
+      );
+    }
+    window.location.reload();
+  } catch (error) {
+    console.error("Error deleting item:", error);
+  }
 };
 
 watch(

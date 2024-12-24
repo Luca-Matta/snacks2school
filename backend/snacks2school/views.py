@@ -312,6 +312,69 @@ class CreateOrder(APIView):
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+
+class DeleteOrderItem(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, item_type, item_id):
+        print(f"Received DELETE request for item_type: {item_type}, item_id: {item_id}")
+        user = request.user
+        selected_date = request.query_params.get('selected_date')
+        print(f"Selected date: {selected_date}")
+
+        if not selected_date:
+            return Response({"error": "selected_date query parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            delivery_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+        except ValueError:
+            return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            order = Order.objects.get(customer=user, delivery_date=delivery_date)
+        except Order.DoesNotExist:
+            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            calendar_day = CalendarDay.objects.get(calendar=order.calendar, date=delivery_date)
+        except CalendarDay.DoesNotExist:
+            return Response({'error': 'Calendar day not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if item_type == 'snack':
+            try:
+                snack = Snack.objects.get(id=item_id)
+                if snack == order.snack:
+                    order.snack = None
+                    calendar_day.snacks.remove(snack)
+                    user.credit_wallet_amount += snack.gross_price
+                    user.save()
+                    order.save()
+                    calendar_day.save()
+                    return Response({'success': 'Snack removed from order and calendar day, and amount refunded'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'Snack not found in order'}, status=status.HTTP_404_NOT_FOUND)
+            except Snack.DoesNotExist:
+                return Response({'error': 'Snack not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        elif item_type == 'drink':
+            try:
+                drink = Drink.objects.get(id=item_id)
+                if drink == order.drink:
+                    order.drink = None
+                    calendar_day.drinks.remove(drink)
+                    user.credit_wallet_amount += drink.gross_price
+                    user.save()
+                    order.save()
+                    calendar_day.save()
+                    return Response({'success': 'Drink removed from order and calendar day, and amount refunded'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'Drink not found in order'}, status=status.HTTP_404_NOT_FOUND)
+            except Drink.DoesNotExist:
+                return Response({'error': 'Drink not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return Response({'error': 'Invalid item type'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class WeeklyCalendar(APIView):
@@ -371,8 +434,8 @@ class OrdersByDay(APIView):
 
         if orders.exists():
             data = {
-                'snacks': [{'name': order.snack.name, 'image': request.build_absolute_uri(order.snack.image.url)} for order in orders],
-                'drinks': [{'name': order.drink.name, 'image': request.build_absolute_uri(order.drink.image.url)} for order in orders]
+                'snacks': [{'id': order.snack.id, 'name': order.snack.name, 'image': request.build_absolute_uri(order.snack.image.url)} for order in orders if order.snack],
+                'drinks': [{'id': order.drink.id, 'name': order.drink.name, 'image': request.build_absolute_uri(order.drink.image.url)} for order in orders if order.drink]
             }
             return Response(data, status=status.HTTP_200_OK)
         else:
