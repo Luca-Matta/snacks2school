@@ -15,29 +15,45 @@
           <div
             v-for="snack in dailyOrderSnacks"
             :key="snack.name"
-            class="flex items-center text-xs font-bold gap-1"
+            class="flex justify-between items-center text-xs font-bold gap-1"
           >
-            <img :src="snack.image" :alt="snack.name" class="h-7 w-7" />
-            <div>
-              {{ snack.name }}
+            <div class="flex items-center gap-1">
+              <img :src="snack.image" :alt="snack.name" class="h-7 w-7" />
+              <div>
+                {{ snack.name }}
+              </div>
             </div>
+            <img
+              src="../assets/icons/close.png"
+              alt="Close"
+              class="h-4 w-4 cursor-pointer"
+            />
           </div>
         </div>
         <div class="flex flex-col gap-1">
           <div
             v-for="drink in dailyOrderDrinks"
             :key="drink.name"
-            class="flex items-center text-xs font-bold gap-1"
+            class="flex justify-between items-center text-xs font-bold gap-1"
           >
-            <img :src="drink.image" :alt="drink.name" class="h-7 w-7" />
-            <div>
-              {{ drink.name }}
+            <div class="flex items-center gap-1">
+              <img :src="drink.image" :alt="drink.name" class="h-7 w-7" />
+              <div>
+                {{ drink.name }}
+              </div>
             </div>
+            <img
+              src="../assets/icons/close.png"
+              alt="Close"
+              class="h-4 w-4 cursor-pointer"
+            />
           </div>
         </div>
       </div>
-      <div class="text-center font-bold mt-2">
-        Vuoi aggiungere qualcosa al tuo ordine?
+      <div
+        class="flex justify-center items-center text-center font-bold mt-2 gap-2"
+      >
+        <div>Vuoi aggiungere qualcosa?</div>
       </div>
       <div
         v-if="userHasCredit"
