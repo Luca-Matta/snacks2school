@@ -317,8 +317,8 @@ class CreateOrder(APIView):
 class DeleteOrderItem(APIView):
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request, item_type, item_id):
-        print(f"Received DELETE request for item_type: {item_type}, item_id: {item_id}")
+    def delete(self, request, order_id, item_type, item_id):
+        print(f"Received DELETE request for order_id: {order_id}, item_type: {item_type}, item_id: {item_id}")
         user = request.user
         selected_date = request.query_params.get('selected_date')
         print(f"Selected date: {selected_date}")
@@ -332,7 +332,7 @@ class DeleteOrderItem(APIView):
             return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            order = Order.objects.get(customer=user, delivery_date=delivery_date)
+            order = Order.objects.get(id=order_id, customer=user, delivery_date=delivery_date)
         except Order.DoesNotExist:
             return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -434,8 +434,8 @@ class OrdersByDay(APIView):
 
         if orders.exists():
             data = {
-                'snacks': [{'id': order.snack.id, 'name': order.snack.name, 'image': request.build_absolute_uri(order.snack.image.url)} for order in orders if order.snack],
-                'drinks': [{'id': order.drink.id, 'name': order.drink.name, 'image': request.build_absolute_uri(order.drink.image.url)} for order in orders if order.drink]
+                'snacks': [{'order_id': order.id, 'id': order.snack.id, 'name': order.snack.name, 'image': request.build_absolute_uri(order.snack.image.url)} for order in orders if order.snack],
+                'drinks': [{'order_id': order.id, 'id': order.drink.id, 'name': order.drink.name, 'image': request.build_absolute_uri(order.drink.image.url)} for order in orders if order.drink]
             }
             return Response(data, status=status.HTTP_200_OK)
         else:

@@ -31,7 +31,7 @@
               src="../assets/icons/close.png"
               alt="Close"
               class="h-4 w-4 cursor-pointer"
-              @click="deleteOrderItem('snack', snack.id)"
+              @click="deleteOrderItem(snack.order_id, 'snack', snack.id)"
             />
           </div>
         </div>
@@ -51,7 +51,7 @@
               src="../assets/icons/close.png"
               alt="Close"
               class="h-4 w-4 cursor-pointer"
-              @click="deleteOrderItem('drink', drink.id)"
+              @click="deleteOrderItem(drink.order_id, 'drink', drink.id)"
             />
           </div>
         </div>
@@ -447,7 +447,11 @@ const fetchDailyOrder = async (date: string) => {
   }
 };
 
-const deleteOrderItem = async (itemType: string, itemId: number) => {
+const deleteOrderItem = async (
+  orderId: number,
+  itemType: string,
+  itemId: number
+) => {
   try {
     const selectedDate = props.selectedDate;
     console.log("Selected date before normalization:", selectedDate);
@@ -458,7 +462,7 @@ const deleteOrderItem = async (itemType: string, itemId: number) => {
     }
     const csrfToken = await getCsrfToken();
     const response = await axios.delete(
-      `http://localhost:8000/api/delete-order-item/${itemType}/${itemId}/?selected_date=${normalizedDate}`,
+      `http://localhost:8000/api/delete-order-item/${orderId}/${itemType}/${itemId}/?selected_date=${normalizedDate}`,
       {
         headers: {
           "X-CSRFToken": csrfToken,
