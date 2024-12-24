@@ -20,5 +20,6 @@ urlpatterns = [
     path('stripe/webhook/', StripeWebhook.as_view(), name='stripe-webhook'),
     path('create-order/', CreateOrder.as_view(), name='create-order'),
     path('orders/', OrderList.as_view(), name='order-list'),
+    path('orders-by-day/', OrdersByDay.as_view(), name='orders-by-day'),
     path('grouped-orders/', OrdersBySchoolAndClass.as_view(), name='grouped-orders'),
 ]

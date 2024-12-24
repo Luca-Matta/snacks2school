@@ -352,6 +352,33 @@ class OrderList(generics.ListAPIView):
         return Order.objects.filter(customer=user, order_date__range=[start_of_week, end_of_week])
     
 
+class OrdersByDay(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        selected_day = request.query_params.get('selected_day')
+
+        if not selected_day:
+            return Response({"error": "selected_day query parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            selected_date = datetime.strptime(selected_day, '%Y-%m-%d').date()
+        except ValueError:
+            return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+
+        orders = Order.objects.filter(customer=user, delivery_date=selected_date)
+
+        if orders.exists():
+            data = {
+                'snacks': [{'name': order.snack.name, 'image': request.build_absolute_uri(order.snack.image.url)} for order in orders],
+                'drinks': [{'name': order.drink.name, 'image': request.build_absolute_uri(order.drink.image.url)} for order in orders]
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'No orders found for the selected date'}, status=status.HTTP_404_NOT_FOUND)
+    
+
 class OrdersBySchoolAndClass(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]

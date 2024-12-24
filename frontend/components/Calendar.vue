@@ -6,7 +6,7 @@
         <div
           class="flex flex-col justify-center items-center text-center h-40 w-40 rounded-xl outline outline-4 outline-brown outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
           @click="
-            dayData.snacks.length === 0 && dayData.drinks.length === 0
+            dayData.snacks.length === 0 || dayData.drinks.length === 0
               ? initializeOrder(dayName, dayData.date)
               : editOrder(dayName, dayData.date)
           "

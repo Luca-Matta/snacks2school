@@ -1,15 +1,44 @@
 <template>
   <div
-    v-if="IsEditOrderVisible"
+    v-if="isEditOrderVisible"
     class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-30"
   >
-    <div>edit</div>
     <div
       class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-96"
     >
       <h2 class="text-xl text-center font-bold">
-        Ordina lo snack del <span class="lowercase">{{ selectedDay }}</span>
+        Modifica l'ordina del
+        <span class="lowercase">{{ selectedDay }}</span>
       </h2>
+      <div class="flex flex-col justify-center py-4 gap-2">
+        <div class="flex flex-col gap-1">
+          <div
+            v-for="snack in dailyOrderSnacks"
+            :key="snack.name"
+            class="flex items-center text-xs font-bold gap-1"
+          >
+            <img :src="snack.image" :alt="snack.name" class="h-7 w-7" />
+            <div>
+              {{ snack.name }}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div
+            v-for="drink in dailyOrderDrinks"
+            :key="drink.name"
+            class="flex items-center text-xs font-bold gap-1"
+          >
+            <img :src="drink.image" :alt="drink.name" class="h-7 w-7" />
+            <div>
+              {{ drink.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center font-bold mt-2">
+        Vuoi aggiungere qualcosa al tuo ordine?
+      </div>
       <div
         v-if="userHasCredit"
         class="flex justify-center text-center py-4 text-xs"
@@ -265,15 +294,28 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, onMounted, ref, computed, watch } from "vue";
+import {
+  defineProps,
+  defineEmits,
+  onMounted,
+  ref,
+  computed,
+  watch,
+  watchEffect,
+} from "vue";
 import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import axios from "axios";
 
 const props = defineProps({
-  IsEditOrderVisible: Boolean,
+  isEditOrderVisible: Boolean,
   selectedDay: String,
   selectedDate: String,
 });
+
+const getImageUrl = (path) => {
+  const baseUrl = "http://localhost:8000";
+  return `${baseUrl}${path}`;
+};
 
 watch(
   () => props.selectedDate,
@@ -310,6 +352,11 @@ interface Drink {
   seller: Store;
 }
 
+interface DailyOrderData {
+  snacks: Snack[];
+  drinks: Drink[];
+}
+
 const stores = ref<Store[]>([]);
 const snacks = ref<Snack[]>([]);
 const drinks = ref<Drink[]>([]);
@@ -317,6 +364,54 @@ const selectedStore = ref<Store | null>(null);
 const storesDropdownOpen = ref(false);
 const snacksDropdownOpen = ref(false);
 const drinksDropdownOpen = ref(false);
+
+const dailyOrderData = ref<DailyOrderData | null>(null);
+const dailyOrderSnacks = ref<string>("");
+const dailyOrderDrinks = ref<string>("");
+
+const fetchDailyOrder = async (date: string) => {
+  try {
+    const csrfToken = await getCsrfToken();
+    const response = await axios.get(
+      `http://localhost:8000/api/orders-by-day/`,
+      {
+        params: { selected_day: date },
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+        withCredentials: true,
+      }
+    );
+
+    dailyOrderData.value = response.data;
+    dailyOrderSnacks.value = dailyOrderData.value.snacks;
+    dailyOrderDrinks.value = dailyOrderData.value.drinks;
+  } catch (error) {
+    console.error("Error fetching day data:", error);
+  }
+};
+
+const normalizeDate = (date: string) => {
+  const parsedDate = new Date(date);
+  const year = parsedDate.getFullYear();
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+watch(
+  [() => props.isEditOrderVisible, () => props.selectedDate],
+  async ([isVisible, date]) => {
+    if (isVisible && date) {
+      dailyOrderData.value = null;
+      const normalizedDate = normalizeDate(date);
+      await fetchDailyOrder(normalizedDate);
+    } else {
+      dailyOrderData.value = null;
+    }
+  },
+  { immediate: true }
+);
 
 const fetchStores = async () => {
   try {
@@ -415,6 +510,8 @@ const placeOrder = async () => {
       seller_id: selectedStore.value.id,
       selected_date: props.selectedDate,
       total_price: total_price.value.toFixed(2),
+      school: currentUser.value.associated_school,
+      school_class: currentUser.value.school_class,
     };
 
     if (selectedSnack.value) {
@@ -496,8 +593,9 @@ const chargeCreditWallet = async () => {
 };
 
 onMounted(async () => {
-  fetchStores();
   currentUser.value = await getCurrentUserData();
+  fetchStores();
+  fetchUserCalendar();
   console.log("currentUser:", currentUser.value);
   const stripePubKey = await getStripePubKey();
   stripe.value = Stripe(stripePubKey);

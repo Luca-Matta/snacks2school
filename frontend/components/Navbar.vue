@@ -19,10 +19,8 @@
         </nuxt-link>
       </div>
       <nav class="hidden md:flex items-center gap-4">
-        <nuxt-link to="/stores" class="text-pink font-bold">Store</nuxt-link>
-        <nuxt-link to="/stores" class="text-purple font-bold">Store</nuxt-link>
-        <nuxt-link to="/stores" class="text-yellow font-bold"
-          >Contatti</nuxt-link
+        <nuxt-link to="/support" class="text-yellow font-bold"
+          >Servizio clienti</nuxt-link
         >
       </nav>
       <div v-if="currentUser">
