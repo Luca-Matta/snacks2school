@@ -1,12 +1,26 @@
 <template>
   <div>
     <Navbar />
-    <div class="max-w-screen-xl mx-auto pb-8 mt-8">
-      <video class="w-full h-full px-4" autoplay muted>
-        <source src="../static/home-header.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+    <div
+      class="flex justify-center items-center max-w-screen-xl mx-auto mt-12 gap-6"
+    >
+      <div class="text-4xl md:text-6xl lg:text-9xl text-center font-bold mb-4">
+        <div>La <span class="text-yellow">merenda</span> a</div>
+        <div class="flex justify-center items-center gap-2 md:gap-6">
+          <div class="flex items-center gap-6">
+            portata
+            <img
+              src="../assets/icons/desk.png"
+              alt="Desk"
+              class="h-10 md:h-36 w-10 md:w-36 cursor-pointer"
+            />
+            <span class="text-purple">di </span
+            ><span class="text-pink">click</span>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="md:hidden -mt-12">
       <Slider :slides="sellingPoints">
         <template #default="{ slide }">
@@ -109,29 +123,67 @@
       class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
     >
       <!-- <h2 class="text-4xl font-bold">Snacks Calendar</h2> -->
-      <div class="max-w-screen-xl mx-auto -mt-16">
+      <!-- <div class="max-w-screen-xl mx-auto -mt-16">
         <video class="w-full h-auto px-4" autoplay muted>
           <source src="../static/calendar-header.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+      </div> -->
+      <div class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
+        <div>
+          La <span class="text-brown">merenda</span> che
+          <span class="text-pink">cambia</span>,
+        </div>
+        <div class="flex justify-center items-center gap-2 md:gap-6">
+          <div>come <span class="text-purple">tuo figlio</span></div>
+          <img
+            src="../assets/icons/boy.png"
+            alt="Boy"
+            class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
+          />
+        </div>
+
+        <div class="flex justify-center items-center gap-2 md:gap-6">
+          <img
+            src="../assets/icons/calendar.png"
+            alt="Calendar"
+            class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
+          />
+          <div class="text-yellow">#snackscalendar</div>
+        </div>
       </div>
-      <div class="-mt-16">
+      <div>
         <Calendar />
       </div>
     </div>
-    <div class="py-12 mb-4">
+    <div class="py-12">
       <div
         class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
       >
-        <!-- <h2 class="text-4xl font-bold">Migliori store in zona</h2> -->
-        <div class="max-w-screen-xl mx-auto -mt-16">
-          <video class="w-full h-auto px-4" autoplay muted>
-            <source src="../static/best-stores-header.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+        <div
+          class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
+        >
+          <div class="flex justify-center items-center gap-2 md:gap-7">
+            <img
+              src="../assets/icons/trust.png"
+              alt="Trust"
+              class="h-10 md:h-24 w-10 md:w-24 cursor-pointer"
+            />
+            Migliori <span class="text-brown">store</span>
+          </div>
+          <div>
+            <div class="flex justify-center items-center gap-2 md:gap-7">
+              nella <span class="text-pink">tua zona</span>
+              <img
+                src="../assets/icons/location.png"
+                alt="Location"
+                class="h-10 md:h-24 w-10 md:w-24 cursor-pointer"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <div class="-mt-12 md:-mt-32">
+      <div>
         <div
           class="hidden md:flex flex-wrap justify-center items-center gap-8 lg:p-8"
         >
@@ -151,7 +203,7 @@
                 }"
               >
                 <div
-                  class="flex justify-center items-center h-60 w-60 bg-white rounded-xl transition-all duration-200 outline outline-4 outline-brown outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
+                  class="flex justify-center items-center h-60 w-60 bg-white rounded-xl transition-all duration-200 outline outline-5 outline-brown outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
                 >
                   <img
                     :src="`${store.profile_picture}`"

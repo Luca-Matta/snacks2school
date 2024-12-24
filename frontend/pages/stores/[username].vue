@@ -6,7 +6,11 @@
         <div class="flex flex-col py-8">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <div class="bg-gray-100 h-32 w-32 rounded-xl">
-              <img :src="profile_picture" alt="Profile Picture" />
+              <img
+                :src="profile_picture"
+                alt="Profile Picture"
+                class="outline outline-5 outline-white outline-offset-4 rounded-xl"
+              />
             </div>
             <div class="flex flex-col gap-2 text-center md:text-left">
               <p class="font-bold text-2xl md:text-5xl">
@@ -74,7 +78,7 @@
         >
           <div v-for="snack in singleStoreSnacks" :key="snack">
             <div
-              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-48 md:h-64 w-40 md:w-60 p-2 md:p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-48 md:h-64 w-40 md:w-60 p-2 md:p-6 cursor-pointer outline outline-5 outline-brown outline-offset-4"
             >
               <div class="flex justify-center items-center">
                 <img
@@ -123,7 +127,7 @@
         >
           <div v-for="drink in singleStoreDrinks" :key="drink">
             <div
-              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-48 md:h-64 w-40 md:w-60 p-6 cursor-pointer outline outline-2 outline-brown outline-offset-4"
+              class="flex flex-col justify-center items-center gap-2 bg-white shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-48 md:h-64 w-40 md:w-60 p-6 cursor-pointer outline outline-5 outline-brown outline-offset-4"
             >
               <div class="flex justify-center items-center">
                 <img

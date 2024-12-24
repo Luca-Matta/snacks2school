@@ -11,18 +11,9 @@
           class="flex-shrink-0 font-bold text-xl text-gray-900 dark:text-white flex items-end gap-1.5"
           aria-label="Home"
         >
-          <img
-            src="../assets/icons/extended-logo.svg"
-            alt="star"
-            class="h-60 w-60"
-          />
+          <img src="../assets/icons/logo.svg" alt="star" class="h-28 w-28" />
         </nuxt-link>
       </div>
-      <nav class="hidden md:flex items-center gap-4">
-        <nuxt-link to="/support" class="text-yellow font-bold"
-          >Servizio clienti</nuxt-link
-        >
-      </nav>
       <div v-if="currentUser">
         <!-- <img
           :src="`${currentUser?.profile_picture}`"
@@ -30,7 +21,7 @@
           class="bg-center bg-contain bg-no-repeat h-52 w-52"
         /> -->
         <div class="flex items-center space-x-2">
-          <span>Ciao {{ currentUser?.first_name }}</span>
+          <span>Ehi {{ currentUser?.first_name }}</span>
           <div class="relative">
             <button @click="toggleDropdown" class="flex items-center space-x-1">
               <svg
