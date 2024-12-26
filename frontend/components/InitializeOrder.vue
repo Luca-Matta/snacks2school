@@ -241,9 +241,9 @@
           total_price.toFixed(2)
         }}
       </h6>
-      <div class="text-center text-xs opacity-80 mt-3">
-        L'ordine può essere modificato fino alla mezzanotte del giorno
-        precedente alla data di consegna.
+      <div v-if="userHasCredit" class="text-center text-xs opacity-80 mt-3">
+        L'ordine può essere effettuato e modificato fino alla mezzanotte del
+        giorno precedente alla data di consegna. // Implementare nel BE
       </div>
       <div
         v-if="userHasCredit && userHasEnoughCredit"

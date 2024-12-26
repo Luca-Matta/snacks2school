@@ -11,8 +11,8 @@
         <span class="lowercase">{{ selectedDay }}</span>
       </h2>
       <div class="text-center text-xs opacity-80 mt-1">
-        Vuoi rimuovere uno snack o un drink dall'ordine? <br />
-        Non siamo avidi, ti ridiamo fino all'ultimo centesimo!
+        Vuoi rimuovere uno snack o una bevanda dall'ordine? <br />
+        Non siamo avidi, ti restituiamo fino all'ultimo centesimo!
       </div>
       <div class="flex flex-col justify-center py-4 gap-2">
         <div class="flex flex-col gap-1">
@@ -61,7 +61,6 @@
       >
         <div>Vuoi ordinare altro?</div>
       </div>
-      <div>////// cambiare: ordine aggiornato non crearne uno nuovo</div>
       <div
         v-if="userHasCredit"
         class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"

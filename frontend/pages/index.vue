@@ -5,7 +5,7 @@
       class="flex justify-center items-center max-w-screen-xl mx-auto mt-12 gap-6"
     >
       <div class="text-4xl md:text-6xl lg:text-9xl text-center font-bold mb-4">
-        <div>La <span class="text-yellow">merenda</span> a</div>
+        <div>La <span class="text-yellow"> merenda</span> a</div>
         <div class="flex justify-center items-center gap-2 md:gap-6">
           <div class="flex items-center gap-6">
             portata
@@ -19,6 +19,30 @@
           </div>
         </div>
       </div>
+      <!-- <div class="text-4xl md:text-6xl lg:text-9xl text-center font-bold mb-4">
+        <div class="flex justify-center items-center">
+          <div class="mr-8">
+            <img
+              src="../assets/icons/food-box.png"
+              alt="Box"
+              class="h-10 md:h-32 w-10 md:w-32 cursor-pointer"
+            />
+          </div>
+          <div>La <span class="text-yellow"> merenda</span> a</div>
+        </div>
+        <div class="flex justify-center items-center gap-2 md:gap-6">
+          <div class="flex items-center gap-6">
+            portata
+            <img
+              src="../assets/icons/desk.png"
+              alt="Desk"
+              class="h-10 md:h-32 w-10 md:w-32 cursor-pointer"
+            />
+            <span class="text-purple">di </span
+            ><span class="text-pink">click</span>
+          </div>
+        </div>
+      </div> -->
     </div>
 
     <div class="md:hidden -mt-12">
@@ -122,13 +146,6 @@
     <div
       class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
     >
-      <!-- <h2 class="text-4xl font-bold">Snacks Calendar</h2> -->
-      <!-- <div class="max-w-screen-xl mx-auto -mt-16">
-        <video class="w-full h-auto px-4" autoplay muted>
-          <source src="../static/calendar-header.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div> -->
       <div class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
         <div>
           La <span class="text-brown">merenda</span> che

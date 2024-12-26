@@ -460,7 +460,7 @@ class OrdersBySchoolAndClass(APIView):
             delivery_date__gte=today,
             seller=request.user
         ).values(
-            'delivery_date', 'school__name', 'school_class__name', 'snack__name', 'drink__name'
+            'delivery_date', 'school__name', 'school_class__name', 'snack__name', 'drink__name', 'prepared', 'delivered'
         ).annotate(
             snack_count=Count('snack'),
             drink_count=Count('drink')
@@ -475,6 +475,8 @@ class OrdersBySchoolAndClass(APIView):
             drink_name = order['drink__name']
             snack_count = order['snack_count']
             drink_count = order['drink_count']
+            prepared = order['prepared']
+            delivered = order['delivered']
 
             if delivery_date not in response_data:
                 response_data[delivery_date] = {}
@@ -483,7 +485,7 @@ class OrdersBySchoolAndClass(APIView):
                 response_data[delivery_date][school_name] = {}
 
             if class_name not in response_data[delivery_date][school_name]:
-                response_data[delivery_date][school_name][class_name] = {'snacks': {}, 'drinks': {}}
+                response_data[delivery_date][school_name][class_name] = {'snacks': {}, 'drinks': {}, 'prepared': prepared, 'delivered': delivered}
 
             if snack_name:
                 if snack_name not in response_data[delivery_date][school_name][class_name]['snacks']:
@@ -496,6 +498,70 @@ class OrdersBySchoolAndClass(APIView):
                 response_data[delivery_date][school_name][class_name]['drinks'][drink_name] += drink_count
 
         return Response(response_data, status=status.HTTP_200_OK)
+    
+
+class ToggleOrderPreparedStatus(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        delivery_date = request.data.get('delivery_date')
+        school_name = request.data.get('school_name')
+        class_name = request.data.get('class_name')
+
+        logger.debug(f"Received data: {request.data}")
+        logger.debug(f"delivery_date: {delivery_date} (type: {type(delivery_date)})")
+        logger.debug(f"school_name: {school_name} (type: {type(school_name)})")
+        logger.debug(f"class_name: {class_name} (type: {type(class_name)})")
+
+        if not delivery_date or not school_name or not class_name:
+            logger.error("Invalid data received")
+            return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+        orders = Order.objects.filter(
+            delivery_date=delivery_date,
+            school__name=school_name,
+            school_class__name=class_name,
+            seller=request.user
+        )
+
+        for order in orders:
+            order.prepared = not order.prepared
+            order.save()
+
+        return Response({'detail': 'Order prepared status toggled'}, status=status.HTTP_200_OK)
+    
+
+class ToggleOrderDeliveredStatus(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        delivery_date = request.data.get('delivery_date')
+        school_name = request.data.get('school_name')
+        class_name = request.data.get('class_name')
+
+        logger.debug(f"Received data: {request.data}")
+        logger.debug(f"delivery_date: {delivery_date} (type: {type(delivery_date)})")
+        logger.debug(f"school_name: {school_name} (type: {type(school_name)})")
+        logger.debug(f"class_name: {class_name} (type: {type(class_name)})")
+
+        if not delivery_date or not school_name or not class_name:
+            logger.error("Invalid data received")
+            return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+        orders = Order.objects.filter(
+            delivery_date=delivery_date,
+            school__name=school_name,
+            school_class__name=class_name,
+            seller=request.user
+        )
+
+        for order in orders:
+            order.delivered = not order.delivered
+            order.save()
+
+        return Response({'detail': 'Order delivered status toggled'}, status=status.HTTP_200_OK)
 
 
 class CreateCheckoutSession(APIView):
