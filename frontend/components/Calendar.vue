@@ -49,9 +49,10 @@
     </div>
 
     <div class="mx-auto text-center mt-12 font-bold text-sm opacity-60">
-      Il calendario della prossima settimana sarà disponibile sabato alle 13:00
+      Il calendario della prossima settimana sarà disponibile da sabato alle
+      13:00
       <br />
-      Ricorda di fare l'ordine per lunedì!
+      Ricorda di fare in anticipo l'ordine per lunedì!
     </div>
 
     <InitializeOrder
