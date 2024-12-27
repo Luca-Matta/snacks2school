@@ -10,7 +10,7 @@
         Modifica l'ordine del
         <span class="lowercase">{{ selectedDay }}</span>
       </h2>
-      <div class="text-center text-xs opacity-80 mt-1">
+      <div v-if="isOrderEditable" class="text-center text-xs opacity-80 mt-1">
         Vuoi rimuovere uno snack o una bevanda dall'ordine? <br />
         Non siamo avidi, ti restituiamo fino all'ultimo centesimo!
       </div>
@@ -28,6 +28,7 @@
               </div>
             </div>
             <img
+              v-if="isOrderEditable"
               src="../assets/icons/close.png"
               alt="Close"
               class="h-4 w-4 cursor-pointer"
@@ -48,6 +49,7 @@
               </div>
             </div>
             <img
+              v-if="isOrderEditable"
               src="../assets/icons/close.png"
               alt="Close"
               class="h-4 w-4 cursor-pointer"
@@ -56,116 +58,62 @@
           </div>
         </div>
       </div>
-      <div
-        class="flex justify-center items-center text-center font-bold mt-2 gap-2"
-      >
-        <div>Vuoi ordinare altro?</div>
-      </div>
-      <div
-        v-if="userHasCredit"
-        class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
-      >
-        <img
-          src="../assets/icons/credit-card.png"
-          alt="Card"
-          class="h-6 w-6 cursor-pointer"
-        />
-        <div>
-          Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
-          credito
-        </div>
-      </div>
-      <div
-        v-if="!userHasCredit"
-        class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
-      >
+      <div v-if="isOrderEditable">
         <div
+          class="flex justify-center items-center text-center font-bold mt-2 gap-2"
+        >
+          <div>Vuoi ordinare altro?</div>
+        </div>
+        <div
+          v-if="userHasCredit"
           class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
         >
           <img
-            src="../assets/icons/no-money.png"
+            src="../assets/icons/credit-card.png"
             alt="Card"
-            class="h-9 w-9 cursor-pointer"
+            class="h-6 w-6 cursor-pointer"
           />
-          <div>Il tuo portafoglio di credito è vuoto</div>
-        </div>
-        <div>
-          <button
-            @click="chargeCreditWallet"
-            class="flex justify-center mx-auto btn bg-yellow uppercase text-black text-xs shadow-button py-3 px-6 rounded-lg"
-          >
-            Ricaricalo e ordina la tua merenda!
-          </button>
-        </div>
-      </div>
-      <div v-if="userHasCredit" class="mb-1 relative">
-        <div
-          @click="toggleStoresDropdown"
-          class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
-        >
-          <span class="text-xs font-bold opacity-80">{{
-            selectedStore
-              ? selectedStore.first_name + " " + selectedStore.last_name
-              : "Scegli lo store..."
-          }}</span>
-          <svg
-            :class="{
-              'rotate-180': storesDropdownOpen,
-              'transition-transform': true,
-            }"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            class="w-5 h-5 text-gray-700"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </div>
-        <div
-          v-if="storesDropdownOpen"
-          class="absolute mt-1 w-full rounded-md bg-white shadow-card z-10"
-        >
-          <ul class="max-h-60 overflow-auto">
-            <li
-              v-for="(store, index) in stores"
-              :key="index"
-              @click="selectStore(store)"
-              class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
-            >
-              {{ store.first_name }} {{ store.last_name }}
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
-        <div
-          @click="toggleSnacksDropdown"
-          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white gap-2"
-        >
-          <div class="flex items-center gap-2">
-            <img
-              v-if="selectedSnack"
-              :src="selectedSnack.image"
-              alt="snack"
-              class="bg-center bg-contain bg-no-repeat h-7 w-7"
-            />
-            <span class="text-xs font-bold opacity-80">{{
-              selectedSnack ? selectedSnack.name : "Snacks disponibili..."
-            }}</span>
+          <div>
+            Hai {{ currentUser.credit_wallet_amount }}€ sul tuo portafoglio di
+            credito
           </div>
-          <div class="flex items-center gap-2">
-            <span v-if="selectedSnack" class="text-xs opacity-80 mr-2"
-              >€{{ selectedSnack.gross_price }}</span
+        </div>
+        <div
+          v-if="!userHasCredit"
+          class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
+        >
+          <div
+            class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
+          >
+            <img
+              src="../assets/icons/no-money.png"
+              alt="Card"
+              class="h-9 w-9 cursor-pointer"
+            />
+            <div>Il tuo portafoglio di credito è vuoto</div>
+          </div>
+          <div>
+            <button
+              @click="chargeCreditWallet"
+              class="flex justify-center mx-auto btn bg-yellow uppercase text-black text-xs shadow-button py-3 px-6 rounded-lg"
             >
+              Ricaricalo e ordina la tua merenda!
+            </button>
+          </div>
+        </div>
+        <div v-if="userHasCredit" class="mb-1 relative">
+          <div
+            @click="toggleStoresDropdown"
+            class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
+          >
+            <span class="text-xs font-bold opacity-80">{{
+              selectedStore
+                ? selectedStore.first_name + " " + selectedStore.last_name
+                : "Scegli lo store..."
+            }}</span>
             <svg
               :class="{
-                'rotate-180': snacksDropdownOpen,
+                'rotate-180': storesDropdownOpen,
                 'transition-transform': true,
               }"
               xmlns="http://www.w3.org/2000/svg"
@@ -182,119 +130,182 @@
               />
             </svg>
           </div>
-        </div>
-        <div
-          v-if="snacksDropdownOpen"
-          class="absolute mt-1 w-full rounded-md bg-white shadow-card z-20"
-        >
-          <ul class="max-h-60 overflow-auto">
-            <li
-              v-for="(snack, index) in snacks"
-              :key="index"
-              @click="selectSnack(snack)"
-              class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
-            >
-              <div class="flex items-center gap-2 mr-4">
-                <div class="flex justify-center items-center">
-                  <img
-                    :src="snack.image"
-                    alt="snack"
-                    class="bg-center bg-contain bg-no-repeat h-7 w-7"
-                  />
-                </div>
-                <div class="text-xs font-bold">
-                  {{ snack.name }}
-                </div>
-              </div>
-              <div class="text-xs">€{{ snack.gross_price }}</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <h6
-        v-if="userHasCredit && drinks.length"
-        class="text-sm text-center font-bold mt-3"
-      >
-        Vuoi ordinare una bevanda?
-      </h6>
-      <div v-if="userHasCredit && drinks.length" class="mb-1 mt-4 relative">
-        <div
-          @click="toggleDrinksDropdown"
-          class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white gap-2"
-        >
-          <div class="flex items-center gap-2">
-            <img
-              v-if="selectedDrink"
-              :src="selectedDrink.image"
-              alt="drink"
-              class="bg-center bg-contain bg-no-repeat h-7 w-7"
-            />
-            <span class="text-xs font-bold opacity-80">{{
-              selectedDrink ? selectedDrink.name : "Bevande disponibili..."
-            }}</span>
+          <div
+            v-if="storesDropdownOpen"
+            class="absolute mt-1 w-full rounded-md bg-white shadow-card z-10"
+          >
+            <ul class="max-h-60 overflow-auto">
+              <li
+                v-for="(store, index) in stores"
+                :key="index"
+                @click="selectStore(store)"
+                class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+              >
+                {{ store.first_name }} {{ store.last_name }}
+              </li>
+            </ul>
           </div>
-          <div class="flex items-center gap-2">
-            <span v-if="selectedDrink" class="text-xs opacity-80 mr-2"
-              >€{{ selectedDrink.gross_price }}</span
-            >
-            <svg
-              :class="{
-                'rotate-180': drinksDropdownOpen,
-                'transition-transform': true,
-              }"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class="w-5 h-5 text-gray-700"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
+        </div>
+        <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
+          <div
+            @click="toggleSnacksDropdown"
+            class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white gap-2"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                v-if="selectedSnack"
+                :src="selectedSnack.image"
+                alt="snack"
+                class="bg-center bg-contain bg-no-repeat h-7 w-7"
               />
-            </svg>
+              <span class="text-xs font-bold opacity-80">{{
+                selectedSnack ? selectedSnack.name : "Snacks disponibili..."
+              }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span v-if="selectedSnack" class="text-xs opacity-80 mr-2"
+                >€{{ selectedSnack.gross_price }}</span
+              >
+              <svg
+                :class="{
+                  'rotate-180': snacksDropdownOpen,
+                  'transition-transform': true,
+                }"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5 text-gray-700"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            v-if="snacksDropdownOpen"
+            class="absolute mt-1 w-full rounded-md bg-white shadow-card z-20"
+          >
+            <ul class="max-h-60 overflow-auto">
+              <li
+                v-for="(snack, index) in snacks"
+                :key="index"
+                @click="selectSnack(snack)"
+                class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
+              >
+                <div class="flex items-center gap-2 mr-4">
+                  <div class="flex justify-center items-center">
+                    <img
+                      :src="snack.image"
+                      alt="snack"
+                      class="bg-center bg-contain bg-no-repeat h-7 w-7"
+                    />
+                  </div>
+                  <div class="text-xs font-bold">
+                    {{ snack.name }}
+                  </div>
+                </div>
+                <div class="text-xs">€{{ snack.gross_price }}</div>
+              </li>
+            </ul>
           </div>
         </div>
-        <div
-          v-if="drinksDropdownOpen"
-          class="absolute mt-1 w-full rounded-md bg-white shadow-card z-20"
+        <h6
+          v-if="userHasCredit && drinks.length"
+          class="text-sm text-center font-bold mt-3"
         >
-          <ul class="max-h-60 overflow-auto">
-            <li
-              v-for="(drink, index) in drinks"
-              :key="index"
-              @click="selectDrink(drink)"
-              class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
-            >
-              <div class="flex items-center gap-2 mr-4">
-                <div class="flex justify-center items-center">
-                  <img
-                    :src="drink.image"
-                    alt="drink"
-                    class="bg-center bg-contain bg-no-repeat h-7 w-7"
-                  />
+          Vuoi ordinare una bevanda?
+        </h6>
+        <div v-if="userHasCredit && drinks.length" class="mb-1 mt-4 relative">
+          <div
+            @click="toggleDrinksDropdown"
+            class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white gap-2"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                v-if="selectedDrink"
+                :src="selectedDrink.image"
+                alt="drink"
+                class="bg-center bg-contain bg-no-repeat h-7 w-7"
+              />
+              <span class="text-xs font-bold opacity-80">{{
+                selectedDrink ? selectedDrink.name : "Bevande disponibili..."
+              }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span v-if="selectedDrink" class="text-xs opacity-80 mr-2"
+                >€{{ selectedDrink.gross_price }}</span
+              >
+              <svg
+                :class="{
+                  'rotate-180': drinksDropdownOpen,
+                  'transition-transform': true,
+                }"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5 text-gray-700"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            v-if="drinksDropdownOpen"
+            class="absolute mt-1 w-full rounded-md bg-white shadow-card z-20"
+          >
+            <ul class="max-h-60 overflow-auto">
+              <li
+                v-for="(drink, index) in drinks"
+                :key="index"
+                @click="selectDrink(drink)"
+                class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
+              >
+                <div class="flex items-center gap-2 mr-4">
+                  <div class="flex justify-center items-center">
+                    <img
+                      :src="drink.image"
+                      alt="drink"
+                      class="bg-center bg-contain bg-no-repeat h-7 w-7"
+                    />
+                  </div>
+                  <div class="text-xs font-bold">
+                    {{ drink.name }}
+                  </div>
                 </div>
-                <div class="text-xs font-bold">
-                  {{ drink.name }}
-                </div>
-              </div>
-              <div class="text-xs">€{{ drink.gross_price }}</div>
-            </li>
-          </ul>
+                <div class="text-xs">€{{ drink.gross_price }}</div>
+              </li>
+            </ul>
+          </div>
         </div>
+        <h6
+          v-if="selectedSnack || selectedDrink"
+          class="text-xs text-center mt-3"
+        >
+          <span class="text-sm font-bold">Totale:</span> €{{
+            total_price.toFixed(2)
+          }}
+        </h6>
       </div>
-      <h6
-        v-if="selectedSnack || selectedDrink"
-        class="text-xs text-center mt-3"
-      >
-        <span class="text-sm font-bold">Totale:</span> €{{
-          total_price.toFixed(2)
-        }}
-      </h6>
       <div
-        v-if="userHasCredit && userHasEnoughCredit"
+        v-if="userHasCredit"
+        class="text-center text-xs opacity-80 underline mt-2"
+      >
+        L'ordine può essere effettuato e modificato fino alla mezzanotte del
+        giorno precedente alla data di consegna.
+      </div>
+      <div
+        v-if="userHasCredit && userHasEnoughCredit && isOrderEditable"
         class="flex justify-center gap-2"
       >
         <button
@@ -336,6 +347,13 @@
           </button>
         </div>
       </div>
+      <button
+        v-if="!isOrderEditable"
+        @click="$emit('close')"
+        class="btn bg-yellow w-full font-bold text-black uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
+      >
+        Chiudi
+      </button>
     </div>
   </div>
 </template>
@@ -445,6 +463,21 @@ const fetchDailyOrder = async (date: string) => {
     console.error("Error fetching day data:", error);
   }
 };
+
+const isOrderEditable = computed(() => {
+  const today = new Date().toISOString().split("T")[0];
+  return props.selectedDate > today;
+});
+
+watch(
+  () => props.selectedDate,
+  (newDate) => {
+    console.log("Selected date:", newDate);
+    if (!isOrderEditable.value) {
+      console.log("Cannot modify order for today or earlier.");
+    }
+  }
+);
 
 const deleteOrderItem = async (
   orderId: number,

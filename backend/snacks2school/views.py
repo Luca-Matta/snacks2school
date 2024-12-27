@@ -257,6 +257,14 @@ class CreateOrder(APIView):
 
         if not seller_id or (not snack_id and not drink_id):
             return Response({'error': 'Seller and at least one of Snack or Drink are required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            parsed_delivery_date = datetime.strptime(delivery_date, '%Y-%m-%d').date()
+        except ValueError:
+            return Response({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if parsed_delivery_date <= order_date:
+            return Response({'error': 'Delivery date must be later than today'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             seller = User.objects.get(id=seller_id)
@@ -330,6 +338,10 @@ class DeleteOrderItem(APIView):
             delivery_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
         except ValueError:
             return Response({"error": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+
+        today = datetime.now().date()
+        if delivery_date <= today:
+            return Response({'error': 'Cannot delete order item for today or earlier'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             order = Order.objects.get(id=order_id, customer=user, delivery_date=delivery_date)

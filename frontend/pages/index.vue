@@ -75,7 +75,7 @@
       <div
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
-        <img src="../assets/icons/health.svg" alt="Health" class="h-12 w-12" />
+        <img src="../assets/icons/health.png" alt="Health" class="h-12 w-12" />
         <div class="font-bold text-center">Salute e tutela</div>
         <div class="flex flex-col justify-center items-center">
           <p class="text-sm">Trasparenza sugli ingredienti.</p>
@@ -88,7 +88,7 @@
         class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
         <img
-          src="../assets/icons/comfort.svg"
+          src="../assets/icons/sleeping-mask.png"
           alt="Comfort"
           class="h-14 w-14"
         />
@@ -105,7 +105,7 @@
         class="flex flex-col justify-center items-center bg-yellow h-80 w-80 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
         <img
-          src="../assets/icons/calendar.svg"
+          src="../assets/icons/calendar.png"
           alt="Calendar"
           class="h-12 w-12"
         />
@@ -125,7 +125,11 @@
       <div
         class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
-        <img src="../assets/icons/cash.svg" alt="Cash" class="h-12 w-12" />
+        <img
+          src="../assets/icons/credit-card.png"
+          alt="Cash"
+          class="h-12 w-12"
+        />
         <div class="font-bold">Risparmio con gusto</div>
         <p class="text-sm">
           Prezzi più bassi rispetto alle merende industriali.
@@ -134,7 +138,7 @@
       <div
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
       >
-        <img src="../assets/icons/safety.svg" alt="Safety" class="h-12 w-12" />
+        <img src="../assets/icons/girl.png" alt="Safety" class="h-12 w-12" />
         <div class="font-bold">Al sicuro</div>
         <p class="text-sm">
           Tuo figlio non attraverserà più la strada né gestirà soldi per
@@ -173,7 +177,7 @@
         <Calendar />
       </div>
     </div>
-    <div class="py-12">
+    <div class="pb-12">
       <div
         class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
       >
@@ -317,11 +321,11 @@ const currentUserData = ref<Store | null>(null);
 
 const stores = ref<Store[]>([]);
 
-import healthIcon from "@/assets/icons/health.svg";
-import comfortIcon from "@/assets/icons/comfort.svg";
-import calendarIcon from "@/assets/icons/calendar.svg";
-import cashIcon from "@/assets/icons/cash.svg";
-import safetyIcon from "@/assets/icons/safety.svg";
+import healthIcon from "@/assets/icons/health.png";
+import comfortIcon from "@/assets/icons/sleeping-mask.png";
+import calendarIcon from "@/assets/icons/calendar.png";
+import cashIcon from "@/assets/icons/credit-card.png";
+import safetyIcon from "@/assets/icons/girl.png";
 
 const sellingPoints = [
   {
