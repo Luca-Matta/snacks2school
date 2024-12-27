@@ -37,9 +37,22 @@ def get_start_of_week():
     return start_of_week
 
 
-def get_current_week():
-    today = datetime.today().date()
+# def get_current_week():
+#     today = datetime.today().date()
+#     start_of_week = today - timedelta(days=today.weekday())
+#     end_of_week = start_of_week + timedelta(days=5)
+#     return start_of_week, end_of_week
+
+
+def get_adjusted_week():
+    now = datetime.now()
+    today = now.date()
     start_of_week = today - timedelta(days=today.weekday())
+
+    # If today is Saturday and the time is 1 PM or later, set start_of_week to next Monday
+    if today.weekday() == 5 and now.hour >= 13:
+        start_of_week += timedelta(days=7)
+
     end_of_week = start_of_week + timedelta(days=5)
     return start_of_week, end_of_week
 
@@ -283,11 +296,10 @@ class CreateOrder(APIView):
         except Class.DoesNotExist:
             return Response({'error': 'Class not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        today = date.today()
-        start_of_week = today - timedelta(days=today.weekday())
+        start_of_week, end_of_week = get_adjusted_week()
         calendar, created = Calendar.objects.get_or_create(user=customer, week_start_date=start_of_week)
 
-        calendar_day, created = CalendarDay.objects.get_or_create(calendar=calendar, date=delivery_date)
+        calendar_day, created = CalendarDay.objects.get_or_create(calendar=calendar, date=parsed_delivery_date)
 
         if snack:
             calendar_day.snacks.add(snack)
@@ -301,7 +313,7 @@ class CreateOrder(APIView):
             snack=snack,
             drink=drink,
             order_date=order_date,
-            delivery_date=delivery_date,
+            delivery_date=parsed_delivery_date,
             calendar=calendar,
             school=school,
             school_class=school_class
@@ -309,9 +321,6 @@ class CreateOrder(APIView):
         order.save()
 
         total_price_decimal = Decimal(total_price)
-        print(total_price_decimal)
-        print(customer.credit_wallet_amount)
-
         if customer.credit_wallet_amount >= total_price_decimal:
             customer.credit_wallet_amount -= total_price_decimal
             customer.save()
@@ -320,7 +329,7 @@ class CreateOrder(APIView):
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
 
 class DeleteOrderItem(APIView):
     permission_classes = [IsAuthenticated]
@@ -396,13 +405,13 @@ class WeeklyCalendar(APIView):
 
     def get(self, request):
         user = request.user
-        start_of_week, end_of_week = get_current_week()
+        start_of_week, end_of_week = get_adjusted_week()
 
         calendar, created = Calendar.objects.get_or_create(
             user=user, week_start_date=start_of_week
         )
 
-        for i in range(6):
+        for i in range(6):  # Ensure we cover Monday to Saturday
             day_date = start_of_week + timedelta(days=i)
             CalendarDay.objects.get_or_create(calendar=calendar, date=day_date)
 
@@ -410,7 +419,6 @@ class WeeklyCalendar(APIView):
 
         if delivery_date:
             delivery_date = datetime.strptime(delivery_date, '%Y-%m-%d').date()
-
             CalendarDay.objects.get_or_create(calendar=calendar, date=delivery_date)
 
         serializer = CalendarSerializer(calendar)
