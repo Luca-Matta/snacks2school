@@ -348,6 +348,7 @@ class DeleteOrderItem(APIView):
                     order.snack = None
                     calendar_day.snacks.remove(snack)
                     user.credit_wallet_amount += snack.gross_price
+                    order.total_price -= snack.gross_price
                     user.save()
                     order.save()
                     calendar_day.save()
@@ -364,6 +365,7 @@ class DeleteOrderItem(APIView):
                     order.drink = None
                     calendar_day.drinks.remove(drink)
                     user.credit_wallet_amount += drink.gross_price
+                    order.total_price -= drink.gross_price
                     user.save()
                     order.save()
                     calendar_day.save()
@@ -499,6 +501,7 @@ class OrdersBySchoolAndClass(APIView):
 
         return Response(response_data, status=status.HTTP_200_OK)
     
+    
 
 class ToggleOrderPreparedStatus(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -562,6 +565,21 @@ class ToggleOrderDeliveredStatus(APIView):
             order.save()
 
         return Response({'detail': 'Order delivered status toggled'}, status=status.HTTP_200_OK)
+    
+
+class Receipt(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({'detail': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        orders = Order.objects.filter(
+            customer=request.user
+        )
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CreateCheckoutSession(APIView):

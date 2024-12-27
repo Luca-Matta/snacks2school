@@ -25,4 +25,5 @@ urlpatterns = [
     path('orders/', OrderList.as_view(), name='order-list'),
     path('orders-by-day/', OrdersByDay.as_view(), name='orders-by-day'),
     path('grouped-orders/', OrdersBySchoolAndClass.as_view(), name='grouped-orders'),
+    path('receipts/', Receipt.as_view(), name='receipts')
 ]
