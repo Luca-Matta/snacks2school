@@ -219,6 +219,7 @@
                     last_name: store.last_name,
                     profile_picture: store.profile_picture,
                     location: store.location,
+                    address: store.address,
                     bio: store.bio,
                   },
                 }"
@@ -244,7 +245,7 @@
                     class="h-6 w-6"
                   />
                 </div>
-                <p class="text-xs opacity-80">{{ store.location }}</p>
+                <p class="text-xs opacity-80">{{ store.address }}</p>
               </div>
             </div>
           </div>
@@ -263,6 +264,7 @@
                       last_name: slide.last_name,
                       profile_picture: slide.profile_picture,
                       location: slide.location,
+                      address: slide.address,
                       bio: slide.bio,
                     },
                   }"
@@ -288,7 +290,7 @@
                       class="h-6 w-6"
                     />
                   </div>
-                  <p class="text-xs opacity-80">{{ slide.location }}</p>
+                  <p class="text-xs opacity-80">{{ slide.address }}</p>
                 </div>
               </div>
             </template>
@@ -312,6 +314,7 @@ interface Store {
   first_name: string;
   last_name: string;
   location: string;
+  address: string;
   profile_picture: string;
   bio: string;
 }
@@ -443,6 +446,7 @@ const navigateToStore = (store: Store) => {
       last_name: store.last_name,
       profile_picture: store.profile_picture,
       location: store.location,
+      address: store.address,
       bio: store.bio,
     },
   });

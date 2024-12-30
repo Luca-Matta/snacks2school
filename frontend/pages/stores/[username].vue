@@ -17,7 +17,7 @@
                 {{ first_name }} {{ last_name }}
               </p>
               <div>
-                <p>{{ location }}</p>
+                <p>{{ address }}</p>
                 <p v-html="formattedBio"></p>
               </div>
             </div>
@@ -179,7 +179,8 @@ import axios from "axios";
 const route = useRoute();
 const router = useRouter();
 const state = router.options.history.state;
-const { first_name, last_name, profile_picture, location, bio } = route.query;
+const { first_name, last_name, profile_picture, location, address, bio } =
+  route.query;
 const username = route.params.username;
 
 const formattedBio = bio ? bio.replace(/\n/g, "<br>") : "";
@@ -190,6 +191,7 @@ interface Store {
   first_name: string;
   last_name: string;
   location: string;
+  address: string;
   // profile_picture: string;
   bio: string;
 }
