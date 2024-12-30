@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import axios from "axios";
 
 const days = ref({
@@ -182,5 +182,19 @@ const openEditOrder = (day: string) => {
 onMounted(async () => {
   currentUser.value = await getCurrentUserData();
   fetchUserCalendar();
+  watch(isInitializeOrderVisible, (newValue) => {
+    if (newValue) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  });
+  watch(isEditOrderVisible, (newValue) => {
+    if (newValue) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  });
 });
 </script>
