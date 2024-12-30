@@ -3,10 +3,7 @@
     <div class="flex flex-col justify-center items-center">
       <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
       <div class="text-5xl font-bold">Snacks2School</div>
-      <p class="max-w-96 text-center py-4">
-        L'app per la merenda a scuola che pensa alla salute dei ragazzi e ai
-        bisogni dei genitori
-      </p>
+      <p class="max-w-96 text-center py-4">La merenda a portata di click</p>
       <div class="bg-white rounded-3xl shadow-card min-w-96 p-6 mt-12">
         <div class="text-2xl text-center font-semibold">
           A quale gruppo appartieni?

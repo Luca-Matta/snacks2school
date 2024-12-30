@@ -75,12 +75,17 @@ class SchoolListByProvince(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
-class ClassList(APIView):
+class ClassListBySchool(APIView):
     def get(self, request):
-        classes = Class.objects.all()
+        school_id = request.query_params.get('school')
+        if school_id:
+            school = School.objects.get(id=school_id)
+            classes = school.school_classes.all()
+        else:
+            classes = Class.objects.all()
         serializer = ClassSerializer(classes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+    
 
 class CustomerSignup(APIView):
     def post(self, request):

@@ -3,10 +3,7 @@
     <div class="flex flex-col justify-center items-center">
       <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
       <div class="text-5xl font-bold">Snacks2School</div>
-      <p class="max-w-96 text-center py-4">
-        L'app per la merenda a scuola che pensa alla salute dei ragazzi e ai
-        bisogni dei genitori
-      </p>
+      <p class="max-w-96 text-center py-4">La merenda a portata di click</p>
       <div class="bg-white rounded-3xl shadow-card min-w-96 p-6 mt-12">
         <div class="text-2xl font-semibold">Registrati</div>
         <p class="text-sm opacity-80 mt-2">
@@ -70,10 +67,11 @@
           <div v-if="selectedProvince" class="mb-3">
             <label class="block text-xs mb-1">Scuola *</label>
             <select
-              v-model="associatedSchool"
+              v-model="selectedSchool"
               id="associatedSchool"
               name="associatedSchool"
               class="w-full bg-gray-200 border border-[1.5px] border-yellow rounded px-2 py-1 cursor-pointer"
+              @change="fetchClasses"
             >
               <option value="" disabled></option>
               <option
@@ -85,7 +83,7 @@
               </option>
             </select>
           </div>
-          <div class="mb-3">
+          <div v-if="selectedSchool" class="mb-3">
             <label class="block text-xs mb-1">Classe *</label>
             <select
               v-model="schoolClass"
@@ -191,6 +189,7 @@ const confirmPassword = ref<string>("");
 const provinces = ref([]);
 const selectedProvince = ref<string | null>(null);
 const schoolsByProvince = ref([]);
+const selectedSchool = ref<string | null>(null);
 const classes = ref([]);
 
 const togglePasswordVisibility = () => {
@@ -228,9 +227,16 @@ const fetchSchools = async () => {
 };
 
 const fetchClasses = async () => {
-  const response = await axios.get("http://localhost:8000/api/classes/");
-  classes.value = response.data;
-  console.log("Classes:", classes.value);
+  if (!selectedSchool.value) return;
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/school/classes/?school=${selectedSchool.value}`
+    );
+    classes.value = response.data;
+    console.log("Classes:", classes.value);
+  } catch (error) {
+    console.error("Error fetching classes:", error);
+  }
 };
 
 const handleSignup = async () => {
@@ -279,6 +285,5 @@ const handleSignup = async () => {
 
 onMounted(() => {
   fetchProvinces();
-  fetchClasses();
 });
 </script>

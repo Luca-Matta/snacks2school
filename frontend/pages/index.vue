@@ -132,7 +132,7 @@
         />
         <div class="font-bold">Risparmio con gusto</div>
         <p class="text-sm">
-          Prezzi più bassi rispetto alle merende industriali.
+          Prezzi più bassi rispetto al dettaglio e alle merende industriali.
         </p>
       </div>
       <div
@@ -374,7 +374,9 @@ const sellingPoints = [
     imgAlt: "Cash",
     imgClass: "h-12 w-12",
     title: "Risparmia con gusto",
-    texts: ["Prezzi più bassi rispetto alle merende industriali."],
+    texts: [
+      "Prezzi più bassi rispetto al dettaglio e alle merende industriali.",
+    ],
   },
   {
     class:

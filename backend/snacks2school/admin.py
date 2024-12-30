@@ -75,6 +75,7 @@ class SchoolAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
+
 class ClassAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
@@ -82,6 +83,7 @@ class ClassAdmin(admin.ModelAdmin):
     def get_school_name(self, obj):
         return obj.school.name or "Unnamed School"
     get_school_name.short_description = 'School Name'
+
 
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
