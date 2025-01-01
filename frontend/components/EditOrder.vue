@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="isEditOrderVisible"
-    class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-30"
+    class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-30 px-4 md:px-0"
   >
     <div
-      class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-96"
+      class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-full md:w-96"
     >
       <h2 class="text-xl text-center font-bold">
         Modifica l'ordine del
