@@ -4,10 +4,10 @@
     <div
       class="flex justify-center items-center max-w-screen-xl mx-auto mt-12 gap-6"
     >
-      <div class="text-4xl md:text-6xl lg:text-9xl text-center font-bold mb-4">
+      <div class="text-5xl md:text-6xl lg:text-9xl text-center font-bold mb-4">
         <div>La <span class="text-yellow"> merenda</span> a</div>
         <div class="flex justify-center items-center gap-2 md:gap-6">
-          <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2 md:gap-6">
             portata
             <img
               src="../assets/icons/desk.png"
@@ -164,9 +164,9 @@
     </div>
 
     <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-2 md:gap-12"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-6 md:py-16 mt-4 md:mt-0 px-4 gap-2 md:gap-12"
     >
-      <div class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
+      <div class="text-3xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
         <div>
           La <span class="text-brown">merenda</span> che
           <span class="text-pink">cambia</span>,
@@ -195,10 +195,10 @@
     </div>
     <div class="pb-12">
       <div
-        class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
+        class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-10 md:py-16 mt-2 md:mt-0 mb-8 md:mb-0 px-4 gap-12"
       >
         <div
-          class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
+          class="text-3xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
         >
           <div class="flex justify-center items-center gap-2 md:gap-7">
             <img
@@ -251,15 +251,15 @@
                 </div>
               </nuxt-link>
               <div class="flex flex-col justify-center items-center mt-2">
-                <div class="flex items-center justify-center gap-1">
+                <div class="flex items-center justify-center gap-1.5">
                   <p class="font-bold">
                     {{ store.first_name }} {{ store.last_name }}
                   </p>
-                  <img
-                    src="../assets/icons/review.svg"
-                    alt="star"
-                    class="h-6 w-6"
-                  />
+                  <div
+                    class="h-4 w-4 bg-yellow rounded-full font-bold flex justify-center items-center"
+                  >
+                    √
+                  </div>
                 </div>
                 <p class="text-xs opacity-80">{{ store.address }}</p>
               </div>
@@ -286,7 +286,7 @@
                   }"
                 >
                   <div
-                    class="flex justify-center items-center h-56 w-56 bg-white rounded-xl transition-all duration-200 outline outline-4 outline-brown outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
+                    class="flex justify-center items-center h-56 w-56 bg-white rounded-xl transition-all duration-200 outline outline-5 outline-pink outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
                   >
                     <img
                       :src="`${slide.profile_picture}`"
@@ -296,15 +296,20 @@
                   </div>
                 </nuxt-link>
                 <div class="flex flex-col justify-center items-center mt-2">
-                  <div class="flex items-center justify-center gap-1">
+                  <div class="flex items-center justify-center gap-1.5">
                     <p class="font-bold">
                       {{ slide.first_name }} {{ slide.last_name }}
                     </p>
-                    <img
+                    <!-- <img
                       src="../assets/icons/review.svg"
                       alt="star"
                       class="h-6 w-6"
-                    />
+                    /> -->
+                    <div
+                      class="h-4 w-4 bg-yellow rounded-full font-bold flex justify-center items-center"
+                    >
+                      √
+                    </div>
                   </div>
                   <p class="text-xs opacity-80">{{ slide.address }}</p>
                 </div>
