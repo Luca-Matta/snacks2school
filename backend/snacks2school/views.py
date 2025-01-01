@@ -167,6 +167,10 @@ class SchoolStaffSignup(APIView):
             
             school_staff_group, created = Group.objects.get_or_create(name='School staff')
             user.groups.add(school_staff_group)
+
+            school_class, created = Class.objects.get_or_create(name='Personale scolastico')
+            user.school_class = school_class
+            user.save()
             
             token, created = Token.objects.get_or_create(user=user)
             
@@ -486,7 +490,7 @@ class OrdersByDay(APIView):
             return Response({'error': 'No orders found for the selected date'}, status=status.HTTP_404_NOT_FOUND)
     
 
-class OrdersBySchoolAndClass(APIView):
+class OrdersByDateSchoolAndClass(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -502,7 +506,7 @@ class OrdersBySchoolAndClass(APIView):
         today = timezone.now().date()
         orders = Order.objects.filter(
             delivery_date__gte=today,
-            seller=request.user
+            seller=request.user,
         ).values(
             'delivery_date', 'school__name', 'school_class__name', 'snack__name', 'drink__name', 'prepared', 'delivered'
         ).annotate(

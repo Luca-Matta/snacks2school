@@ -66,9 +66,11 @@
                 :key="className"
                 class="mt-6"
               >
-                <h4 class="font-bold text-center">{{ className }}</h4>
+                <h4 class="font-bold text-center">
+                  {{ className }}
+                </h4>
                 <div class="flex flex-col gap-2">
-                  <div>
+                  <div v-if="Object.keys(items.snacks).length > 0">
                     <h5 class="font-bold text-sm">Snacks:</h5>
                     <ul>
                       <li
@@ -80,7 +82,7 @@
                       </li>
                     </ul>
                   </div>
-                  <div>
+                  <div v-if="Object.keys(items.drinks).length > 0">
                     <h5 class="font-bold text-sm">Drinks:</h5>
                     <ul>
                       <li
