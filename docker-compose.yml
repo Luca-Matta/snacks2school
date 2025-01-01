@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  django:
+    image: lucamatta/snacks2school-backend:latest
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+
+  nuxt:
+    image: lucamatta/snacks2school-frontend:latest
+    container_name: nuxt
+    ports:
+      - "3001:3001"
+    depends_on:
+      - django
