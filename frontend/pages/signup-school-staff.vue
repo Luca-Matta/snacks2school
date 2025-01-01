@@ -2,13 +2,18 @@
   <div class="flex justify-center items-center bg-gray-200 h-full pb-16">
     <div class="flex flex-col justify-center items-center">
       <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
-      <div class="text-5xl font-bold">Snacks2School</div>
+      <div class="text-4xl md:text-5xl font-bold">Snacks2School</div>
       <p class="max-w-96 text-center py-4">La merenda a portata di click</p>
-      <div class="bg-white rounded-3xl shadow-card min-w-96 p-6 mt-12">
+      <div
+        class="bg-white rounded-3xl shadow-card w-[335px] md:w-auto md:min-w-96 p-6 mt-6 md:mt-12"
+      >
         <div class="text-2xl font-semibold">Registrati</div>
         <p class="text-sm opacity-80 mt-2">
-          Unisciti agli {{ userCount }} membri di Snacks2School
+          Unisciti agli utenti di Snacks2School
         </p>
+        <!-- <p class="text-sm opacity-80 mt-2">
+          Unisciti ai {{ userCount }} utenti di Snacks2School
+        </p> -->
         <hr class="mt-6 mb-4" />
         <form class="mb-3" @submit.prevent="handleSignup">
           <div class="mb-3">

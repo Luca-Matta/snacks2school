@@ -2,12 +2,11 @@
   <div class="flex justify-center items-center bg-gray-200 h-[100vh]">
     <div class="flex flex-col justify-center items-center px-4">
       <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
-      <div class="text-5xl font-bold">Snacks2School</div>
-      <p class="max-w-96 text-center py-4">
-        L'app per la merenda a scuola che pensa alla salute dei ragazzi e ai
-        bisogni dei genitori
-      </p>
-      <div class="bg-white rounded-3xl shadow-card max-w-96 w-full p-6 mt-12">
+      <div class="text-4xl md:text-5xl font-bold">Snacks2School</div>
+      <p class="max-w-96 text-center py-4">La merenda a portata di click</p>
+      <div
+        class="bg-white rounded-3xl shadow-card w-[335px] md:w-auto md:min-w-96 p-6 mt-6 md:mt-12"
+      >
         <div class="text-2xl font-semibold">Accedi</div>
         <p class="text-sm opacity-80 mt-2">Compra la tua merenda</p>
         <hr class="mt-6 mb-4" />
