@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             echo "Connecting to server..."
-            cd /path/to/your/docker-compose/file
+            cd /root/snacks2school
             echo "Pulling latest backend image..."
             docker pull lucamatta/snacks2school-backend:latest
             echo "Pulling latest frontend image..."
