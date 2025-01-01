@@ -61,3 +61,4 @@ jobs:
             sudo apt update
             sudo apt install -y certbot python3-certbot-nginx
             sudo certbot --nginx -d snacks2school.com -d www.snacks2school.com --non-interactive --agree-tos --email mattaluca@icloud.com
+            sudo systemctl restart nginx
