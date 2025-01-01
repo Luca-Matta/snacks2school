@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="overflow-x-hidden">
     <Navbar />
     <div
       class="flex justify-center items-center max-w-screen-xl mx-auto mt-12 gap-6"
@@ -45,32 +45,48 @@
       </div> -->
     </div>
 
-    <div class="md:hidden -mt-12">
-      <Slider :slides="sellingPoints">
-        <template #default="{ slide }">
-          <div :class="slide.class">
-            <img
-              :src="slide.imgSrc"
-              :alt="slide.imgAlt"
-              :class="slide.imgClass"
-            />
-            <div class="font-bold text-center">{{ slide.title }}</div>
-            <div class="flex flex-col justify-center items-center">
-              <p
-                class="text-sm"
-                v-for="(text, index) in slide.texts"
-                :key="index"
-              >
-                {{ text }}
-              </p>
-            </div>
-          </div>
-        </template>
-      </Slider>
-    </div>
+    <template>
+      <div class="xl:hidden max-w-screen-xl flex justify-center">
+        <div class="mx-auto">
+          <swiper
+            :slidesPerView="5"
+            :centeredSlides="true"
+            :pagination="false"
+            :navigation="false"
+            :speed="500"
+            class="h-[350px] max-w-screen-xl"
+          >
+            <swiper-slide
+              v-for="(slide, index) in sellingPoints"
+              :key="index"
+              class="!h-60 !w-60 my-auto mx-5"
+            >
+              <div :class="slide.class" class="swiper-slide-content">
+                <img
+                  :src="slide.imgSrc"
+                  :alt="slide.imgAlt"
+                  :class="slide.imgClass"
+                  class="swiper-slide-image"
+                />
+                <div class="font-bold text-center">{{ slide.title }}</div>
+                <div class="flex flex-col justify-center items-center">
+                  <p
+                    class="text-sm"
+                    v-for="(text, index) in slide.texts"
+                    :key="index"
+                  >
+                    {{ text }}
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper>
+        </div>
+      </div>
+    </template>
 
     <div
-      class="hidden md:flex justify-center items-center py-16 px-4 gap-12 mx-auto overflow-hidden"
+      class="hidden xl:flex justify-center items-center py-16 px-4 gap-12 mx-auto overflow-hidden"
     >
       <div
         class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
@@ -148,7 +164,7 @@
     </div>
 
     <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-2 md:gap-12"
     >
       <div class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
         <div>
@@ -307,6 +323,8 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { checkAuthStatus } from "../utils/auth";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/swiper-bundle.css";
 
 interface Store {
   id: number;
@@ -333,7 +351,7 @@ import safetyIcon from "@/assets/icons/girl.png";
 const sellingPoints = [
   {
     class:
-      "flex flex-col justify-center items-center bg-yellow h-56 w-56 rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
+      "flex flex-col justify-center items-center bg-yellow h-60 w-60 rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
     imgSrc: healthIcon,
     imgAlt: "Health",
     imgClass: "h-12 w-12",
@@ -346,7 +364,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-purple h-56 w-56 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
+      "flex flex-col justify-center items-center bg-purple h-60 w-60 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
     imgSrc: comfortIcon,
     imgAlt: "Comfort",
     imgClass: "h-14 w-14",
@@ -357,7 +375,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-yellow h-56 w-56 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
+      "flex flex-col justify-center items-center bg-yellow h-60 w-60 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
     imgSrc: calendarIcon,
     imgAlt: "Calendar",
     imgClass: "h-12 w-12",
@@ -369,7 +387,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-purple h-56 w-56 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
+      "flex flex-col justify-center items-center bg-purple h-60 w-60 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
     imgSrc: cashIcon,
     imgAlt: "Cash",
     imgClass: "h-12 w-12",
@@ -380,7 +398,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-yellow h-56 w-56 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
+      "flex flex-col justify-center items-center bg-yellow h-60 w-60 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2",
     imgSrc: safetyIcon,
     imgAlt: "Safety",
     imgClass: "h-12 w-12",
