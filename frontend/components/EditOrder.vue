@@ -102,6 +102,54 @@
           </div>
         </div>
         <div v-if="userHasCredit" class="mb-1 relative">
+          <div class="text-center text-xs font-bold mb-2">
+            In quale scuola vuoi ricevere l'ordine?
+          </div>
+          <div class="relative mb-4">
+            <div
+              @click="toggleSchoolsDropdown"
+              class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
+            >
+              <span class="text-xs font-bold opacity-80">{{
+                selectedSchool
+                  ? getSchoolName(selectedSchool)
+                  : "Scegli la scuola..."
+              }}</span>
+              <svg
+                :class="{
+                  'rotate-180': schoolsDropdownOpen,
+                  'transition-transform': true,
+                }"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-5 h-5 text-gray-700"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+            <div
+              v-if="schoolsDropdownOpen"
+              class="absolute mt-1 w-full rounded-md bg-white shadow-card z-10"
+            >
+              <ul class="max-h-60 overflow-auto">
+                <li
+                  v-for="(school, index) in associatedSchools"
+                  :key="index"
+                  @click="selectSchool(school)"
+                  class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+                >
+                  {{ school.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
           <div
             @click="toggleStoresDropdown"
             class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-yellow focus:border-yellow rounded-md cursor-pointer bg-white"
@@ -429,6 +477,21 @@ const selectedStore = ref<Store | null>(null);
 const storesDropdownOpen = ref(false);
 const snacksDropdownOpen = ref(false);
 const drinksDropdownOpen = ref(false);
+const schoolsDropdownOpen = ref(false);
+
+const toggleSchoolsDropdown = () => {
+  schoolsDropdownOpen.value = !schoolsDropdownOpen.value;
+};
+
+const selectSchool = (school: School) => {
+  selectedSchool.value = school.id;
+  schoolsDropdownOpen.value = false;
+};
+
+const getSchoolName = (schoolId: number | null) => {
+  const school = associatedSchools.value.find((s) => s.id === schoolId);
+  return school ? school.name : "";
+};
 
 const dailyOrderData = ref<DailyOrderData | null>(null);
 const dailyOrderSnacks = ref<string>("");
@@ -617,6 +680,15 @@ const getCsrfToken = async () => {
   return response.data.csrfToken;
 };
 
+interface School {
+  id: number;
+  name: string;
+}
+
+const currentUser = ref<any>(null);
+const associatedSchools = ref<School[]>([]);
+const selectedSchool = ref<number | null>(null);
+
 const placeOrder = async () => {
   if (!selectedStore.value || (!selectedSnack.value && !selectedDrink.value)) {
     console.error("Store, Snack, and Drink must be selected");
@@ -629,9 +701,12 @@ const placeOrder = async () => {
       seller_id: selectedStore.value.id,
       selected_date: props.selectedDate,
       total_price: total_price.value.toFixed(2),
-      school: currentUser.value.associated_school,
-      school_class: currentUser.value.school_class,
+      school: selectedSchool.value,
     };
+
+    if (currentUser.value.school_class) {
+      payload.school_class = currentUser.value.school_class;
+    }
 
     if (selectedSnack.value) {
       payload.snack_id = selectedSnack.value.id;
@@ -659,8 +734,6 @@ const placeOrder = async () => {
     window.location.reload();
   }
 };
-
-const currentUser = ref<any>(null);
 
 const userHasCredit = computed(() => {
   return currentUser.value && currentUser.value.credit_wallet_amount > 0;
@@ -712,10 +785,17 @@ const chargeCreditWallet = async () => {
 };
 
 onMounted(async () => {
-  currentUser.value = await getCurrentUserData();
   fetchStores();
-  fetchUserCalendar();
+  currentUser.value = await getCurrentUserData();
   console.log("currentUser:", currentUser.value);
+  if (currentUser.value) {
+    associatedSchools.value = currentUser.value.associated_schools;
+    console.log("associatedSchools:", associatedSchools.value);
+    if (associatedSchools.value.length > 0) {
+      selectedSchool.value = associatedSchools.value[0].id;
+      console.log("selectedSchool:", selectedSchool.value);
+    }
+  }
   const stripePubKey = await getStripePubKey();
   stripe.value = Stripe(stripePubKey);
 });

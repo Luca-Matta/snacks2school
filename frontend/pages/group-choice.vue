@@ -14,14 +14,14 @@
             <button
               class="btn bg-yellow w-full font-bold uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
             >
-              Cliente
+              Studenti / Genitori
             </button>
           </nuxt-link>
-          <nuxt-link to="/signup-store">
+          <nuxt-link to="/signup-school-staff">
             <button
               class="btn bg-black w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
             >
-              Store
+              Personale scolastico
             </button>
           </nuxt-link>
         </div>

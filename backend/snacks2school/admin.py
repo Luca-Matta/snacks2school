@@ -4,7 +4,7 @@ from .models import *
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('location', 'address', 'profile_picture', 'bio', 'store_name', 'credit_wallet_amount', 'stripe_customer_id', 'associated_school', 'school_class')}),
+        (None, {'fields': ('location', 'address', 'profile_picture', 'bio', 'store_name', 'credit_wallet_amount', 'stripe_customer_id', 'associated_schools', 'school_class')}),
     )
 
 

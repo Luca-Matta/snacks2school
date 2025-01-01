@@ -2,10 +2,11 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    path('user-count/', UserCount.as_view(), name='user-count'),
     path('stores/', StoreList.as_view(), name='store-list'),
     path('csrf-token/', get_csrf_token, name='csrf-token'),
     path('signup/customer/', CustomerSignup.as_view(), name='customer_signup'),
-    path('signup/store/', StoreSignup.as_view(), name='store_signup'),
+    path('signup/school-staff/', SchoolStaffSignup.as_view(), name='store_signup'),
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
     path('provinces/', ProvinceList.as_view(), name='province-list'),

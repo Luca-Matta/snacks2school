@@ -2,7 +2,12 @@
   <div>
     <div class="flex flex-wrap justify-center items-center gap-8 mt-4 md:mt-0">
       <div v-for="(dayData, dayName) in days" :key="dayName">
-        <h3 class="text-xl font-bold mb-3 text-center">{{ dayName }}</h3>
+        <h3 class="text-xl font-bold text-center">
+          {{ dayName }}
+        </h3>
+        <div class="text-center text-xs font-bold mb-3">
+          {{ dayData.date }}
+        </div>
         <div
           class="flex flex-col justify-center items-center text-center h-40 w-40 rounded-xl outline outline-5 outline-brown outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
           @click="
@@ -42,7 +47,6 @@
                 />
               </div>
             </div>
-            <div class="text-xs mt-1">Vuoi cambiare qualcosa?</div>
           </div>
         </div>
       </div>

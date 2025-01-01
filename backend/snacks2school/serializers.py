@@ -42,16 +42,23 @@ class CustomerSignupSerializer(BaseSignupSerializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     location = serializers.PrimaryKeyRelatedField(queryset=Province.objects.all(), required=True)
-    associated_school = serializers.PrimaryKeyRelatedField(queryset=School.objects.all(), required=True)
+    associated_schools = serializers.PrimaryKeyRelatedField(queryset=School.objects.all(), many=True, required=True)
     school_class = serializers.PrimaryKeyRelatedField(queryset=Class.objects.all(), required=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'location', 'associated_school', 'school_class']
+        fields = ['username', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'location', 'associated_schools', 'school_class']
 
 
-class StoreSignupSerializer(BaseSignupSerializer):
-    store_name = serializers.CharField()
+class SchoolStaffSignupSerializer(BaseSignupSerializer):
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    location = serializers.PrimaryKeyRelatedField(queryset=Province.objects.all(), required=True)
+    associated_schools = serializers.PrimaryKeyRelatedField(queryset=School.objects.all(), many=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'location', 'associated_schools']
 
 
 class LoginSerializer(serializers.Serializer):
@@ -60,6 +67,8 @@ class LoginSerializer(serializers.Serializer):
 
 
 class CurrentUserDataSerializer(serializers.ModelSerializer):
+    associated_schools = SchoolSerializer(many=True)
+
     class Meta:
         model = User
         fields = '__all__'

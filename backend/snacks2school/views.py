@@ -32,8 +32,8 @@ def get_csrf_token(request):
 
 
 def get_start_of_week():
-    today = datetime.date.today()
-    start_of_week = today - datetime.timedelta(days=today.weekday())
+    today = datetime.today()
+    start_of_week = today - timedelta(days=today.weekday())
     return start_of_week
 
 
@@ -55,6 +55,12 @@ def get_adjusted_week():
 
     end_of_week = start_of_week + timedelta(days=5)
     return start_of_week, end_of_week
+
+
+class UserCount(APIView):
+    def get(self, request):
+        user_count = User.objects.count()
+        return Response({'user_count': user_count}, status=status.HTTP_200_OK)
 
 
 class ProvinceList(APIView):
@@ -97,7 +103,7 @@ class CustomerSignup(APIView):
             first_name = serializer.validated_data.get('first_name', '')
             last_name = serializer.validated_data.get('last_name', '')
             location = serializer.validated_data['location']
-            associated_school = serializer.validated_data['associated_school']
+            associated_schools = serializer.validated_data['associated_schools']
             school_class = serializer.validated_data['school_class']
 
             if User.objects.filter(username=username).exists():
@@ -112,10 +118,10 @@ class CustomerSignup(APIView):
                 first_name=first_name,
                 last_name=last_name,
                 location=location,
-                associated_school=associated_school,
                 school_class=school_class
             )
             
+            user.associated_schools.set(associated_schools)
             user.save()
 
             customer_group, created = Group.objects.get_or_create(name='Customer')
@@ -131,25 +137,36 @@ class CustomerSignup(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class StoreSignup(APIView):
+class SchoolStaffSignup(APIView):
     def post(self, request):
-        serializer = StoreSignupSerializer(data=request.data)
+        serializer = SchoolStaffSignupSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             email = serializer.validated_data.get('email', '')
             password = serializer.validated_data['password']
-            store_name = serializer.validated_data['store_name']
+            first_name = serializer.validated_data.get('first_name', '')
+            last_name = serializer.validated_data.get('last_name', '')
             location = serializer.validated_data['location']
+            associated_schools = serializer.validated_data['associated_schools']
 
             if User.objects.filter(username=username).exists():
                 return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
             if email and User.objects.filter(email=email).exists():
                 return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-            user = User.objects.create_user(username=username, email=email, password=password, store_name=store_name, location=location)
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                location=location,
+            )
             
-            store_group, created = Group.objects.get_or_create(name='Store')
-            user.groups.add(store_group)
+            user.associated_schools.set(associated_schools)
+            
+            school_staff_group, created = Group.objects.get_or_create(name='School staff')
+            user.groups.add(school_staff_group)
             
             token, created = Token.objects.get_or_create(user=user)
             
@@ -289,7 +306,7 @@ class CreateOrder(APIView):
             snack = Snack.objects.get(id=snack_id) if snack_id else None
             drink = Drink.objects.get(id=drink_id) if drink_id else None
             school = School.objects.get(id=school_id)
-            school_class = Class.objects.get(id=class_id)
+            school_class = Class.objects.get(id=class_id) if class_id else None
         except User.DoesNotExist:
             return Response({'error': 'Seller not found'}, status=status.HTTP_404_NOT_FOUND)
         except Snack.DoesNotExist:

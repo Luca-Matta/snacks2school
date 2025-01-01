@@ -15,7 +15,7 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     credit_wallet_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
     stripe_customer_id = models.CharField(max_length=255, null=True, blank=True)
-    associated_school = models.ForeignKey('School', on_delete=models.SET_NULL, null=True, blank=True, related_name='students')
+    associated_schools = models.ManyToManyField('School', related_name='users')
     school_class = models.ForeignKey('Class', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

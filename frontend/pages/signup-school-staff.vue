@@ -67,38 +67,18 @@
           <div v-if="selectedProvince" class="mb-3">
             <label class="block text-xs mb-1">Scuola *</label>
             <select
-              v-model="selectedSchool"
-              id="associatedSchool"
-              name="associatedSchool"
+              v-model="selectedSchools"
+              id="associatedSchools"
+              name="associatedSchools"
               class="w-full bg-gray-200 border border-[1.5px] border-yellow rounded px-2 py-1 cursor-pointer"
-              @change="fetchClasses"
+              multiple
             >
-              <option value="" disabled></option>
               <option
                 v-for="school in schoolsByProvince"
                 :key="school.id"
                 :value="school.id"
               >
                 {{ school.name }}
-              </option>
-            </select>
-          </div>
-          <div v-if="selectedSchool" class="mb-3">
-            <label class="block text-xs mb-1">Classe *</label>
-            <select
-              v-model="schoolClass"
-              id="schoolClass"
-              name="schoolClass"
-              class="w-full bg-gray-200 border border-[1.5px] border-yellow rounded px-2 py-1 cursor-pointer"
-              style="border-radius: 5px; padding: 7px"
-            >
-              <option value="" disabled></option>
-              <option
-                v-for="schoolClass in classes"
-                :key="schoolClass.id"
-                :value="schoolClass.id"
-              >
-                {{ schoolClass.name }}
               </option>
             </select>
           </div>
@@ -177,19 +157,19 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 
-const passwordFieldType = ref<string>("password");
 const username = ref<string>("");
 const firstName = ref<string>("");
 const lastName = ref<string>("");
 const location = ref<string>("");
-const associatedSchool = ref<string>("");
-const schoolClass = ref<string>("");
+const associatedSchools = ref<string[]>([]);
+// const schoolClass = ref<string>("");
 const password = ref<string>("");
 const confirmPassword = ref<string>("");
+const passwordFieldType = ref<string>("password");
 const provinces = ref([]);
 const selectedProvince = ref<string | null>(null);
 const schoolsByProvince = ref([]);
-const selectedSchool = ref<string | null>(null);
+const selectedSchools = ref<string[]>([]);
 const classes = ref([]);
 
 const togglePasswordVisibility = () => {
@@ -242,19 +222,6 @@ const fetchSchools = async () => {
   }
 };
 
-const fetchClasses = async () => {
-  if (!selectedSchool.value) return;
-  try {
-    const response = await axios.get(
-      `http://localhost:8000/api/school/classes/?school=${selectedSchool.value}`
-    );
-    classes.value = response.data;
-    console.log("Classes:", classes.value);
-  } catch (error) {
-    console.error("Error fetching classes:", error);
-  }
-};
-
 import axiosInstance from "../utils/axiosInstance";
 
 const handleLogin = async () => {
@@ -300,8 +267,8 @@ const handleSignup = async () => {
       first_name: firstName.value,
       last_name: lastName.value,
       location: selectedProvince.value,
-      associated_schools: [selectedSchool.value],
-      school_class: schoolClass.value,
+      associated_schools: selectedSchools.value,
+      // school_class: schoolClass.value,
       password: password.value,
       confirm_password: confirmPassword.value,
     };
@@ -309,7 +276,7 @@ const handleSignup = async () => {
     console.log("Signup payload:", payload);
 
     const response = await axios.post(
-      "http://localhost:8000/api/signup/customer/",
+      "http://localhost:8000/api/signup/school-staff/",
       payload,
       {
         headers: {
