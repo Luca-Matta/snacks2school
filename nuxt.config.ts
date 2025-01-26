@@ -1,5 +1,6 @@
 export default {
-  css: ["~/assets/css/tailwind.css"],
+  css: ["~/assets/css/tailwind.css", "@/assets/css/main.css"],
+
   build: {
     postcss: {
       plugins: {
@@ -8,5 +9,7 @@ export default {
       },
     },
   },
-  modules: ["@nuxtjs/ionic"],
+
+  modules: ["@nuxtjs/ionic", "@nuxtjs/device"],
+  compatibilityDate: "2025-01-26",
 };
