@@ -4,6 +4,19 @@
   </ion-app>
 </template>
 
+<script setup lang="ts">
+import { ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/swiper-bundle.css";
+import { useNuxtApp } from "#app";
+
+const { $device } = useNuxtApp();
+const isMobile = ref<boolean>($device.isMobile);
+</script>
+
 <style>
 .shadow-btn {
   box-shadow: 0 20px 27px 10px rgba(0, 0, 0, 0.2);
@@ -94,5 +107,27 @@ input:valid {
       rgba(0, 0, 0, 0.25) 100%
     ),
     url(../../static/store-hero.png) !important;
+}
+
+swiper {
+  display: block !important;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0 !important;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 </style>

@@ -177,6 +177,13 @@ import {
   getCurrentUserData,
   getChildrenForCurrentUser,
 } from "../utils/auth";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 
 interface School {
   id: number;

@@ -260,7 +260,9 @@
               account.
               <span v-if="isAuthenticated">
                 Vai sul tuo
-                <router-link to="/profile" class="underline"
+                <router-link
+                  to="/profile"
+                  class="!text-black font-bold underline"
                   >profilo</router-link
                 >
                 per aggiungere i tuoi figli.
@@ -744,7 +746,7 @@
               <span class="opacity-60"> Siamo qui per supportarti - </span>
               <a
                 href="mailto:snacks2school@gmail.com"
-                class="text-[#a688f9] underline"
+                class="!text-[#a688f9] underline"
               >
                 snacks2school@gmail.com
               </a>
@@ -768,6 +770,13 @@ import "swiper/swiper-bundle.css";
 import { useNuxtApp } from "#app";
 import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 
 const { $device } = useNuxtApp();
 const isMobile = ref<boolean>($device.isMobile);
