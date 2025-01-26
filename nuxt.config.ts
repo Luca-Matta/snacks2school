@@ -16,6 +16,6 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ["@nuxtjs/ionic", "@nuxtjs/device"],
+  modules: ["@nuxtjs/ionic", "@nuxtjs/device", "nuxt-swiper"],
   compatibilityDate: "2025-01-26",
 });

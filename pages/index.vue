@@ -30,30 +30,32 @@
             Tu ordini. Noi la consegniamo a scuola.
           </div>
 
-          <template>
-            <div
-              class="xl:hidden max-w-screen-xl flex justify-center -mt-8 overflow-hidden"
-            >
-              <div class="mx-auto">
-                <swiper
-                  :slidesPerView="5"
-                  :centeredSlides="true"
-                  :pagination="false"
-                  :navigation="false"
-                  :speed="500"
-                  class="!h-[275px] max-w-screen-xl"
+          <div class="flex !justify-center !items-center !mx-auto mt-12">
+            <div class="swiper-wrapper__inner">
+              <ClientOnly>
+                <swiper-container
+                  class="swiper-cards"
+                  :width="240"
+                  :slides-per-view="1"
+                  :loop="true"
+                  effect="cards"
+                  :autoplay="{
+                    delay: 1000,
+                    disableOnInteraction: true,
+                  }"
                 >
                   <swiper-slide
-                    v-for="(slide, index) in sellingPoints"
-                    :key="index"
-                    class="!h-40 !w-40 my-auto mx-5"
+                    v-for="slide in sellingPoints"
+                    :key="`slide-card-${slide.id}`"
+                    :class="slide.class"
                   >
-                    <div :class="slide.class" class="swiper-slide-content">
+                    <div
+                      class="swiper-slide-content flex flex-col justify-center items-center"
+                    >
                       <img
                         :src="slide.imgSrc"
                         :alt="slide.imgAlt"
-                        :class="slide.imgClass"
-                        class="swiper-slide-image"
+                        class="h-9 w-9 mb-2"
                       />
                       <div class="font-bold text-center text-sm">
                         {{ slide.title }}
@@ -69,96 +71,8 @@
                       </div>
                     </div>
                   </swiper-slide>
-                </swiper>
-              </div>
-            </div>
-          </template>
-
-          <div
-            class="hidden xl:flex justify-center items-center py-16 px-4 gap-12 mx-auto overflow-hidden"
-          >
-            <div
-              class="flex flex-col justify-center items-center bg-[#ffa500] h-64 w-64 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
-            >
-              <img
-                src="../assets/icons/health.png"
-                alt="Health"
-                class="h-12 w-12"
-              />
-              <div class="font-bold text-center">Salute e tutela</div>
-              <div class="flex flex-col justify-center items-center">
-                <p class="text-sm">Trasparenza sugli ingredienti.</p>
-                <p class="text-sm">Allergeni sempre in evidenza.</p>
-                <p class="text-sm">Proposte vegane e bio.</p>
-              </div>
-            </div>
-
-            <div
-              class="flex flex-col justify-center items-center bg-[#a688f9] h-72 w-72 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
-            >
-              <img
-                src="../assets/icons/quality.png"
-                alt="Comfort"
-                class="h-12 w-12"
-              />
-              <div class="font-bold">Gustosissimo</div>
-              <div class="flex flex-col justify-center items-center">
-                <p class="text-sm">
-                  Materie prime di qualità elevatissima. Ogni morso è
-                  gustosissimo.
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="flex flex-col justify-center items-center bg-[#ffa500] h-80 w-80 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
-            >
-              <img
-                src="../assets/icons/calendar.png"
-                alt="Calendar"
-                class="h-12 w-12"
-              />
-              <div class="font-bold">
-                Snacks Calendar <br />
-                La merenda che cambia, <br />
-                come tuo figlio
-              </div>
-              <div class="flex flex-col justify-center items-center">
-                <p class="text-sm">
-                  Ogni giorno uno snack diverso.<br />
-                  Una dieta varia e sana è fondamentale per la salute di tuo
-                  figlio.
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="flex flex-col justify-center items-center bg-[#a688f9] h-72 w-72 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
-            >
-              <img
-                src="../assets/icons/sleeping-mask.png"
-                alt="Cash"
-                class="h-14 w-14"
-              />
-              <div class="font-bold">Comodità</div>
-              <p class="text-sm">
-                Di' addio alle mattinate frenetiche. Ordina comodamente dal tuo
-                divano.
-              </p>
-            </div>
-            <div
-              class="flex flex-col justify-center items-center bg-[#ffa500] h-64 w-64 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
-            >
-              <img
-                src="../assets/icons/credit-card.png"
-                alt="Safety"
-                class="h-12 w-12"
-              />
-              <div class="font-bold">Risparmio</div>
-              <p class="text-sm">
-                Prezzi più bassi rispetto al dettaglio e alle merende
-                industriali.
-              </p>
+                </swiper-container>
+              </ClientOnly>
             </div>
           </div>
 
@@ -302,6 +216,50 @@
               </div>
             </div>
 
+            <div class="flex !justify-center !items-center !mx-auto py-6 mb-6">
+              <div class="swiper-wrapper__inner">
+                <ClientOnly>
+                  <swiper-container
+                    v-if="featuredSnacks.length > 0"
+                    class="swiper-cards"
+                    :width="240"
+                    :slides-per-view="1"
+                    :loop="true"
+                    effect="cards"
+                    :autoplay="{
+                      delay: 1000,
+                      disableOnInteraction: true,
+                    }"
+                  >
+                    <swiper-slide
+                      v-for="(snack, index) in featuredSnacks"
+                      :key="`slide-snack-card-${snack.id}`"
+                      :class="[
+                        'flex flex-col justify-center items-center !h-40 !w-60 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1',
+                        index % 2 === 0
+                          ? 'bg-[#ffa500] outline-[#ffa500]'
+                          : 'bg-[#a688f9] outline-[#a688f9]',
+                      ]"
+                    >
+                      <div
+                        class="swiper-slide-content flex flex-col justify-center items-center"
+                      >
+                        <img :src="snack.image" class="h-9 w-9 mb-2" />
+                        <div class="font-bold text-center text-sm">
+                          {{ snack.name }}
+                        </div>
+                        <div class="flex flex-col justify-center items-center">
+                          <p class="text-xs">
+                            {{ snack.gross_price }}
+                          </p>
+                        </div>
+                      </div>
+                    </swiper-slide>
+                  </swiper-container>
+                </ClientOnly>
+              </div>
+            </div>
+
             <template>
               <div class="-mt-14 md:mt-6 mb-4">
                 <div class="mx-auto">
@@ -362,41 +320,6 @@
                 </div>
               </div>
             </template>
-
-            <!-- <div
-          class="max-w-screen-xl mx-auto flex justify-center items-center px-4 gap-2"
-        >
-          <img
-            src="../assets/icons/wheat-sack.png"
-            alt="Wheatsack"
-            class="h-10 md:h-24 w-10 md:w-24 cursor-pointer align-middle ml-2 md:ml-7"
-          />
-          <img
-            src="../assets/icons/cheese.png"
-            alt="Cheese"
-            class="h-10 md:h-24 w-10 md:w-24 cursor-pointer inline-block align-middle ml-2 md:ml-7"
-          />
-          <img
-            src="../assets/icons/ham.png"
-            alt="Cheese"
-            class="h-10 md:h-24 w-10 md:w-24 cursor-pointer inline-block align-middle ml-2 md:ml-7"
-          />
-          <img
-            src="../assets/icons/tomato.png"
-            alt="Tomato"
-            class="h-10 md:h-24 w-10 md:w-24 cursor-pointer inline-block align-middle ml-2 md:ml-7"
-          />
-          <img
-            src="../assets/icons/lettuce.png"
-            alt="Lettuce"
-            class="h-10 md:h-24 w-10 md:w-24 cursor-pointer inline-block align-middle ml-2 md:ml-7"
-          />
-          <img
-            src="../assets/icons/olive-oil.png"
-            alt="Oil"
-            class="h-10 md:h-24 w-10 md:w-24 cursor-pointer inline-block align-middle ml-2 md:ml-7"
-          />
-        </div> -->
 
             <div
               class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 -mt-16 md:mt-0"
@@ -510,133 +433,55 @@
                 </div>
               </div>
             </div>
-            <div>
-              <div
-                class="hidden md:flex flex-wrap justify-center items-center gap-8 lg:pt-2 lg:pb-8 mt-12"
-              >
-                <div v-for="store in stores" :key="store.id">
-                  <div class="flex flex-col justify-center items-center gap-2">
-                    <router-link
-                      :to="{
-                        name: 'stores-username',
-                        params: { username: store.username },
-                        query: {
-                          first_name: store.first_name,
-                          last_name: store.last_name,
-                          profile_picture: store.profile_picture,
-                          location: store.location,
-                          address: store.address,
-                          bio: store.bio,
-                        },
-                      }"
+            <div class="flex !justify-center !items-center !mx-auto mt-12">
+              <div class="swiper-wrapper__inner">
+                <ClientOnly>
+                  <swiper-container
+                    v-if="stores.length > 0"
+                    class="swiper-cards"
+                    :width="240"
+                    :slides-per-view="1"
+                    :loop="true"
+                    effect="cards"
+                    :autoplay="{
+                      delay: 1000,
+                      disableOnInteraction: true,
+                    }"
+                  >
+                    <swiper-slide
+                      v-for="store in stores"
+                      :key="`slide-card-${store.id}`"
+                      class="flex flex-col justify-center items-center !h-60 !w-60 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-offset-4 outline-[#af4135] cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1 bg-[#ffffff]"
                     >
                       <div
-                        class="flex justify-center items-center h-60 w-60 bg-white !rounded-xl transition-all duration-200 outline outline-1 outline-[#bf09bd] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
+                        class="swiper-slide-content flex flex-col justify-center items-center"
                       >
                         <img
-                          :src="`${store.profile_picture}`"
-                          alt="Profile Picture"
-                          class="bg-center bg-contain bg-no-repeat h-52 w-52"
+                          :src="store.profile_picture"
+                          class="bg-center bg-contain bg-no-repeat h-36 w-36"
                         />
-                      </div>
-                    </router-link>
-                    <div class="flex flex-col justify-center items-center mt-2">
-                      <div class="flex items-center justify-center gap-1.5">
-                        <p class="font-bold">
-                          {{ store.first_name }} {{ store.last_name }}
-                        </p>
                         <div
-                          class="h-4 w-4 bg-[#ffa500] !rounded-full font-bold flex justify-center items-center"
+                          class="flex flex-col justify-center items-center mt-2"
                         >
-                          √
-                        </div>
-                      </div>
-                      <p class="text-xs opacity-80">{{ store.address }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <template>
-                <div class="md:hidden -mt-28">
-                  <div class="mx-auto">
-                    <swiper
-                      :slidesPerView="2"
-                      :spaceBetween="20"
-                      :centeredSlides="true"
-                      :pagination="false"
-                      :navigation="false"
-                      :speed="500"
-                      class="!h-[350px]"
-                    >
-                      <swiper-slide
-                        v-for="(slide, index) in stores"
-                        :key="index"
-                        class="!h-40 !w-40 my-auto mx-5"
-                      >
-                        <div
-                          class="flex flex-col justify-center items-center gap-2"
-                        >
-                          <router-link
-                            :to="{
-                              name: 'stores-username',
-                              params: { username: slide.username },
-                              query: {
-                                first_name: slide.first_name,
-                                last_name: slide.last_name,
-                                profile_picture: slide.profile_picture,
-                                location: slide.location,
-                                address: slide.address,
-                                bio: slide.bio,
-                              },
-                            }"
-                          >
-                            <div
-                              class="flex justify-center items-center h-40 w-40 bg-white !rounded-xl transition-all duration-200 outline outline-1 outline-[#bf09bd] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
-                            >
-                              <img
-                                :src="`${slide.profile_picture}`"
-                                alt="Profile Picture"
-                                class="bg-center bg-contain bg-no-repeat h-36 w-36"
-                              />
-                            </div>
-                          </router-link>
                           <div
-                            class="flex flex-col justify-center items-center mt-2"
+                            class="flex items-center justify-center gap-1.5 text-sm"
                           >
-                            <div
-                              class="flex items-center justify-center gap-1.5"
-                            >
-                              <p
-                                class="font-bold text-xs text-center !max-w-40"
-                              >
-                                {{ slide.first_name }} {{ slide.last_name }}
-                              </p>
-                              <div
-                                class="h-4 w-4 bg-[#ffa500] !rounded-full font-bold flex justify-center items-center"
-                              >
-                                √
-                              </div>
-                            </div>
-                            <p class="text-xs opacity-80 text-center max-w-36">
-                              {{ slide.address }}
+                            <p class="font-bold">
+                              {{ store.first_name }} {{ store.last_name }}
                             </p>
+                            <div
+                              class="h-4 w-4 bg-[#ffa500] rounded-full font-bold flex justify-center items-center"
+                            >
+                              √
+                            </div>
                           </div>
                         </div>
-                      </swiper-slide>
-                    </swiper>
-                  </div>
-                </div>
-              </template>
+                      </div>
+                    </swiper-slide>
+                  </swiper-container>
+                </ClientOnly>
+              </div>
             </div>
-            <!-- <div
-          v-if="!isAuthenticated"
-          class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 -mt-16 md:-mt-8 mb-10 md:mb-0"
-        >
-          <router-link to="/login" class="underline"
-            >Accedi per visualizzarli</router-link
-          >
-        </div> -->
           </div>
 
           <div
@@ -777,6 +622,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/vue";
+import { useSwiper } from "#imports";
 
 const { $device } = useNuxtApp();
 const isMobile = ref<boolean>($device.isMobile);
@@ -806,7 +652,7 @@ import safetyIcon from "@/assets/icons/credit-card.png";
 const sellingPoints = [
   {
     class:
-      "flex flex-col justify-center items-center bg-[#ffa500] h-40 w-40 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#ffa500] !h-40 !w-60 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: healthIcon,
     imgAlt: "Health",
     imgClass: "h-8 w-8",
@@ -815,7 +661,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-[#a688f9] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#a688f9] !h-40 !w-60 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: qualityIcon,
     imgAlt: "Comfort",
     imgClass: "h-7 w-7",
@@ -826,7 +672,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-[#ffa500] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#ffa500] !h-40 !w-60 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: calendarIcon,
     imgAlt: "Calendar",
     imgClass: "h-7 w-7",
@@ -837,7 +683,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-[#a688f9] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#a688f9] !h-40 !w-60 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: comfortIcon,
     imgAlt: "Cash",
     imgClass: "h-9 w-9",
@@ -848,7 +694,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-[#ffa500] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#ffa500] !h-40 !w-60 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: safetyIcon,
     imgAlt: "Safety",
     imgClass: "h-7 w-7",
@@ -879,7 +725,6 @@ const getStripePubKey = async () => {
 
 import axiosInstance from "../utils/axiosInstance";
 import ReferralExplenation from "~/components/ReferralExplenation.vue";
-import { Slider } from "#components";
 
 const chargeCreditWallet = async () => {
   try {
@@ -962,14 +807,75 @@ onMounted(async () => {
     await axios.get("http://localhost:8000/api/featured-snacks/")
   ).data;
 
+  stores.value = (await axios.get("http://localhost:8000/api/stores/")).data;
+
   const stripePubKey = await getStripePubKey();
   stripe.value = Stripe(stripePubKey);
 
-  try {
-    const response = await axios.get("http://localhost:8000/api/stores/");
-    stores.value = response.data;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
+  // try {
+  //   const response = await axios.get("http://localhost:8000/api/stores/");
+  //   stores.value = response.data;
+  // } catch (error) {
+  //   console.error("Error fetching user data:", error);
+  // }
 });
 </script>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+#__nuxt {
+  height: 100dvh;
+  max-height: 100dvh;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem;
+}
+
+main > .swiper-wrapper:not(:last-child) {
+  border-bottom: 1px solid #d9d9d9;
+  padding-bottom: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.swiper-wrapper h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* .swiper-wrapper__inner {
+  border: 1px solid #eaeaea;
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+} */
+
+.swiper-cards {
+  width: 240px;
+  height: 240px;
+}
+.swiper-cards swiper-slide {
+  border-radius: 6px;
+}
+</style>
