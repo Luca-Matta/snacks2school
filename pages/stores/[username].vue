@@ -2,8 +2,8 @@
   <div>
     <Navbar />
     <div class="hero relative text-white pb-6">
-      <div class="flex justify-center items-center py-20 md:py-60 px-4">
-        <div class="flex flex-col py-8">
+      <div class="flex justify-center items-center !py-20 md:py-60 !px-4">
+        <div class="flex flex-col !py-8">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <div class="bg-gray-100 h-32 w-32 !rounded-xl">
               <img
@@ -23,7 +23,7 @@
             </div>
           </div>
           <div
-            class="absolute right-0 bottom-6 left-0 py-2"
+            class="absolute right-0 bottom-6 left-0 !py-2"
             style="background-color: rgba(243, 244, 246, 0.6)"
           >
             <div class="flex justify-center items-center">
@@ -57,7 +57,7 @@
     </div>
 
     <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-12 md:pt-24 px-4 gap-6 md:gap-10"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-12 md:pt-24 !px-4 gap-6 md:gap-10"
     >
       <div class="text-2xl md:text-5xl text-center font-bold">
         La <span class="text-[#af4135]">bontà</span> ha
@@ -70,7 +70,7 @@
         <span class="text-[#bf09bd]">1933</span>
       </div> -->
 
-      <div class="mx-auto text-center text-xs md:text-base px-4 -mt-2">
+      <div class="mx-auto text-center text-xs md:text-base !px-4 -mt-2">
         <span class="font-bold"
           >Una storia di autenticità e tradizione dal 1933.</span
         ><br />
@@ -105,7 +105,7 @@
     </div>
 
     <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-12 px-4"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-12 !px-4"
     >
       <div class="flex justify-center items-center gap-2 md:gap-7">
         <img
@@ -121,7 +121,7 @@
           <span class="text-[#a688f9]">nostro </span>
           <span class="text-[#bf09bd]">pane</span>
         </div>
-        <div class="mx-auto text-center text-xs md:text-base px-4 -mt-2">
+        <div class="mx-auto text-center text-xs md:text-base !px-4 -mt-2">
           <div class="max-w-60 md:max-w-full text-center mx-auto">
             <span class="font-bold"
               >Il lievito madre è il protagonista assoluto della nostra
@@ -151,7 +151,7 @@
     </div>
 
     <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-12 px-4"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-12 !px-4"
     >
       <div class="flex justify-center items-center gap-2 md:gap-7">
         <img
@@ -165,7 +165,7 @@
           <div class="text-2xl md:text-5xl text-center font-bold mt-2">
             Salumi da... <span class="text-[#bf09bd]">"La Bottega di Adò"</span>
           </div>
-          <div class="mx-auto text-center font-bold text-sm px-4">
+          <div class="mx-auto text-center font-bold text-sm !px-4">
             L'eccellenza della materia prima.
           </div>
         </div>
@@ -174,7 +174,7 @@
             Salumi da... <br />
             <span class="text-[#bf09bd]">"La Bottega di Adò"</span>
           </div>
-          <div class="mx-auto text-center font-bold text-xs px-4">
+          <div class="mx-auto text-center font-bold text-xs !px-4">
             L'eccellenza della materia prima.
           </div>
         </div>
@@ -182,7 +182,7 @@
     </div>
 
     <!-- <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-6 md:pt-12 px-4 gap-6"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pt-6 md:pt-12 !px-4 gap-6"
     >
       <div class="text-2xl md:text-5xl text-center font-bold">
         I nostri <span class="text-[#af4135]">impasti</span>
@@ -196,7 +196,7 @@
               class="h-8 md:h-20 w-8 md:w-20 cursor-pointer"
             />
           </div>
-          <div class="mx-auto text-center font-bold text-xs md:text-sm px-4">
+          <div class="mx-auto text-center font-bold text-xs md:text-sm !px-4">
             Crostaccio
           </div>
         </div>
@@ -208,7 +208,7 @@
               class="h-8 md:h-20 w-8 md:w-20 cursor-pointer"
             />
           </div>
-          <div class="mx-auto text-center font-bold text-xs md:text-sm px-4">
+          <div class="mx-auto text-center font-bold text-xs md:text-sm !px-4">
             Curcuma e chia
           </div>
         </div>
@@ -220,7 +220,7 @@
               class="h-8 md:h-20 w-8 md:w-20 cursor-pointer"
             />
           </div>
-          <div class="mx-auto text-center font-bold text-xs md:text-sm px-4">
+          <div class="mx-auto text-center font-bold text-xs md:text-sm !px-4">
             Grano arso
           </div>
         </div>
@@ -228,13 +228,13 @@
     </div> -->
 
     <div
-      class="flex flex-col justify-center items-center max-w-screen-xl mx-auto py-6 md:py-12"
+      class="flex flex-col justify-center items-center max-w-screen-xl mx-auto !py-6 md:py-12"
     >
-      <div class="flex flex-col justify-center items-center py-8 gap-4">
+      <div class="flex flex-col justify-center items-center !py-8 gap-4">
         <div
           class="flex flex-col justify-center items-center max-w-screen-xl mx-auto"
         >
-          <!-- <div class="w-full h-auto px-4" autoplay muted>
+          <!-- <div class="w-full h-auto !px-4" autoplay muted>
             <img
               src="../../static/store-menu.png"
               alt="Menu"
@@ -246,7 +246,7 @@
           </h1>
         </div>
         <div
-          class="flex flex-wrap justify-center items-center gap-8 md:gap-12 py-6"
+          class="flex flex-wrap justify-center items-center gap-8 md:gap-12 !py-6"
         >
           <div v-for="snack in singleStoreSnacks" :key="snack">
             <div
@@ -282,7 +282,7 @@
                     </div>
                   </div> -->
                   <div
-                    class="text-xs text-center font-bold py-1 md:py-2 underline"
+                    class="text-xs text-center font-bold !py-1 md:py-2 underline"
                   >
                     Consulta la scheda tecnica
                   </div>
@@ -298,7 +298,7 @@
           Catalogo / <span class="text-[#af4135]">Bevande</span>
         </h1>
         <div
-          class="flex flex-wrap justify-center items-center gap-8 md:gap-12 py-6"
+          class="flex flex-wrap justify-center items-center gap-8 md:gap-12 !py-6"
         >
           <div v-for="drink in singleStoreDrinks" :key="drink">
             <div

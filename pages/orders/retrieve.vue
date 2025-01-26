@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div
-      class="flex flex-col justify-center items-center text-center gap-2 max-w-44 py-16 mx-auto"
+      class="flex flex-col justify-center items-center text-center gap-2 max-w-44 !py-16 mx-auto"
     >
       <button
         @click="sendOrderFiles"

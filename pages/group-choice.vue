@@ -1,11 +1,11 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <div class="flex justify-center items-center bg-gray-200 h-[100vh]">
+      <div class="flex justify-center items-center bg-[#f5f5f5] h-[100vh]">
         <div class="flex flex-col justify-center items-center">
           <img src="../assets/icons/logo.svg" alt="star" class="h-32 w-32" />
           <div class="text-4xl md:text-5xl font-bold">Snacks2School</div>
-          <p class="max-w-9 6 text-center py-4 px-4">
+          <p class="max-w-96 text-center !py-4 !px-4">
             La merenda a portata di click
           </p>
           <div
@@ -20,7 +20,7 @@
             >
               <router-link to="/signup-customer" class="w-full md:w-auto">
                 <button
-                  class="btn bg-[#ffa500] w-full md:w-auto font-bold uppercase text-xs shadow-button my-2 md:my-4 mb-2 !py-3 !px-6 !rounded-lg"
+                  class="btn bg-[#ffa500] w-full md:w-auto font-bold uppercase text-xs shadow-button my-2 md:my-4 mb-2 !py-3 !px-6 !rounded-lg text-black"
                 >
                   Studenti | Genitori
                 </button>
@@ -45,4 +45,11 @@
 </template>
 
 <script setup lang="ts">
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 </script>

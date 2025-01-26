@@ -3,7 +3,7 @@
     class="bg-background/75 backdrop-blur-[8px] border-b-[0.5px] border-gray border-opacity-100 sticky top-0 z-50"
   >
     <div
-      class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl flex items-center justify-between gap-3 h-16"
+      class="mx-auto !px-4 sm:px-6 lg:px-8 max-w-7xl flex items-center justify-between gap-3 h-16"
     >
       <div class="flex items-center gap-1.5">
         <router-link
@@ -49,12 +49,12 @@
             >
               <router-link
                 to="/profile"
-                class="block w-full text-left px-4 pt-2 text-gray-700 hover:bg-gray-100"
+                class="block w-full text-left !px-4 !pt-2 !text-gray-700 hover:bg-gray-100"
                 >Il mio profilo</router-link
               >
               <button
                 @click.prevent="handleLogout"
-                class="block w-full text-left px-4 pb-2 text-gray-700 hover:bg-gray-100"
+                class="block w-full text-left !px-4 !pb-2 !text-gray-700 hover:bg-gray-100"
               >
                 Esci
               </button>
@@ -64,10 +64,12 @@
       </div>
       <div v-else class="flex items-center gap-3">
         <router-link to="/login">
-          <button class="btn bg-[#ffa500] px-4 py-2 !rounded-md">Accedi</button>
+          <button class="btn bg-[#ffa500] !px-4 !py-2 !rounded-md text-black">
+            Accedi
+          </button>
         </router-link>
         <router-link to="/group-choice">
-          <button class="btn bg-black text-white px-4 py-2 !rounded-md">
+          <button class="btn bg-black text-white !px-4 !py-2 !rounded-md">
             Registrati
           </button>
         </router-link>

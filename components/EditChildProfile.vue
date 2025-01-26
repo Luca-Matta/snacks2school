@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed inset-0 flex justify-center items-center z-30 px-4 md:px-0"
+    class="fixed inset-0 flex justify-center items-center z-30 !px-4 md:px-0"
     style="backdrop-filter: blur(50px)"
   >
     <div
@@ -16,7 +16,7 @@
             v-model="selectedProvince"
             id="selectedProvince"
             name="selectedProvince"
-            class="w-full bg-gray-200 border border-[1.5px] border-[#bf09bd] !rounded px-2 py-1 cursor-pointer"
+            class="w-full bg-[#f5f5f5] border border-[1.5px] border-[#bf09bd] !rounded !px-2 !py-1 cursor-pointer"
             style="border-radius: 5px; padding: 7px"
             @change="fetchSchools"
           >
@@ -38,7 +38,7 @@
             v-model="selectedSchool"
             id="associatedSchool"
             name="associatedSchool"
-            class="w-full bg-gray-200 border border-[1.5px] border-[#bf09bd] !rounded px-2 py-1 cursor-pointer"
+            class="w-full bg-[#f5f5f5] border border-[1.5px] border-[#bf09bd] !rounded !px-2 !py-1 cursor-pointer"
             @change="fetchClasses"
           >
             <option value="" disabled></option>
@@ -59,7 +59,7 @@
             v-model="schoolClass"
             id="schoolClass"
             name="schoolClass"
-            class="w-full bg-gray-200 border border-[1.5px] border-[#bf09bd] !rounded px-2 py-1 cursor-pointer"
+            class="w-full bg-[#f5f5f5] border border-[1.5px] border-[#bf09bd] !rounded !px-2 !py-1 cursor-pointer"
             style="border-radius: 5px; padding: 7px"
           >
             <option value="" disabled></option>

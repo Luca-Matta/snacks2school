@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isReferralExplenationVisible"
-    class="fixed inset-0 flex justify-center items-center z-30 px-4 md:px-0"
+    class="fixed inset-0 flex justify-center items-center z-30 !px-4 md:px-0"
     style="backdrop-filter: blur(50px)"
   >
     <div

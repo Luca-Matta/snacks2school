@@ -12,6 +12,13 @@ import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css";
 import { useNuxtApp } from "#app";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 
 const { $device } = useNuxtApp();
 const isMobile = ref<boolean>($device.isMobile);

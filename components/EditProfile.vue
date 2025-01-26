@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isEditOrderVisible"
-    class="fixed inset-0 flex justify-center items-center z-30 px-4 md:px-0"
+    class="fixed inset-0 flex justify-center items-center z-30 !px-4 md:px-0"
     style="backdrop-filter: blur(50px)"
   >
     <div
@@ -16,7 +16,7 @@
         Vuoi rimuovere uno snack o una bevanda dall'ordine? <br />
         Non siamo avidi, ti restituiamo fino all'ultimo centesimo!
       </div>
-      <div class="flex flex-col justify-center py-4 gap-2">
+      <div class="flex flex-col justify-center !py-4 gap-2">
         <div class="flex flex-col gap-1">
           <div
             v-for="snack in dailyOrderSnacks"
@@ -68,7 +68,7 @@
         </div>
         <div
           v-if="userHasCredit"
-          class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
+          class="flex justify-center items-center text-center !py-4 text-xs gap-2 font-bold"
         >
           <img
             src="../assets/icons/credit-card.png"
@@ -82,10 +82,10 @@
         </div>
         <div
           v-if="!userHasCredit"
-          class="flex flex-col justify-center items-center py-4 text-sm text-center gap-4"
+          class="flex flex-col justify-center items-center !py-4 text-sm text-center gap-4"
         >
           <div
-            class="flex justify-center items-center text-center py-4 text-xs gap-2 font-bold"
+            class="flex justify-center items-center text-center !py-4 text-xs gap-2 font-bold"
           >
             <img
               src="../assets/icons/no-money.png"
@@ -111,7 +111,7 @@
           <div class="relative mb-4">
             <div
               @click="toggleMealTypeDropdown"
-              class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
+              class="mt-1 flex justify-between w-full !px-3 !py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
             >
               <span class="text-xs font-bold opacity-80">{{
                 selectedMealType
@@ -142,13 +142,13 @@
               <ul class="max-h-60 overflow-auto">
                 <li
                   @click="selectMealType('Merenda')"
-                  class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+                  class="cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] text-sm font-bold"
                 >
                   Merenda
                 </li>
                 <li
                   @click="selectMealType('Pranzo')"
-                  class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+                  class="cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] text-sm font-bold"
                 >
                   Pranzo
                 </li>
@@ -165,7 +165,7 @@
           <div class="relative mb-4" v-if="children.length > 1">
             <div
               @click="toggleChildrenDropdown"
-              class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
+              class="mt-1 flex justify-between w-full !px-3 !py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
             >
               <span class="text-xs font-bold opacity-80">
                 {{
@@ -202,7 +202,7 @@
                   v-for="(child, index) in children"
                   :key="index"
                   @click="selectChild(child)"
-                  class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+                  class="cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] text-sm font-bold"
                 >
                   {{ child.first_name }} {{ child.last_name }}
                 </li>
@@ -222,7 +222,7 @@
           >
             <div
               @click="toggleSchoolsDropdown"
-              class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
+              class="mt-1 flex justify-between w-full !px-3 !py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
             >
               <span class="text-xs font-bold opacity-80">{{
                 selectedSchool
@@ -257,7 +257,7 @@
                   v-for="(school, index) in selectedChild?.associated_schools"
                   :key="index"
                   @click="selectSchool(school)"
-                  class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+                  class="cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] text-sm font-bold"
                 >
                   {{ school.name }}
                 </li>
@@ -267,7 +267,7 @@
           <div
             v-if="userHasCredit"
             @click="toggleStoresDropdown"
-            class="mt-1 flex justify-between w-full px-3 py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
+            class="mt-1 flex justify-between w-full !px-3 !py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white"
           >
             <span class="text-xs font-bold opacity-80">{{
               selectedStore
@@ -302,7 +302,7 @@
                 v-for="(store, index) in stores"
                 :key="index"
                 @click="selectStore(store)"
-                class="cursor-pointer px-4 py-2 hover:bg-gray-200 text-sm font-bold"
+                class="cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] text-sm font-bold"
               >
                 {{ store.first_name }} {{ store.last_name }}
               </li>
@@ -312,7 +312,7 @@
         <div v-if="userHasCredit && snacks.length" class="mb-1 mt-4 relative">
           <div
             @click="toggleSnacksDropdown"
-            class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white gap-2"
+            class="mt-1 flex justify-between items-center w-full !px-3 !py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white gap-2"
           >
             <div class="flex items-center gap-2">
               <img
@@ -358,7 +358,7 @@
                 v-for="(snack, index) in snacks"
                 :key="index"
                 @click="selectSnack(snack)"
-                class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
+                class="flex justify-between items-center cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] gap-2"
               >
                 <div class="flex justify-center items-center flex-shrink-0">
                   <img
@@ -386,7 +386,7 @@
         <div v-if="userHasCredit && drinks.length" class="mb-1 mt-4 relative">
           <div
             @click="toggleDrinksDropdown"
-            class="mt-1 flex justify-between items-center w-full px-3 py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white gap-2"
+            class="mt-1 flex justify-between items-center w-full !px-3 !py-2 border-2 border-[#ffa500] focus:border-[#ffa500] !rounded-md cursor-pointer bg-white gap-2"
           >
             <div class="flex items-center gap-2">
               <img
@@ -432,7 +432,7 @@
                 v-for="(drink, index) in drinks"
                 :key="index"
                 @click="selectDrink(drink)"
-                class="flex justify-between items-center cursor-pointer px-4 py-2 hover:bg-gray-200 gap-2"
+                class="flex justify-between items-center cursor-pointer !px-4 !py-2 hover:bg-[#f5f5f5] gap-2"
               >
                 <div class="flex justify-center items-center flex-shrink-0">
                   <img
@@ -489,7 +489,7 @@
         class="flex flex-col justify-center items-center pb-4 text-sm text-center gap-4"
       >
         <div
-          class="flex flex-col justify-center items-center text-center py-4 text-xs font-bold"
+          class="flex flex-col justify-center items-center text-center !py-4 text-xs font-bold"
         >
           <img
             src="../assets/icons/no-money.png"

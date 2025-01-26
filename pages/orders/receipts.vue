@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div
-      class="flex flex-col justify-center items-center max-w-screen-xl mx-auto py-16"
+      class="flex flex-col justify-center items-center max-w-screen-xl mx-auto !py-16"
     >
       <div class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
         <div>Ecco le <span class="text-[#ffa500]">ricevute</span></div>
@@ -18,7 +18,7 @@
           />
         </div>
       </div>
-      <div class="flex justify-center flex-wrap gap-8 py-16 px-6">
+      <div class="flex justify-center flex-wrap gap-8 !py-16 !px-6">
         <div v-for="receipt in receipts" :key="receipt.id">
           <div
             class="bg-white shadow-card !rounded-2xl p-8 outline outline-1 outline-[#af4135] outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 h-full w-full md:w-[480px]"

@@ -25,7 +25,7 @@
           </div>
 
           <div
-            class="mx-auto text-center font-bold text-sm md:text-lg px-4 -mt-2 md:mt-4 mb-4"
+            class="mx-auto text-center font-bold text-sm md:text-lg !px-4 -mt-2 md:mt-4 mb-4"
           >
             Tu ordini. Noi la consegniamo a scuola.
           </div>
@@ -77,7 +77,7 @@
           </div>
 
           <div
-            class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 -mt-2 md:mt-0"
+            class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4 -mt-2 md:mt-0"
           >
             Leggere le card può nuocere gravemente al numero di merende che
             ordini.
@@ -89,7 +89,7 @@
               currentUser?.value &&
               currentUser.value.is_store
             "
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-10 md:py-16 mt-4 md:mt-12 px-4 gap-6 md:gap-10"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-10 md:py-16 mt-4 md:mt-12 !px-4 gap-6 md:gap-10"
           >
             <div
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
@@ -118,14 +118,14 @@
             </div>
 
             <div
-              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 underline"
+              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4 underline"
             >
               <router-link to="/orders">Fai clic qui.</router-link>
             </div>
           </div>
 
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center px-4 mb-4 md:mb-0 py-4 md:py-16 mt-12 gap-6 md:gap-10"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !px-4 mb-4 md:mb-0 !py-4 md:py-16 mt-12 gap-6 md:gap-10"
           >
             <div
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
@@ -138,7 +138,7 @@
               <span class="text-[#af4135]">genitore</span>
             </div>
             <div
-              class="max-w-screen-xl mx-auto flex justify-center items-center px-4 gap-2"
+              class="max-w-screen-xl mx-auto flex justify-center items-center !px-4 gap-2"
             >
               <img
                 src="../assets/icons/boy_3.png"
@@ -168,7 +168,7 @@
             </div>
 
             <div
-              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4"
+              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4"
             >
               Gestisci la merenda e il pranzo di tutti i tuoi figli in un unico
               account.
@@ -186,7 +186,7 @@
 
           <div class="pt-2 md:pt-6 pb-10 md:pb-16">
             <div
-              class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-4 md:mt-12 px-4 gap-6 md:gap-10"
+              class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-4 md:mt-12 !px-4 gap-6 md:gap-10"
             >
               <div
                 class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
@@ -216,7 +216,7 @@
               </div>
             </div>
 
-            <div class="flex !justify-center !items-center !mx-auto py-6 mb-6">
+            <div class="flex !justify-center !items-center !mx-auto !py-6 mb-6">
               <div class="swiper-wrapper__inner">
                 <ClientOnly>
                   <swiper-container
@@ -240,6 +240,7 @@
                           ? 'bg-[#ffa500] outline-[#ffa500]'
                           : 'bg-[#a688f9] outline-[#a688f9]',
                       ]"
+                      @click="openProductSpecificationSheet(snack)"
                     >
                       <div
                         class="swiper-slide-content flex flex-col justify-center items-center"
@@ -306,7 +307,7 @@
                               {{ snack.name }}
                             </p>
                             <!-- <div
-                          class="text-xs text-center font-bold py-1 md:py-2 underline"
+                          class="text-xs text-center font-bold !py-1 md:py-2 underline"
                         >
                           Consulta la scheda tecnica
                         </div> -->
@@ -322,7 +323,7 @@
             </template>
 
             <div
-              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 -mt-16 md:mt-0"
+              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4 -mt-16 md:mt-0"
             >
               Fai clic su un prodotto per consultarne la scheda tecnica:
               proprietà organolettiche e funzionali, ingredienti e allergeni.
@@ -339,7 +340,7 @@
           />
 
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-6 py-12 md:py-16 px-4 gap-2 md:gap-12"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-6 !py-12 md:py-16 !px-4 gap-2 md:gap-12"
           >
             <div
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-4"
@@ -373,7 +374,7 @@
 
           <div class="pt-10 md:pt-16 pb-0 md:pb-10">
             <div
-              class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-2 md:mt-0 px-4 gap-12 mb-5 md:mb-0"
+              class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-2 md:mt-0 !px-4 gap-12 mb-5 md:mb-0"
             >
               <div
                 v-if="!isAuthenticated"
@@ -401,7 +402,7 @@
 
               <div
                 v-if="isAuthenticated"
-                class="max-w-screen-xl mx-auto flex flex-col justify-center items-center px-4 mb-4 md:mb-0"
+                class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !px-4 mb-4 md:mb-0"
               >
                 <div
                   class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
@@ -433,7 +434,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex !justify-center !items-center !mx-auto mt-12">
+            <div class="flex !justify-center !items-center !mx-auto !py-4">
               <div class="swiper-wrapper__inner">
                 <ClientOnly>
                   <swiper-container
@@ -443,22 +444,18 @@
                     :slides-per-view="1"
                     :loop="true"
                     effect="cards"
-                    :autoplay="{
-                      delay: 1000,
-                      disableOnInteraction: true,
-                    }"
                   >
                     <swiper-slide
                       v-for="store in stores"
                       :key="`slide-card-${store.id}`"
-                      class="flex flex-col justify-center items-center !h-60 !w-60 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-offset-4 outline-[#af4135] cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1 bg-[#ffffff]"
+                      class="flex flex-col justify-center items-center !h-40 !w-40 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-1 outline-offset-4 outline-[#af4135] cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1 bg-[#ffffff]"
                     >
                       <div
                         class="swiper-slide-content flex flex-col justify-center items-center"
                       >
                         <img
                           :src="store.profile_picture"
-                          class="bg-center bg-contain bg-no-repeat h-36 w-36"
+                          class="bg-center bg-contain bg-no-repeat h-24 w-24"
                         />
                         <div
                           class="flex flex-col justify-center items-center mt-2"
@@ -485,7 +482,7 @@
           </div>
 
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-2 md:py-16 px-4 mb-4 md:mb-0 mt-6 md:mt-2"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-2 md:py-16 !px-4 mb-6"
           >
             <div
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
@@ -516,7 +513,7 @@
 
             <div class="flex justify-center mb-2">
               <button
-                class="btn bg-[#bf09bd] w-full text-white font-bold uppercase text-xs shadow-button my-4 mb-4 !py-3 !px-6 !!rounded-lg outline outline-1 outline-[#bf09bd] outline-offset-4 shadow-lightCard hover:shadow-none transition-all duration-500"
+                class="btn bg-[#bf09bd] w-full text-white font-bold uppercase text-xs shadow-button my-4 mb-4 !py-3 !px-6 !rounded-lg outline outline-1 outline-[#bf09bd] outline-offset-4 shadow-lightCard hover:shadow-none transition-all duration-500"
                 @click="openReferralExplenation"
               >
                 Scopri di più
@@ -524,7 +521,7 @@
             </div>
 
             <div
-              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4"
+              class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4"
             >
               Se porti un amico su Snacks2School, riceverai un credito non
               appena lui ricaricherà il suo portafoglio di credito.<br />
@@ -539,7 +536,7 @@
           />
 
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pb-10 md:pb-16 mt-8 md:mt-12 px-4 gap-6 md:gap-10"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pb-10 md:pb-16 mt-8 md:mt-12 !px-4 gap-6 md:gap-10"
           >
             <div class="text-2xl md:text-6xl lg:text-8xl text-center font-bold">
               <div class="flex justify-center items-center gap-2 md:gap-7">
@@ -568,7 +565,7 @@
             </div>
 
             <div
-              class="max-w-screen-xl mx-auto flex justify-center items-center px-4 gap-2"
+              class="max-w-screen-xl mx-auto flex justify-center items-center !px-4 gap-2"
             >
               <img
                 src="../assets/icons/headset.png"
@@ -587,7 +584,7 @@
               />
             </div>
 
-            <div class="mx-auto text-center font-bold text-xs md:text-sm px-4">
+            <div class="mx-auto text-center font-bold text-xs md:text-sm !px-4">
               <span class="opacity-60"> Siamo qui per supportarti - </span>
               <a
                 href="mailto:snacks2school@gmail.com"
@@ -822,30 +819,6 @@ onMounted(async () => {
 </script>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
-}
-
-#__nuxt {
-  height: 100dvh;
-  max-height: 100dvh;
-  box-sizing: border-box;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1rem;
-}
-
-main > .swiper-wrapper:not(:last-child) {
-  border-bottom: 1px solid #d9d9d9;
-  padding-bottom: 2rem !important;
-  margin-bottom: 2rem !important;
-}
-
 swiper-slide {
   display: flex;
   justify-content: center;

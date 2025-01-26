@@ -1,14 +1,14 @@
 <template>
   <div
     v-if="isProductSpecificationSheetVisible"
-    class="fixed inset-0 flex justify-center items-center z-30 px-4 md:px-0"
+    class="fixed inset-0 flex justify-center items-center z-30 !px-4 md:px-0"
     style="backdrop-filter: blur(50px)"
   >
     <div
       class="bg-white p-8 !rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-full max-w-96 max-h-[500px] overflow-y-auto"
     >
       <h2 class="text-xl text-center font-bold mt-2">Scheda tecnica</h2>
-      <h6 class="text-center text-xs mx-auto py-1">
+      <h6 class="text-center text-xs mx-auto !py-1">
         {{ selectedItem.name }}
       </h6>
       <hr />

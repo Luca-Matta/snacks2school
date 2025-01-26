@@ -11,13 +11,13 @@
         <div
           class="flex flex-col justify-center items-center text-center h-20 md:h-40 w-20 md:w-40 !rounded-xl outline outline-1 outline-[#af4135] outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
           @click="
-            children.length > 0
-              ? isAuthenticated
-                ? dayData.snacks.length === 0 && dayData.drinks.length === 0
+            isAuthenticated
+              ? children?.length > 0
+                ? dayData?.snacks?.length === 0 && dayData?.drinks?.length === 0
                   ? initializeOrder(dayName, dayData.date)
                   : editOrder(dayName, dayData.date)
-                : redirectToLogin()
-              : openAddChild()
+                : openAddChild()
+              : redirectToLogin()
           "
         >
           <div

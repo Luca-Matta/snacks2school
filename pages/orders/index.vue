@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div
-      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center py-16 px-4 gap-12"
+      class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-16 !px-4 gap-12"
     >
       <div class="text-4xl md:text-6xl lg:text-8xl text-center font-bold mb-4">
         <div>
