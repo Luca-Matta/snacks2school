@@ -77,10 +77,10 @@
           </div>
 
           <div
-            class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4 -mt-2 md:mt-0"
+            class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4 -mt-2 md:mt-0 mb-6"
           >
-            Leggere le card può nuocere gravemente al numero di merende che
-            ordini.
+            Leggere le card può nuocere gravemente<br />
+            al numero di merende che ordini.
           </div>
 
           <div
@@ -124,8 +124,10 @@
             </div>
           </div>
 
+          <hr />
+
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !px-4 mb-4 md:mb-0 !py-4 md:py-16 mt-12 gap-6 md:gap-10"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !px-4 mb-4 md:mb-0 !py-4 md:py-16 mt-6 gap-6 md:gap-10"
           >
             <div
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
@@ -170,8 +172,8 @@
             <div
               class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4"
             >
-              Gestisci la merenda e il pranzo di tutti i tuoi figli in un unico
-              account.
+              Gestisci la merenda e il pranzo<br />
+              di tutti i tuoi figli in un unico account.
               <span v-if="isAuthenticated">
                 Vai sul tuo
                 <router-link
@@ -183,6 +185,43 @@
               </span>
             </div>
           </div>
+
+          <hr />
+
+          <div
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-6 !pt-10 !pb-12 md:py-16 !px-4 gap-2 md:gap-12"
+          >
+            <div
+              class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-4"
+            >
+              <div>
+                La <span class="text-[#af4135]">merenda</span> che
+                <span class="text-[#bf09bd]">cambia</span>,
+              </div>
+              <div class="flex justify-center items-center gap-2 md:gap-6">
+                <div>come <span class="text-[#a688f9]">tuo figlio</span></div>
+                <img
+                  src="../assets/icons/boy.png"
+                  alt="Boy"
+                  class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
+                />
+              </div>
+
+              <div class="flex justify-center items-center gap-2 md:gap-6">
+                <img
+                  src="../assets/icons/calendar.png"
+                  alt="Calendar"
+                  class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
+                />
+                <div class="text-[#ffa500]">#snackscalendar</div>
+              </div>
+            </div>
+            <div>
+              <Calendar />
+            </div>
+          </div>
+
+          <hr />
 
           <div class="pt-2 md:pt-6 pb-10 md:pb-16">
             <div
@@ -339,38 +378,7 @@
             @close="close"
           />
 
-          <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-6 !py-12 md:py-16 !px-4 gap-2 md:gap-12"
-          >
-            <div
-              class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-4"
-            >
-              <div>
-                La <span class="text-[#af4135]">merenda</span> che
-                <span class="text-[#bf09bd]">cambia</span>,
-              </div>
-              <div class="flex justify-center items-center gap-2 md:gap-6">
-                <div>come <span class="text-[#a688f9]">tuo figlio</span></div>
-                <img
-                  src="../assets/icons/boy.png"
-                  alt="Boy"
-                  class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
-                />
-              </div>
-
-              <div class="flex justify-center items-center gap-2 md:gap-6">
-                <img
-                  src="../assets/icons/calendar.png"
-                  alt="Calendar"
-                  class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
-                />
-                <div class="text-[#ffa500]">#snackscalendar</div>
-              </div>
-            </div>
-            <div>
-              <Calendar />
-            </div>
-          </div>
+          <hr />
 
           <div class="pt-10 md:pt-16 pb-0 md:pb-10">
             <div
@@ -481,8 +489,10 @@
             </div>
           </div>
 
+          <hr />
+
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-2 md:py-16 !px-4 mb-6"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-2 md:py-16 !px-4 my-8"
           >
             <div
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
@@ -535,8 +545,10 @@
             @close="closeReferralExplenation"
           />
 
+          <hr />
+
           <div
-            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pb-10 md:pb-16 mt-8 md:mt-12 !px-4 gap-6 md:gap-10"
+            class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pb-10 md:pb-16 mt-10 md:mt-12 !px-4 gap-6 md:gap-10"
           >
             <div class="text-2xl md:text-6xl lg:text-8xl text-center font-bold">
               <div class="flex justify-center items-center gap-2 md:gap-7">

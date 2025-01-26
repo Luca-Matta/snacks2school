@@ -35,7 +35,9 @@
             </div>
             <p class="text-sm mt-3 mb-0 text-center text-lead">
               Hai già un account?
-              <router-link to="/login" class="font-bold">Accedi</router-link>
+              <router-link to="/login" class="font-bold !text-black"
+                >Accedi</router-link
+              >
             </p>
           </div>
         </div>
