@@ -1,10 +1,11 @@
 <template>
   <div
     v-if="isReferralExplenationVisible"
-    class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-30 px-4 md:px-0"
+    class="fixed inset-0 flex justify-center items-center z-30 px-4 md:px-0"
+    style="backdrop-filter: blur(50px)"
   >
     <div
-      class="bg-white p-8 rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-full max-w-96 max-h-[500px] overflow-y-auto"
+      class="bg-white p-8 !rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-full max-w-96 max-h-[500px] overflow-y-auto"
     >
       <h2 class="text-xl text-center font-bold mb-2">
         Ricevere credito su Snacks2School
@@ -24,17 +25,17 @@
       <div class="flex justify-center gap-2">
         <!-- <button
           @click="$emit('close')"
-          class="btn bg-black w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 py-3 px-6 rounded-lg"
+          class="btn bg-black w-full font-bold text-white uppercase text-xs shadow-button my-4 mb-2 !py-3 !px-6 !rounded-lg"
         >
           Chiudi
         </button> -->
-        <nuxt-link :to="isAuthenticated ? '/profile' : '/login'">
+        <router-link :to="isAuthenticated ? '/profile' : '/login'">
           <button
-            class="btn bg-pink w-full text-white font-bold uppercase text-xs shadow-button my-4 mb-4 py-3 px-6 rounded-lg outline outline-5 outline-pink outline-offset-4 shadow-btn hover:shadow-none transition-all duration-500 mt-6"
+            class="btn bg-[#bf09bd] w-full text-white font-bold uppercase text-xs shadow-button my-4 mb-4 !py-3 !px-6 !rounded-lg outline outline-1 outline-[#bf09bd] outline-offset-4 shadow-btn hover:shadow-none transition-all duration-500 mt-6"
           >
             Profilo
           </button>
-        </nuxt-link>
+        </router-link>
       </div>
     </div>
   </div>

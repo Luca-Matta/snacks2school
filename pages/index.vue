@@ -1,10 +1,5 @@
 <template>
   <ion-page>
-    <!-- <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Nuxt Ionic</ion-title>
-      </ion-toolbar>
-    </ion-header> -->
     <ion-content :fullscreen="true">
       <div>
         <Navbar />
@@ -13,7 +8,7 @@
             <div
               class="text-4xl md:text-6xl lg:text-8xl xl:text-9xl text-center font-bold mb-4"
             >
-              <div>La <span class="text-yellow"> merenda</span> a</div>
+              <div>La <span class="text-[#ffa500]"> merenda</span> a</div>
               <div class="flex justify-center items-center gap-2 md:gap-6">
                 <div class="flex items-center gap-2 md:gap-6">
                   portata
@@ -22,8 +17,8 @@
                     alt="Desk"
                     class="h-10 md:h-36 w-10 md:w-36 cursor-pointer"
                   />
-                  <span class="text-purple">di </span
-                  ><span class="text-pink">clic</span>
+                  <span class="text-[#a688f9]">di </span
+                  ><span class="text-[#bf09bd]">clic</span>
                 </div>
               </div>
             </div>
@@ -83,7 +78,7 @@
             class="hidden xl:flex justify-center items-center py-16 px-4 gap-12 mx-auto overflow-hidden"
           >
             <div
-              class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
+              class="flex flex-col justify-center items-center bg-[#ffa500] h-64 w-64 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
             >
               <img
                 src="../assets/icons/health.png"
@@ -99,7 +94,7 @@
             </div>
 
             <div
-              class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
+              class="flex flex-col justify-center items-center bg-[#a688f9] h-72 w-72 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
             >
               <img
                 src="../assets/icons/quality.png"
@@ -116,7 +111,7 @@
             </div>
 
             <div
-              class="flex flex-col justify-center items-center bg-yellow h-80 w-80 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
+              class="flex flex-col justify-center items-center bg-[#ffa500] h-80 w-80 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
             >
               <img
                 src="../assets/icons/calendar.png"
@@ -138,7 +133,7 @@
             </div>
 
             <div
-              class="flex flex-col justify-center items-center bg-purple h-72 w-72 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
+              class="flex flex-col justify-center items-center bg-[#a688f9] h-72 w-72 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
             >
               <img
                 src="../assets/icons/sleeping-mask.png"
@@ -152,7 +147,7 @@
               </p>
             </div>
             <div
-              class="flex flex-col justify-center items-center bg-yellow h-64 w-64 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
+              class="flex flex-col justify-center items-center bg-[#ffa500] h-64 w-64 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-2"
             >
               <img
                 src="../assets/icons/credit-card.png"
@@ -191,13 +186,13 @@
                   alt="Trust"
                   class="h-10 md:h-24 w-10 md:w-24 cursor-pointer"
                 />
-                Vai al <span class="text-yellow">gestionale</span> e
+                Vai al <span class="text-[#ffa500]">gestionale</span> e
               </div>
               <div>
                 <div class="flex justify-center items-center gap-2 md:gap-7">
                   <div>
-                    scopri i <span class="text-pink">nuovi </span>
-                    <span class="text-purple">ordini </span>
+                    scopri i <span class="text-[#bf09bd]">nuovi </span>
+                    <span class="text-[#a688f9]">ordini </span>
                     <!-- <img
                 src="../assets/icons/wheat-sack.png"
                 alt="Wheatsack"
@@ -211,7 +206,7 @@
             <div
               class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 underline"
             >
-              <nuxt-link to="/orders">Fai clic qui.</nuxt-link>
+              <router-link to="/orders">Fai clic qui.</router-link>
             </div>
           </div>
 
@@ -222,11 +217,11 @@
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
             >
               Rendiamo più
-              <span class="text-purple">semplice</span><br />
-              il <span class="text-yellow">mestiere</span> più
-              <span class="text-pink">difficile:</span><br />
+              <span class="text-[#a688f9]">semplice</span><br />
+              il <span class="text-[#ffa500]">mestiere</span> più
+              <span class="text-[#bf09bd]">difficile:</span><br />
               il
-              <span class="text-brown">genitore</span>
+              <span class="text-[#af4135]">genitore</span>
             </div>
             <div
               class="max-w-screen-xl mx-auto flex justify-center items-center px-4 gap-2"
@@ -265,7 +260,9 @@
               account.
               <span v-if="isAuthenticated">
                 Vai sul tuo
-                <nuxt-link to="/profile" class="underline">profilo</nuxt-link>
+                <router-link to="/profile" class="underline"
+                  >profilo</router-link
+                >
                 per aggiungere i tuoi figli.
               </span>
             </div>
@@ -284,14 +281,14 @@
                     alt="Trust"
                     class="h-10 md:h-24 w-10 md:w-24 cursor-pointer"
                   />
-                  Ogni <span class="text-brown">morso</span> è
+                  Ogni <span class="text-[#af4135]">morso</span> è
                 </div>
                 <div>
                   <div class="flex justify-center items-center gap-2 md:gap-7">
                     <div>
-                      <span class="text-pink">gustosissimo,</span>
+                      <span class="text-[#bf09bd]">gustosissimo,</span>
                       come le nostre
-                      <span class="text-purple">materie prime</span>
+                      <span class="text-[#a688f9]">materie prime</span>
                       <!-- <img
                 src="../assets/icons/wheat-sack.png"
                 alt="Wheatsack"
@@ -325,10 +322,10 @@
                     >
                       <div
                         :class="[
-                          'flex flex-col justify-center items-center gap-2 shadow-card hover:shadow-none transition-all duration-500 rounded-xl h-full w-full p-2 md:p-6 cursor-pointer outline outline-5 outline-offset-4 bg-white outline-purple',
+                          'flex flex-col justify-center items-center gap-2 shadow-card hover:shadow-none transition-all duration-500 !rounded-xl h-full w-full p-2 md:p-6 cursor-pointer outline outline-1 outline-offset-4 bg-white outline-[#a688f9]',
                           // index % 2 === 0
-                          //   ? 'bg-white outline-brown'
-                          //   : 'bg-brown outline-brown',
+                          //   ? 'bg-white outline-[#af4135]'
+                          //   : 'bg-[#af4135] outline-[#af4135]',
                         ]"
                         @click="openProductSpecificationSheet(snack)"
                       >
@@ -423,11 +420,11 @@
               class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-4"
             >
               <div>
-                La <span class="text-brown">merenda</span> che
-                <span class="text-pink">cambia</span>,
+                La <span class="text-[#af4135]">merenda</span> che
+                <span class="text-[#bf09bd]">cambia</span>,
               </div>
               <div class="flex justify-center items-center gap-2 md:gap-6">
-                <div>come <span class="text-purple">tuo figlio</span></div>
+                <div>come <span class="text-[#a688f9]">tuo figlio</span></div>
                 <img
                   src="../assets/icons/boy.png"
                   alt="Boy"
@@ -441,7 +438,7 @@
                   alt="Calendar"
                   class="h-10 md:h-20 w-10 md:w-20 cursor-pointer"
                 />
-                <div class="text-yellow">#snackscalendar</div>
+                <div class="text-[#ffa500]">#snackscalendar</div>
               </div>
             </div>
             <div>
@@ -463,11 +460,11 @@
                     alt="Trust"
                     class="h-10 md:h-24 w-10 md:w-24 cursor-pointer"
                   />
-                  I nostri <span class="text-brown">store</span>
+                  I nostri <span class="text-[#af4135]">store</span>
                 </div>
                 <div>
                   <div class="flex justify-center items-center gap-2 md:gap-7">
-                    di <span class="text-pink">fiducia</span>
+                    di <span class="text-[#bf09bd]">fiducia</span>
                     <img
                       src="../assets/icons/location.png"
                       alt="Location"
@@ -490,15 +487,15 @@
                       alt="Trust"
                       class="h-10 md:h-24 w-10 md:w-24 cursor-pointer"
                     />
-                    <span class="text-brown">Store</span> che
-                    <span class="text-yellow">consegnano</span>
+                    <span class="text-[#af4135]">Store</span> che
+                    <span class="text-[#ffa500]">consegnano</span>
                   </div>
                   <div>
                     <div
                       class="flex justify-center items-center gap-2 md:gap-7"
                     >
-                      nella <span class="text-pink">provincia</span> di
-                      <span class="text-purple">{{
+                      nella <span class="text-[#bf09bd]">provincia</span> di
+                      <span class="text-[#a688f9]">{{
                         currentUser?.location?.name
                       }}</span>
                       <img
@@ -517,7 +514,7 @@
               >
                 <div v-for="store in stores" :key="store.id">
                   <div class="flex flex-col justify-center items-center gap-2">
-                    <nuxt-link
+                    <router-link
                       :to="{
                         name: 'stores-username',
                         params: { username: store.username },
@@ -532,7 +529,7 @@
                       }"
                     >
                       <div
-                        class="flex justify-center items-center h-60 w-60 bg-white rounded-xl transition-all duration-200 outline outline-5 outline-pink outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
+                        class="flex justify-center items-center h-60 w-60 bg-white !rounded-xl transition-all duration-200 outline outline-1 outline-[#bf09bd] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
                       >
                         <img
                           :src="`${store.profile_picture}`"
@@ -540,14 +537,14 @@
                           class="bg-center bg-contain bg-no-repeat h-52 w-52"
                         />
                       </div>
-                    </nuxt-link>
+                    </router-link>
                     <div class="flex flex-col justify-center items-center mt-2">
                       <div class="flex items-center justify-center gap-1.5">
                         <p class="font-bold">
                           {{ store.first_name }} {{ store.last_name }}
                         </p>
                         <div
-                          class="h-4 w-4 bg-yellow rounded-full font-bold flex justify-center items-center"
+                          class="h-4 w-4 bg-[#ffa500] !rounded-full font-bold flex justify-center items-center"
                         >
                           √
                         </div>
@@ -578,7 +575,7 @@
                         <div
                           class="flex flex-col justify-center items-center gap-2"
                         >
-                          <nuxt-link
+                          <router-link
                             :to="{
                               name: 'stores-username',
                               params: { username: slide.username },
@@ -593,7 +590,7 @@
                             }"
                           >
                             <div
-                              class="flex justify-center items-center h-40 w-40 bg-white rounded-xl transition-all duration-200 outline outline-5 outline-pink outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
+                              class="flex justify-center items-center h-40 w-40 bg-white !rounded-xl transition-all duration-200 outline outline-1 outline-[#bf09bd] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500"
                             >
                               <img
                                 :src="`${slide.profile_picture}`"
@@ -601,7 +598,7 @@
                                 class="bg-center bg-contain bg-no-repeat h-36 w-36"
                               />
                             </div>
-                          </nuxt-link>
+                          </router-link>
                           <div
                             class="flex flex-col justify-center items-center mt-2"
                           >
@@ -614,7 +611,7 @@
                                 {{ slide.first_name }} {{ slide.last_name }}
                               </p>
                               <div
-                                class="h-4 w-4 bg-yellow rounded-full font-bold flex justify-center items-center"
+                                class="h-4 w-4 bg-[#ffa500] !rounded-full font-bold flex justify-center items-center"
                               >
                                 √
                               </div>
@@ -634,8 +631,8 @@
           v-if="!isAuthenticated"
           class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 px-4 -mt-16 md:-mt-8 mb-10 md:mb-0"
         >
-          <nuxt-link to="/login" class="underline"
-            >Accedi per visualizzarli</nuxt-link
+          <router-link to="/login" class="underline"
+            >Accedi per visualizzarli</router-link
           >
         </div> -->
           </div>
@@ -652,14 +649,14 @@
                   alt="Trust"
                   class="h-12 md:h-28 w-12 md:w-28 cursor-pointer"
                 />
-                Chi <span class="text-brown">trova</span> un
+                Chi <span class="text-[#af4135]">trova</span> un
               </div>
               <div>
                 <div class="flex justify-center items-center gap-2 md:gap-7">
                   <div>
-                    <span class="text-pink">amico</span>
+                    <span class="text-[#bf09bd]">amico</span>
                     trova un
-                    <span class="text-purple">tesoro</span>
+                    <span class="text-[#a688f9]">tesoro</span>
                     <!-- <img
                 src="../assets/icons/wheat-sack.png"
                 alt="Wheatsack"
@@ -672,7 +669,7 @@
 
             <div class="flex justify-center mb-2">
               <button
-                class="bg-pink w-full text-white font-bold uppercase text-xs shadow-button my-4 mb-4 py-3 px-6 rounded-lg outline outline-5 outline-pink outline-offset-4 shadow-lightCard hover:shadow-none transition-all duration-500"
+                class="btn bg-[#bf09bd] w-full text-white font-bold uppercase text-xs shadow-button my-4 mb-4 !py-3 !px-6 !!rounded-lg outline outline-1 outline-[#bf09bd] outline-offset-4 shadow-lightCard hover:shadow-none transition-all duration-500"
                 @click="openReferralExplenation"
               >
                 Scopri di più
@@ -709,9 +706,10 @@
               <div>
                 <div class="flex justify-center items-center gap-2 md:gap-7">
                   <div>
-                    <span class="text-yellow">Niente paura!</span>
-                    Il nostro <span class="text-pink">customer care</span> è
-                    <span class="text-purple">sartoriale</span>
+                    <span class="text-[#ffa500]">Niente paura!</span>
+                    Il nostro
+                    <span class="text-[#bf09bd]">customer care</span> è
+                    <span class="text-[#a688f9]">sartoriale</span>
                     <!-- <img
                 src="../assets/icons/wheat-sack.png"
                 alt="Wheatsack"
@@ -746,7 +744,7 @@
               <span class="opacity-60"> Siamo qui per supportarti - </span>
               <a
                 href="mailto:snacks2school@gmail.com"
-                class="text-purple underline"
+                class="text-[#a688f9] underline"
               >
                 snacks2school@gmail.com
               </a>
@@ -768,6 +766,8 @@ import { checkAuthStatus, getCurrentUserData } from "../utils/auth";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css";
 import { useNuxtApp } from "#app";
+import Navbar from "~/components/Navbar.vue";
+import Footer from "~/components/Footer.vue";
 
 const { $device } = useNuxtApp();
 const isMobile = ref<boolean>($device.isMobile);
@@ -797,7 +797,7 @@ import safetyIcon from "@/assets/icons/credit-card.png";
 const sellingPoints = [
   {
     class:
-      "flex flex-col justify-center items-center bg-yellow h-40 w-40 rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#ffa500] h-40 w-40 !rounded-xl p-4 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: healthIcon,
     imgAlt: "Health",
     imgClass: "h-8 w-8",
@@ -806,7 +806,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-purple h-40 w-40 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#a688f9] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: qualityIcon,
     imgAlt: "Comfort",
     imgClass: "h-7 w-7",
@@ -817,7 +817,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-yellow h-40 w-40 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#ffa500] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: calendarIcon,
     imgAlt: "Calendar",
     imgClass: "h-7 w-7",
@@ -828,7 +828,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-purple h-40 w-40 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-purple outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#a688f9] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#a688f9] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: comfortIcon,
     imgAlt: "Cash",
     imgClass: "h-9 w-9",
@@ -839,7 +839,7 @@ const sellingPoints = [
   },
   {
     class:
-      "flex flex-col justify-center items-center bg-yellow h-40 w-40 rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-yellow outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
+      "flex flex-col justify-center items-center bg-[#ffa500] h-40 w-40 !rounded-xl p-4 lg:p-8 text-center cursor-pointer shadow-card transition-all duration-500 outline outline-4 outline-[#ffa500] outline-offset-4 cursor-pointer shadow-card hover:shadow-none transition-all duration-500 gap-1",
     imgSrc: safetyIcon,
     imgAlt: "Safety",
     imgClass: "h-7 w-7",
@@ -870,6 +870,7 @@ const getStripePubKey = async () => {
 
 import axiosInstance from "../utils/axiosInstance";
 import ReferralExplenation from "~/components/ReferralExplenation.vue";
+import { Slider } from "#components";
 
 const chargeCreditWallet = async () => {
   try {

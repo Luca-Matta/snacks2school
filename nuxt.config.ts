@@ -1,4 +1,6 @@
-export default {
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineNuxtConfig({
   css: ["~/assets/css/tailwind.css", "@/assets/css/main.css"],
 
   build: {
@@ -10,6 +12,10 @@ export default {
     },
   },
 
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   modules: ["@nuxtjs/ionic", "@nuxtjs/device"],
   compatibilityDate: "2025-01-26",
-};
+});
