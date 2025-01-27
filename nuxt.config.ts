@@ -10,6 +10,8 @@ export default defineNuxtConfig({
         autoprefixer: {},
       },
     },
+    publicPath: "/_nuxt/",
+    outDir: "dist",
   },
 
   vite: {
