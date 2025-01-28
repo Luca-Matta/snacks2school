@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "set-application-password": "export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$MY_FASTLANE_APPLE_PASSWORD",
+    "set-application-password": "echo $MY_FASTLANE_APPLE_PASSWORD && export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$MY_FASTLANE_APPLE_PASSWORD",
     "build": "npm run set-application-password && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
