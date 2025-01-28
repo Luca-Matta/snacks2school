@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "set-application-password": "export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$MY_FASTLANE_APPLE_PASSWORD",
+    "build": "npm run set-application-password && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -20,6 +21,7 @@
     "@nuxtjs/device": "^3.2.4",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
     "nuxt": "^3.15.3",
     "nuxt-swiper": "^2.0.0",
     "postcss": "^8.5.1",
