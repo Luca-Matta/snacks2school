@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "set-application-password": "echo $MY_FASTLANE_APPLE_PASSWORD && export FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$MY_FASTLANE_APPLE_PASSWORD && echo $FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD",
+    "set-fastlane-user": "echo $MY_FASTLANE_USER && export FASTLANE_USER=$MY_FASTLANE_USER && echo $FASTLANE_USER",
     "echo-user": "echo FASTLANE_USER is: $FASTLANE_USER",
-    "upload": "npm run echo-user && fastlane upload --username ${FASTLANE_USER:-mattaluca@icloud.com}", 
+    "upload": "npm run set-fastlane-user && npm run echo-user && fastlane upload --username ${FASTLANE_USER:-mattaluca@icloud.com}",
     "build": "npm run set-application-password && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
