@@ -86,9 +86,12 @@ const getImageUrl = (path) => {
 };
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -97,12 +100,15 @@ const receipts = ref<any>(null);
 const fetchReceipts = async () => {
   try {
     const csrfToken = await getCsrfToken();
-    const response = await axios.get("http://localhost:8000/api/receipts", {
-      headers: {
-        "X-CSRFToken": csrfToken,
-      },
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      "https://www.snacks2school.com/api/receipts",
+      {
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+        withCredentials: true,
+      }
+    );
 
     if (response.data) {
       receipts.value = response.data;

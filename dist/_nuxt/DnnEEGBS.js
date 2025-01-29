@@ -1,1 +1,0 @@
-import{a as r}from"./upsvKRUO.js";const o=r.create({baseURL:"http://localhost:8000/api/",withCredentials:!0});o.interceptors.request.use(e=>{const t=localStorage.getItem("token");return t&&(e.headers.Authorization=`Token ${t}`),e},e=>Promise.reject(e));export{o as a};

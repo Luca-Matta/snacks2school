@@ -255,9 +255,12 @@ const togglePasswordVisibility = () => {
 };
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -265,7 +268,9 @@ const userCount = ref<number>(0);
 
 const fetchUserCount = async () => {
   try {
-    const response = await fetch("http://localhost:8000/api/user-count/");
+    const response = await fetch(
+      "https://www.snacks2school.com/api/user-count/"
+    );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -278,7 +283,9 @@ const fetchUserCount = async () => {
 
 const fetchProvinces = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/provinces/");
+    const response = await axios.get(
+      "https://www.snacks2school.com/api/provinces/"
+    );
     provinces.value = response.data;
   } catch (error) {
     console.error("Error fetching provinces:", error);
@@ -289,7 +296,7 @@ const fetchSchools = async () => {
   if (!selectedProvince.value) return;
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/province/schools/?province=${selectedProvince.value}`
+      `https://www.snacks2school.com/api/province/schools/?province=${selectedProvince.value}`
     );
     schoolsByProvince.value = response.data;
   } catch (error) {
@@ -301,7 +308,7 @@ const fetchClasses = async () => {
   if (!selectedSchool.value) return;
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/school/classes/?school=${selectedSchool.value}`
+      `https://www.snacks2school.com/api/school/classes/?school=${selectedSchool.value}`
     );
     classes.value = response.data;
   } catch (error) {
@@ -363,7 +370,7 @@ const handleSignup = async () => {
       confirm_password: confirmPassword.value,
     };
 
-    let signupUrl = "http://localhost:8000/api/signup/customer/";
+    let signupUrl = "https://www.snacks2school.com/api/signup/customer/";
     if (referralUsername) {
       signupUrl += `?ref=${referralUsername}`;
     }

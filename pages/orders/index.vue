@@ -210,9 +210,12 @@ const isAuthenticated = ref<boolean>(false);
 const currentUserData = ref<Store | null>(null);
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -224,7 +227,7 @@ const fetchGroupedOrders = async () => {
     const csrfToken = csrfResponse.data.csrfToken;
 
     const response = await axiosInstance.get(
-      "http://localhost:8000/api/grouped-orders/",
+      "https://www.snacks2school.com/api/grouped-orders/",
       {
         headers: {
           "X-CSRFToken": csrfToken,
@@ -249,7 +252,7 @@ const toggleOrderPrepared = async (
     const csrfToken = csrfResponse.data.csrfToken;
 
     const response = await axiosInstance.post(
-      "http://localhost:8000/api/toggle-order-prepared-status/",
+      "https://www.snacks2school.com/api/toggle-order-prepared-status/",
       {
         delivery_date: deliveryDate,
         school_name: schoolName,
@@ -279,7 +282,7 @@ const toggleOrderDelivered = async (
     const csrfToken = csrfResponse.data.csrfToken;
 
     const response = await axiosInstance.post(
-      "http://localhost:8000/api/toggle-order-delivered-status/",
+      "https://www.snacks2school.com/api/toggle-order-delivered-status/",
       {
         delivery_date: deliveryDate,
         school_name: schoolName,

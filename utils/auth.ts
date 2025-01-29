@@ -5,9 +5,12 @@ export function deleteCookie(name: string): void {
 }
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -15,7 +18,7 @@ export async function checkAuthStatus(): Promise<boolean> {
   try {
     const csrfToken = await getCsrfToken();
     const response = await axios.get(
-      "http://localhost:8000/api/check-auth-status/",
+      "https://www.snacks2school.com/api/check-auth-status/",
       {
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +46,7 @@ export async function getCurrentUserData(): Promise<any> {
     const csrfToken = await getCsrfToken();
 
     const response = await axios.get(
-      "http://localhost:8000/api/current-user-data/",
+      "https://www.snacks2school.com/api/current-user-data/",
       {
         headers: {
           "Content-Type": "application/json",
@@ -68,13 +71,16 @@ export async function getChildrenForCurrentUser(): Promise<any> {
   try {
     const csrfToken = await getCsrfToken();
 
-    const response = await axios.get("http://localhost:8000/api/children/", {
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken || "",
-      },
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      "https://www.snacks2school.com/api/children/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken || "",
+        },
+        withCredentials: true,
+      }
+    );
 
     return response.data;
   } catch (error) {

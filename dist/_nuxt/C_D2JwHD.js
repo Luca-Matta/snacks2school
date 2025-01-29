@@ -1,0 +1,1 @@
+import{a as o}from"./upsvKRUO.js";const r=o.create({baseURL:"https://www.snacks2school.com/api/",withCredentials:!0});r.interceptors.request.use(e=>{const t=localStorage.getItem("token");return t&&(e.headers.Authorization=`Token ${t}`),e},e=>Promise.reject(e));export{r as a};

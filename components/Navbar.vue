@@ -99,21 +99,27 @@ const toggleDropdown = () => {
 };
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
 const handleLogout = async () => {
   try {
     const csrfToken = await getCsrfToken();
-    const response = await axios.post("http://localhost:8000/api/logout/", {
-      headers: {
-        "X-CSRFToken": csrfToken,
-      },
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      "https://www.snacks2school.com/api/logout/",
+      {
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+        withCredentials: true,
+      }
+    );
     if (response.status === 200) {
       localStorage.removeItem("token");
       isAuthenticated.value = false;

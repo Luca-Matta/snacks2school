@@ -36,9 +36,12 @@
 import axios from "axios";
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -47,7 +50,7 @@ const sendOrderFiles = async () => {
   try {
     const csrfToken = await getCsrfToken();
     const response = await axios.post(
-      "http://localhost:8000/api/send-order-files/",
+      "https://www.snacks2school.com/api/send-order-files/",
       {},
       {
         headers: {
@@ -68,7 +71,7 @@ const sendOrderFiles = async () => {
 const retrieveOrderFile = async (fileType: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/retrieve-order-file/${fileType}/`,
+      `https://www.snacks2school.com/api/retrieve-order-file/${fileType}/`,
       {
         responseType: "blob",
         withCredentials: true,
@@ -94,7 +97,7 @@ const retrieveOrderFile = async (fileType: string) => {
 const generateSnacksLabels = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:8000/api/snack-order-labels/",
+      "https://www.snacks2school.com/api/snack-order-labels/",
       {
         responseType: "blob",
       }

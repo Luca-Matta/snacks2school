@@ -131,7 +131,7 @@ const emit = defineEmits(["close"]);
 
 const fetchProvinces = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/provinces/");
+    const response = await axios.get("https://www.snacks2school.com/api/provinces/");
     provinces.value = response.data;
   } catch (error) {
     console.error("Error fetching provinces:", error);
@@ -142,7 +142,7 @@ const fetchSchools = async () => {
   if (!selectedProvince.value) return;
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/province/schools/?province=${selectedProvince.value}`
+      `https://www.snacks2school.com/api/province/schools/?province=${selectedProvince.value}`
     );
     schoolsByProvince.value = response.data;
   } catch (error) {
@@ -154,7 +154,7 @@ const fetchClasses = async () => {
   if (!selectedSchool.value) return;
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/school/classes/?school=${selectedSchool.value}`
+      `https://www.snacks2school.com/api/school/classes/?school=${selectedSchool.value}`
     );
     classes.value = response.data;
   } catch (error) {
@@ -163,7 +163,7 @@ const fetchClasses = async () => {
 };
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
+  const response = await axios.get("https://www.snacks2school.com/api/csrf-token/", {
     withCredentials: true,
   });
   return response.data.csrfToken;
@@ -174,7 +174,7 @@ const submitForm = async () => {
 
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/child/create/",
+      "https://www.snacks2school.com/api/child/create/",
       {
         first_name: firstName.value,
         last_name: lastName.value,

@@ -577,7 +577,9 @@ const getSchoolName = (schoolId) => {
 
 const fetchStores = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/stores/");
+    const response = await axios.get(
+      "https://www.snacks2school.com/api/stores/"
+    );
     stores.value = response.data;
   } catch (error) {
     console.error("Error fetching store data:", error);
@@ -587,7 +589,7 @@ const fetchStores = async () => {
 const fetchSnacks = async (username: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/snacks/?username=${username}`
+      `https://www.snacks2school.com/api/snacks/?username=${username}`
     );
     snacks.value = response.data;
   } catch (error) {
@@ -598,7 +600,7 @@ const fetchSnacks = async (username: string) => {
 const fetchDrinks = async (username: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/drinks/?username=${username}`
+      `https://www.snacks2school.com/api/drinks/?username=${username}`
     );
     drinks.value = response.data;
   } catch (error) {
@@ -661,9 +663,12 @@ const total_price = computed(() => {
 });
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -705,7 +710,7 @@ const placeOrder = async () => {
     }
 
     const response = await axios.post(
-      "http://localhost:8000/api/create-order/",
+      "https://www.snacks2school.com/api/create-order/",
       payload,
       {
         headers: {
@@ -740,7 +745,7 @@ const stripe = ref(null);
 
 const getStripePubKey = async () => {
   const response = await axios.get(
-    "http://localhost:8000/api/v1/stripe/stripe-pub-key/"
+    "https://www.snacks2school.com/api/v1/stripe/stripe-pub-key/"
   );
 
   const stripePubKey = response.data.publicKey;

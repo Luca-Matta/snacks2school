@@ -134,9 +134,12 @@ const isEditOrderVisible = ref<boolean>(false);
 
 const getCsrfToken = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      "https://www.snacks2school.com/api/csrf-token/",
+      {
+        withCredentials: true,
+      }
+    );
     return response.data.csrfToken;
   } catch (error) {
     console.error("Error fetching CSRF token:", error);
@@ -148,7 +151,7 @@ const fetchUserCalendar = async () => {
   try {
     const csrfToken = await getCsrfToken();
     const response = await axios.get(
-      "http://localhost:8000/api/calendar/week/",
+      "https://www.snacks2school.com/api/calendar/week/",
       {
         headers: {
           "X-CSRFToken": csrfToken,

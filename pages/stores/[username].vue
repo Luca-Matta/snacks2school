@@ -408,7 +408,7 @@ const singleStoreDrinks = ref<Drink[]>([]);
 const fetchSingleStoreSnacks = async (username: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/snacks/?username=${username}`
+      `https://www.snacks2school.com/api/snacks/?username=${username}`
     );
     singleStoreSnacks.value = response.data;
   } catch (error) {
@@ -419,7 +419,7 @@ const fetchSingleStoreSnacks = async (username: string) => {
 const fetchSingleStoreDrinks = async (username: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/drinks/?username=${username}`
+      `https://www.snacks2school.com/api/drinks/?username=${username}`
     );
     singleStoreDrinks.value = response.data;
   } catch (error) {
@@ -447,7 +447,7 @@ const transformData = (data) => {
 const fetchGroupedOrders = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:8000/api/grouped-orders/"
+      "https://www.snacks2school.com/api/grouped-orders/"
     );
     groupedOrders.value = transformData(response.data);
   } catch (error) {

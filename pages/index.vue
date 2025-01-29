@@ -715,9 +715,12 @@ const sellingPoints = [
 ];
 
 const getCsrfToken = async () => {
-  const response = await axios.get("http://localhost:8000/api/csrf-token/", {
-    withCredentials: true,
-  });
+  const response = await axios.get(
+    "https://www.snacks2school.com/api/csrf-token/",
+    {
+      withCredentials: true,
+    }
+  );
   return response.data.csrfToken;
 };
 
@@ -725,7 +728,7 @@ const stripe = ref(null);
 
 const getStripePubKey = async () => {
   const response = await axios.get(
-    "http://localhost:8000/api/v1/stripe/stripe-pub-key/"
+    "https://www.snacks2school.com/api/v1/stripe/stripe-pub-key/"
   );
 
   const stripePubKey = response.data.publicKey;
@@ -813,16 +816,18 @@ onMounted(async () => {
   currentUser.value = await getCurrentUserData();
 
   featuredSnacks.value = (
-    await axios.get("http://localhost:8000/api/featured-snacks/")
+    await axios.get("https://www.snacks2school.com/api/featured-snacks/")
   ).data;
 
-  stores.value = (await axios.get("http://localhost:8000/api/stores/")).data;
+  stores.value = (
+    await axios.get("https://www.snacks2school.com/api/stores/")
+  ).data;
 
   const stripePubKey = await getStripePubKey();
   stripe.value = Stripe(stripePubKey);
 
   // try {
-  //   const response = await axios.get("http://localhost:8000/api/stores/");
+  //   const response = await axios.get("https://www.snacks2school.com/api/stores/");
   //   stores.value = response.data;
   // } catch (error) {
   //   console.error("Error fetching user data:", error);
