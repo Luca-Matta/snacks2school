@@ -6,7 +6,7 @@
         <div>
           <div class="flex justify-center items-center mx-auto mt-12 gap-6">
             <div
-              class="text-4xl md:text-6xl lg:text-8xl xl:text-9xl text-center font-bold mb-4"
+              class="text-4xl md:text-6xl xl:text-8xl xl:text-9xl text-center font-bold mb-4"
             >
               <div>La <span class="text-[#ffa500]"> merenda</span> a</div>
               <div class="flex justify-center items-center gap-2 md:gap-6">
@@ -92,7 +92,7 @@
             class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-10 md:py-16 mt-4 md:mt-12 !px-4 gap-6 md:gap-10"
           >
             <div
-              class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
+              class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-2 md:mb-0"
             >
               <div class="flex justify-center items-center gap-2 md:gap-7">
                 <img
@@ -130,7 +130,7 @@
             class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !px-4 mb-4 md:mb-0 !py-4 md:py-16 mt-6 gap-6 md:gap-10"
           >
             <div
-              class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
+              class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-2"
             >
               Rendiamo più
               <span class="text-[#a688f9]">semplice</span><br />
@@ -192,7 +192,7 @@
             class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-6 !pt-10 !pb-12 md:py-16 !px-4 gap-2 md:gap-12"
           >
             <div
-              class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-4"
+              class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-4"
             >
               <div>
                 La <span class="text-[#af4135]">merenda</span> che
@@ -228,7 +228,7 @@
               class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-4 md:mt-12 !px-4 gap-6 md:gap-10"
             >
               <div
-                class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
+                class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-2 md:mb-0"
               >
                 <div class="flex justify-center items-center gap-2 md:gap-7">
                   <img
@@ -386,7 +386,7 @@
             >
               <div
                 v-if="!isAuthenticated"
-                class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2 md:mb-0"
+                class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-2 md:mb-0"
               >
                 <div class="flex justify-center items-center gap-2 md:gap-7">
                   <img
@@ -413,7 +413,7 @@
                 class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !px-4 mb-4 md:mb-0"
               >
                 <div
-                  class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
+                  class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-2"
                 >
                   <div class="flex justify-center items-center gap-2 md:gap-7">
                     <img
@@ -495,7 +495,7 @@
             class="max-w-screen-xl mx-auto flex flex-col justify-center items-center !py-2 md:py-16 !px-4 my-8"
           >
             <div
-              class="text-2xl md:text-6xl lg:text-8xl text-center font-bold mb-2"
+              class="text-2xl md:text-6xl xl:text-8xl text-center font-bold mb-2"
             >
               <div class="flex justify-center items-center gap-2 md:gap-7">
                 <img
@@ -550,7 +550,7 @@
           <div
             class="max-w-screen-xl mx-auto flex flex-col justify-center items-center pb-10 md:pb-16 mt-10 md:mt-12 !px-4 gap-6 md:gap-10"
           >
-            <div class="text-2xl md:text-6xl lg:text-8xl text-center font-bold">
+            <div class="text-2xl md:text-6xl xl:text-8xl text-center font-bold">
               <div class="flex justify-center items-center gap-2 md:gap-7">
                 <img
                   src="../assets/icons/solution.png"

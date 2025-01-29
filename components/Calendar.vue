@@ -9,7 +9,7 @@
           {{ dayData.date }}
         </div>
         <div
-          class="flex flex-col justify-center items-center text-center h-20 md:h-40 w-20 md:w-40 !rounded-xl outline outline-1 outline-[#af4135] outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
+          class="flex flex-col justify-center items-center text-center h-20 xl:h-40 w-20 xl:w-40 !rounded-xl outline outline-1 outline-[#af4135] outline-offset-4 shadow-card hover:shadow-none transition-all duration-500 cursor-pointer"
           @click="
             isAuthenticated
               ? children?.length > 0
