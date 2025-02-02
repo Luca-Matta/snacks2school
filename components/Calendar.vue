@@ -60,8 +60,8 @@
     <div
       class="hidden md:block mx-auto text-center mt-12 font-bold text-sm opacity-60"
     >
-      Il calendario della prossima settimana sarà disponibile da sabato alle
-      13:00.
+      Il calendario della prossima settimana diventa disponibile dalla
+      mezzanotte tra venerdì e sabato.
       <br />
       L'ordine può essere effettuato e modificato entro le 13:30 del giorno
       precedente alla data di consegna.
@@ -71,10 +71,10 @@
     <div
       class="block md:hidden mx-auto text-center mt-12 font-bold text-xs opacity-60"
     >
-      Il calendario della prossima settimana sarà disponibile da sabato alle
-      13:00. L'ordine può essere effettuato e modificato entro le 13:30 del
-      giorno precedente alla data di consegna. Ricorda di fare in anticipo
-      l'ordine per lunedì!
+      Il calendario della prossima settimana diventa disponibile dalla
+      mezzanotte tra venerdì e sabato. L'ordine può essere effettuato e
+      modificato entro le 13:30 del giorno precedente alla data di consegna.
+      Ricorda di fare in anticipo l'ordine per lunedì!
     </div>
 
     <AddChild :isAddChildVisible="isAddChildVisible" @close="close" />
