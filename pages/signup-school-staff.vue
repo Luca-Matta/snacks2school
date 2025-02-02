@@ -284,7 +284,7 @@ const handleLogin = async () => {
     );
 
     if (response.data.token) {
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("authToken", response.data.token);
       window.location.href = "/";
     }
   } catch (error) {

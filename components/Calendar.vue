@@ -149,12 +149,18 @@ const getCsrfToken = async () => {
 
 const fetchUserCalendar = async () => {
   try {
-    const csrfToken = await getCsrfToken();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No auth token found.");
+      return;
+    }
+
     const response = await axios.get(
       "https://www.snacks2school.com/api/calendar/week/",
       {
         headers: {
-          "X-CSRFToken": csrfToken,
+          Authorization: `Token ${token}`,
         },
         withCredentials: true,
       }

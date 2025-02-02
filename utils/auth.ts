@@ -16,13 +16,18 @@ const getCsrfToken = async () => {
 
 export async function checkAuthStatus(): Promise<boolean> {
   try {
-    const csrfToken = await getCsrfToken();
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.log("No auth token found.");
+      return false;
+    }
+
     const response = await axios.get(
       "https://www.snacks2school.com/api/check-auth-status/",
       {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken || "",
+          Authorization: `Token ${token}`,
         },
         withCredentials: true,
       }
@@ -43,14 +48,19 @@ export async function checkAuthStatus(): Promise<boolean> {
 
 export async function getCurrentUserData(): Promise<any> {
   try {
-    const csrfToken = await getCsrfToken();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.log("No auth token found.");
+      return null;
+    }
 
     const response = await axios.get(
       "https://www.snacks2school.com/api/current-user-data/",
       {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken || "",
+          Authorization: `Token ${token}`,
         },
         withCredentials: true,
       }
@@ -69,14 +79,19 @@ export async function getCurrentUserData(): Promise<any> {
 
 export async function getChildrenForCurrentUser(): Promise<any> {
   try {
-    const csrfToken = await getCsrfToken();
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No auth token found.");
+      return null;
+    }
 
     const response = await axios.get(
       "https://www.snacks2school.com/api/children/",
       {
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken || "",
+          Authorization: `Token ${token}`,
         },
         withCredentials: true,
       }
