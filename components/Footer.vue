@@ -3,7 +3,7 @@
     <div
       class="flex flex-wrap gap-2 justify-center md:gap-8 max-w-screen-xl mx-auto !py-6 text-gray text-xs md:text-sm !leading-none"
     >
-      <div class="flex gap-4">
+      <div class="flex gap-3">
         <div class="!text-black opacity-60">© 2025 Snacks2School</div>
         <div>
           <a

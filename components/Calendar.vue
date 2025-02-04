@@ -34,7 +34,7 @@
             >
               <div v-for="snack in dayData.snacks" :key="snack.id">
                 <img
-                  :src="snack.image"
+                  :src="fixImageUrl(snack.image)"
                   :alt="snack.name"
                   class="h-5 md:h-7 w-5 md:w-7"
                 />
@@ -46,7 +46,7 @@
             >
               <div v-for="drink in dayData.drinks" :key="drink.id">
                 <img
-                  :src="drink.image"
+                  :src="fixImageUrl(drink.image)"
                   :alt="drink.name"
                   class="h-5 md:h-7 w-5 md:w-7"
                 />
@@ -111,6 +111,12 @@ const router = useRouter();
 
 const redirectToLogin = () => {
   router.push("/login");
+};
+
+const fixImageUrl = (url) => {
+  if (!url) return ""; // Handle cases where image is missing
+  if (url.startsWith("http")) return url; // If already absolute, return as is
+  return `https://www.snacks2school.com${url}`; // Prepend base URL
 };
 
 const days = ref({

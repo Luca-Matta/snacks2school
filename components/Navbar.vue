@@ -1,6 +1,6 @@
 <template>
   <header
-    class="bg-background/75 backdrop-blur-[8px] border-b-[0.5px] border-gray border-opacity-100 sticky top-0 z-50"
+    class="bg-background/75 backdrop-blur-[8px] border-b-[0.5px] border-gray border-opacity-100 sticky top-0 z-50 pt-12"
   >
     <div
       class="mx-auto !px-4 sm:px-6 lg:px-8 max-w-7xl flex items-center justify-between gap-3 h-16"

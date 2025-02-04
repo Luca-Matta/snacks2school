@@ -885,7 +885,7 @@ const placeOrder = async () => {
   } catch (error) {
   } finally {
     emit("close");
-    window.location.reload();
+    // window.location.reload();
   }
 };
 

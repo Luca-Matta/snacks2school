@@ -223,7 +223,7 @@
 
           <hr />
 
-          <div class="pt-2 md:pt-6 pb-10 md:pb-16">
+          <!-- <div class="pt-2 md:pt-6 pb-10 md:pb-16">
             <div
               class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-4 md:mt-12 !px-4 gap-6 md:gap-10"
             >
@@ -244,11 +244,6 @@
                       <span class="text-[#bf09bd]">gustosissimo,</span>
                       come le nostre
                       <span class="text-[#a688f9]">materie prime</span>
-                      <!-- <img
-                src="../assets/icons/wheat-sack.png"
-                alt="Wheatsack"
-                class="h-10 md:h-24 w-10 md:w-24 cursor-pointer align-middle ml-2 md:ml-7"
-              /> -->
                     </div>
                   </div>
                 </div>
@@ -323,9 +318,6 @@
                       <div
                         :class="[
                           'flex flex-col justify-center items-center gap-2 shadow-card hover:shadow-none transition-all duration-500 !rounded-xl h-full w-full p-2 md:p-6 cursor-pointer outline outline-1 outline-offset-4 bg-white outline-[#a688f9]',
-                          // index % 2 === 0
-                          //   ? 'bg-white outline-[#af4135]'
-                          //   : 'bg-[#af4135] outline-[#af4135]',
                         ]"
                         @click="openProductSpecificationSheet(snack)"
                       >
@@ -345,11 +337,6 @@
                             >
                               {{ snack.name }}
                             </p>
-                            <!-- <div
-                          class="text-xs text-center font-bold !py-1 md:py-2 underline"
-                        >
-                          Consulta la scheda tecnica
-                        </div> -->
                             <p class="text-xs mt-2">{{ snack.gross_price }}€</p>
                           </div>
                           <p class="text-xs opacity-80"></p>
@@ -367,20 +354,20 @@
               Fai clic su un prodotto per consultarne la scheda tecnica:
               proprietà organolettiche e funzionali, ingredienti e allergeni.
             </div>
-          </div>
+          </div> -->
 
-          <ProductSpecificationSheet
+          <!-- <ProductSpecificationSheet
             :isProductSpecificationSheetVisible="
               isProductSpecificationSheetVisible
             "
             :selectedItem="selectedItem"
             @openProductSpecificationSheet="openProductSpecificationSheet"
             @close="close"
-          />
+          /> -->
 
-          <hr />
+          <!-- <hr /> -->
 
-          <div class="pt-10 md:pt-16 pb-0 md:pb-10">
+          <div class="pt-6 md:pt-16 pb-0 md:pb-10">
             <div
               class="max-w-screen-xl mx-auto flex flex-col justify-center items-center mt-2 md:mt-0 !px-4 gap-12 mb-5 md:mb-0"
             >
@@ -447,8 +434,7 @@
                 <ClientOnly>
                   <swiper-container
                     v-if="stores.length > 0"
-                    class="swiper-cards"
-                    :width="240"
+                    class="swiper-cards mx-auto"
                     :slides-per-view="1"
                     :loop="true"
                     effect="cards"
@@ -463,24 +449,8 @@
                       >
                         <img
                           :src="store.profile_picture"
-                          class="bg-center bg-contain bg-no-repeat h-24 w-24"
+                          class="bg-center bg-contain bg-no-repeat h-32 w-32"
                         />
-                        <div
-                          class="flex flex-col justify-center items-center mt-2"
-                        >
-                          <div
-                            class="flex items-center justify-center gap-1.5 text-sm"
-                          >
-                            <p class="font-bold">
-                              {{ store.first_name }} {{ store.last_name }}
-                            </p>
-                            <div
-                              class="h-4 w-4 bg-[#ffa500] rounded-full font-bold flex justify-center items-center"
-                            >
-                              √
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </swiper-slide>
                   </swiper-container>
@@ -501,7 +471,7 @@
                 <img
                   src="../assets/icons/referrer.png"
                   alt="Trust"
-                  class="h-12 md:h-28 w-12 md:w-28 cursor-pointer"
+                  class="h-10 md:h-20 lg:h-28 w-10 md:w-20 lg:w-28 cursor-pointer"
                 />
                 Chi <span class="text-[#af4135]">trova</span> un
               </div>
@@ -534,8 +504,8 @@
               class="mx-auto text-center font-bold text-xs md:text-sm opacity-60 !px-4"
             >
               Se porti un amico su Snacks2School, riceverai un credito non
-              appena lui ricaricherà il suo portafoglio di credito.<br />
-              Il numero di amici che puoi portare è illimitato!
+              appena lui ricaricherà il suo portafoglio di credito. Il numero di
+              amici che puoi portare è illimitato!
             </div>
           </div>
 

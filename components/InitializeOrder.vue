@@ -8,7 +8,7 @@
       ref="modalContainer"
       class="bg-white p-8 !rounded-3xl outline outline-4 outline-white outline-offset-4 shadow-card w-full max-w-96 max-h-[500px] overflow-y-auto"
     >
-      <h2 class="text-xl text-center font-bold">
+      <h2 class="text-lg text-center font-bold">
         Ordina lo snack del <span class="lowercase">{{ selectedDay }}</span>
       </h2>
       <div
@@ -689,6 +689,11 @@ const placeOrder = async () => {
   const csrfToken = await getCsrfToken();
 
   try {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.error("No authentication token found.");
+      return;
+    }
     const payload = {
       seller_id: selectedStore.value.id,
       selected_date: props.selectedDate,
@@ -709,16 +714,20 @@ const placeOrder = async () => {
       payload.drink_id = selectedDrink.value.id;
     }
 
+    console.log("Payload:", payload);
+
     const response = await axios.post(
       "https://www.snacks2school.com/api/create-order/",
       payload,
       {
         headers: {
           "X-CSRFToken": csrfToken,
+          Authorization: `Token ${localStorage.getItem("authToken")}`,
         },
         withCredentials: true,
       }
     );
+    console.log("Order placed successfully:", response.data);
   } catch (error) {
     console.error("Error placing order:", error);
   } finally {
